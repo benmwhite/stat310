@@ -1,0 +1,115 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "1/11/18"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#### Intro
+
+Statistics is the collection, organization, analysis, and interpretation of data (collected measurements and observations)
+
+Probability: mathematical framework for describing randomness
+
+Statistical inference: estimation, prediction, decision-making, generalization about *populations* based of data from a *sample* from the population.
+
+**Def:** A *population* is the theoretical collection (set) of all possible objects or measurements which are of interest. A *sample* from a population is a randomly chosen subset of data selected from the population.
+
+Inference: information from sample -> generalizations/prediction/etc. on population
+It is very important that the sample is random, ensures that sample is representative of population and is a key assumption in most statistical models we will use. Example of non-random sample: website polls are not random sample of entire base of internet users, biased towards regular site viewers and then to viewers who for various reasons are more likely to participate in the poll.
+
+**Ex:** 
+Political polls. Population: all voters, sample: subset of voters taking poll.
+
+Lab experiment. Population: all the possible measurements we could have collected if we could repeat the experiment an infinite number of times. Sample: actual measurements.
+
+Quality control. Population: Entire batch of output that could be produced by the machine/plant of interest. Sample: actual subset of output items tested.
+
+Clinical studies. Population: measurements on all patients with particular disease. Sample: measurements on patients participating in study.
+
+
+#### Set Theory
+
+We draw conclusions about a population by performing experiments. The first step is to describe the possible outcomes of the experiment, which we can formalize using set theory.
+
+**Def**: A probabilistic *experiment* is a process of which all the possible outcomes are known, but the exact outcome is not known in advance (random). The set $S$ of all possible outcomes of an experiment is the *sample space* of the experiment.
+
+Sample spaces can be either uncountable or countable.
+
+**Ex**: Suppose our experiment consists of flipping a single coin and recording the outcome (heads or tails). Here $S = \{H,T\}$. Countable
+
+**Ex**: Suppose we roll a single six-sided die and record the number of pips on the top face. Here $S = \{1, 2, 3, 4, 5, 6\}$. Countable
+
+**Ex**: Our experiment consists of measuring subjects' reaction times to a stimulus (in seconds). Our sample space consists of all the positive numbers greater than zero: $S = (0,\infty)$. Uncountable
+
+**Ex**: We record the number of clicks we get on a web page ad over the course of 24 hours. The sample space is the positive integers including zero: $S = \{0, 1, 2, ...\}$. Countable (even though the set is infinite).
+
+**Def** an *event* is any collection of possible outcomes of an experiment (including the entire sample space itself).
+
+Let $A$ be an event. We say that $A$ occurs if the recorded outcome of the experiment is an element contained in $A$. In the context of probability we will use the terms "event" and "set" interchangeably.
+
+Set theory definitions and notation: 
+If $x$ is an element of the set $A$, this is denoted as $x \in A$.
+
+**Def** the *null set* or *empty set* is the set containing no elements, denoted $\emptyset$
+
+**Def** If $x \in A$ implies $x \in B$, then we say that $A$ is a "subset" of $B$, denoted $A \subset B$. 
+
+We say that two sets are equivalent ($A = B$) if both $A \subset B$ and $B \subset A$. 
+
+Set operations (note: it's often easier to visualize set operations as Venn diagrams, which can help for proving results formally):
+
+**Union**: the *union* of $A$ and $B$, written $A \cup B$, is the set of all elements that are in $A$ or $B$ or both: $$A \cup B = \{x: x \in A \text{ or } x \in B\}$$
+
+**Intersection**: the *intersection* of $A$ and $B$, written $A \cap B$, is the set of all elements that are in both $A$ and $B$: $$A \cap B = \{x: x \in A \text{ and } x \in B\}$$
+
+**Complementation**: the *complement* of $A$ in $S$, written $A^c$, is the set of all elements of $S$ that are NOT in $A$: $$A^c = \{x: x \in S, x \notin A\}$$ Most of the time the sample space $S$ is assumed to contain all the $x$'s of interest, so we can also just write $A^c$ as $$A^c = \{x: x \notin A\}$$
+
+Set operations can be extended to countably infinite collections of sets as well. If $A_1, A_2,...$ is a collection of sets on a sample space $S$, then we have the following: $$\cup_{i=1}^\infty A_i = \{x: x \in A_i \text{  for some  } i=1,2,...\}$$ $$\cap_{i=1}^\infty A_i = \{x: x \in A_i \text{  for all  } i = 1,2,...\}$$
+
+**Ex**: Suppose our experiment consists of drawing a single card at random from a standard pack of playing cards, then recording the suit: $c$ for clubs, $s$ for spades, $h$ for hearts, and $d$ for diamonds. The sample space is $S = \{c, s, h, d\}$. Suppose we want to define two events, calling them $A$ and $B$. $A$ will be the event in which we draw a red card, and $B$ will be the event in which we don't draw a diamond card. So: $$A = \{h,d\}, \quad B = \{c,s,h\}.$$ From these events we can form the following: $$A \cup B = \{c,s,h,d\}, \quad A \cap B = \{h\}, \quad A^c = \{c,s\}, \quad B^c = \{d\}.$$ Note that $A\cup B  = S$ and $(A \cup B)^c = \emptyset$. The following theorem describes some properties of set operations (analagous to addition/multiplication) that will be useful later once we start defining and calculating probabilities of events. 
+
+**Th**: For any three events $A$, $B$, and $C$ defined on a sample space $S$ we have the following properties:
+
+- **Commutativity**: $A \cup B = B \cup A$ and $A \cap B = B \cap A$
+
+- **Associativity**: $A \cup (B \cup C) = (A \cup B) \cup C$ and $A \cap (B \cap C) = (A \cap B) \cap C$
+
+- **Distributive Laws**: $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ and $A \cup (B \cap C) = (A \cup B) \cap (A \cup B)$
+
+- **DeMorgan's Laws**: $(A \cap B)^c = A^c \cup B^c$ and $(A \cup B)^c = A^c \cap B^c$
+
+As an example we'll go through the formal proof of the first distributive law. Remember that to show set equality we need to show that any $x$ in the first set must be a member of the second, and vice versa. So we need to prove two statements: first that if $x \in A \cap (B \cup C)$ then $x \in (A \cap B) \cup (A \cap C)$, second that if $x \in (A \cap B) \cup (A \cap C)$ then $x \in A \cap (B \cup C)$. *Venn diagrams can help visualize this relationship*
+
+Suppose $x \in A \cap (B \cup C)$. Since $x$ is in the intersection it must be an element of both $A$ and $(B \cup C)$. We have two cases now, either $x \in B$ or $x \in B^c$. If $x \in B$ then we know that $x \in A \cap B$, since we already know that $x \in A$. This means that $x \in (A \cap B) \cup (A \cap C)$ since it is already an element in one of the sets in that union. If $x \in B^c$, we know that $x \in C$ since to be an element in $(B \cup C)$ it must be in $B$ or $C$ or both. If $x \in A$ and $x \in C$ then $x \in A \cap C$, so it must also be part of the union $(A \cap B) \cup (A \cap C)$ since it is an element in one of the sets in that union. Since we have covered both possible cases this means that $$[A \cap (B \cup C)] \subset [(A \cap B) \cup (A \cap C)].$$
+
+Now the second statement. Suppose $x \in (A \cap B) \cup (A \cap C).$ It is left as an exercise to show that this implies that $x \in A \cap (B \cup C)$, which would complete the full proof.
+
+A few more relevant definitions:
+
+**Def**: Let $A$ and $B$ be two events in a sample space $S$. $A$ and $B$ are *disjoint* or *mutually exclusive* if $A \cup B = \emptyset$. If $A_1, A_2,...$ is a collection of events on $S$, then the collection is *pairwise disjoint* or *pairwise mutually exclusive* if $A_i \cap A_j = \emptyset$ for all $i \neq j$.
+
+**Def**: If $A_1, A_2,...$ are pairwise disjoint and $\cup_{i=1}^{\infty} A_i = S$, then we say that $A_1, A_2,...$ form a *partition* of $S$.
+
+A simple example of a partition is $A$ and $A^c$. We know that these sets are disjoint, and if we take the union $A \cup A^c$ we get the entire sample space $S$.
+
+#### Probability Theory Foundations
+
+Let $S$ be the sample space for an experiment. For each event $A \subset S$ we want to associate with $A$ a number between zero and one which will be its probability, $P(A)$. There are multiple ways to interpret this number; one way is to interpret the number as the long-run frequency with which the event occurs if we are allowed to repeat the experiment an infinite number of times, another is the subjective view where the number represents our belief about the chance of the event to occur. In general we will not go too deep into the interpretations of probability, but we can interpret events with probabilities close to zero as "rare" outcomes and events with probabilities close to one as extremely likely to occur. We define the probabilities of events in a sample space to follow the following axioms:
+
+**Axioms of Probability**. Given an experiment with sample space $S$:
+
+- For any event $A \subset S$, $P(A) \geq 0$. 
+
+- $P(S) = 1$.
+
+- If $A_1, A_2,...$ are pairwise disjoint, then $P(\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i)$.
+
+The third axiom has the following implication, known as the *axiom of finite additivity*: if $A$ and $B$ are disjoint, then $P(A \cup B) = P(A) + P(B)$
+
+Any function $P$ that satisfies these three axioms is called a *probability function*.
+
+**Ex**: Suppose we have an experiment in which we record the outcome of a single fair coin toss ($S = \{H, T\}$). How can we come up with a valid probability function for this experiment? First note that since the coin is "fair", we will want the event in which we observe "heads" to have the same probability as the event in which we observe "tails": $P(\{H\}) = P(\{T\})$. Next, note that $\{H\} \cup \{T\} = S$. Since $\{H\}$ and $\{T\}$ are disjoint events and $P(S) = 1$ under the axioms, we know that $1 = P(S) = P(\{H\} \cup \{T\}) = P(\{H\}) + P(\{T\})$. So therefore we can assign $P(\{H\}) = P(\{T\}) = 1/2$ as our full probability function. In general, if our sample space consists of $n$ different specific single outcomes and we can assume that all single outcomes are equally likely, then we can assign probability $1/n$ to each single outcome and have a valid probability function. This works for things like dice rolls as well.
+

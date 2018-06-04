@@ -1,0 +1,62 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "4/10/2018"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Hypothesis Testing
+
+#### Introduction
+An important industrial problem is that of accepting or rejecting "lots" of manufactured products based on whether they meet a certain threshold of acceptable standards. Suppose the company decides to release the lot if the proportion of defective individual products in the lot $p$ is less than or equal to a certain value. If they are making this decision based on a random sample of the products in the lot, then this is an example of a *statistical decision*. To make the decision they will need to make some initial conjectures about the the population involved (the entire lot). These are known as *statistical hypotheses*. If the results from the sample are sufficiently different from the results that would be expected under the initial hypotheses, then we would be inclined to reject that hypothesis in favor of one better supported by the data. Procedures for deciding whether or not to reject hypotheses or called *hypothesis tests* or *tests of significance*.
+
+This is a form of inference that is different from estimation. With estimation we are trying to pinpoint a good guess for the true value of some population parameter, here we are now deciding between two competing hypotheses regarding some population parameter: the *null hypothesis* and the *alternative hypothesis*.
+
+The null hypothesis is usually a statement of status quo or of "no effect". This is formulated together with the alternative hypothesis such that if we reject the null hypothesis then the decision is to accept the the alternative hypothesis. The null hypothesis is treated as the "default" until evidence from our data is sufficient to reject it (think of the court system where the default verdict is "not guilty" unless the prosecution can prove "beyond a reasonable doubt" that the defendant is guilty). The alternative hypothesis is the usually the hypothesis the experimenter believes to be true. If the information from the sample contradicts the null hypothesis "beyond a reasonable doubt" then we can reject it in favor of the null hypothesis. This information is usually captured in the form of a statistic based on the sample, known as a *test statistic*. 
+
+Elementents of statistical hypothesis tests:
+
+1. The null hypothesis $H_0$. The "default" claim that the experimenter wishes to disprove.
+
+2. The alternative hypothesis $H_a$. The experimenter's claim itself.
+
+3. The test statistic. The experimenter's decision will be based on this function of the observed data.
+
+4. The rejection region (also sometimes called the "critical region"). If the observed value of the test statistic falls in this region (usually some real-valued interval based on some cutoff), then the decision will be to reject the null hypothesis. We will discuss how to set these cutoffs in a bit.
+
+5. The conclusion. If the test statistic is in the rejection region then we decide to reject $H_0$. If it is not, then we fail to reject $H_0$ and the "default" hypothesis stands.
+
+Most commonly these tests involve some population parameter $\theta$, with the null hypothesis being of the form $H_0: \theta = \theta_0,$ some "null" value. Generally this is tested against one of the following alternatives: $$H_a: \theta < \theta_0, \quad \text{lower (or left) tailed alternative}$$  $$H_a: \theta > \theta_0, \quad \text{upper (or right) tailed alternative}$$ $$H_a: \theta \neq \theta_0, \quad \text{two-tailed alternative}.$$ Note that these alternative hypotheses do not uniquely specify the exact distribution (i.e. an exact alternative value of $\theta$). These types of alternative hypotheses are called *composite hypotheses*. If the alternative is of the form $H_a: \theta = \theta_a$ (i.e. an exact alternative value of $\theta$ uniquely determining the distribution) then it is called a *simple hypothesis*.
+
+
+**Ex:** A particular brand of sugar is sold in 5 pound packages. The weight of sugar in these packages is stated by the sugar company to be normally distributed with mean $\mu = 5$ pounds. However, a regulatory agency believes that they may be underfilling their bags of sugar and falsely advertising them as 5 lb bags. What null and alternative hypotheses can we construct for this situation, and what test statistic might be useful in deciding whether or not to trust the company's claim?
+
+Null hypotheses are usually denoted as $H_0$, and alternative hypotheses are usually denoted as $H_a$. Here we can take the company's initial claim as the null hypothesis: $$H_0: \mu = 5$$ versus the regulatory agency's claim: $$H_a: \mu < 5.$$ What about the test statistic? Since we are deciding between two hypotheses about a population mean, a natural test statistic choice would be the sample mean $\bar{X}$. If the observed sample mean $\bar{x}$ is far enough below $5$ such that the null hypothesis is contradicted "enough", then we can decide to reject $H_0$ in favor of $H_a$. This set of possible values of $\bar{x}$ for which we reject $H_0$ is called the *rejection region*, and is usually determined by a *critical value* which denotes the threshold at which our decision switches to rejection of the null hypothesis. 
+
+
+#### Controlling Error
+
+
+It is impossible to "prove" hypotheses with 100\% certainty, and it is always possible to commit errors in rejecting or not rejecting the null hypothesis. How do we make sure to set our rejection regions so that the probability of error is controlled?
+
+Def: A *type I* error is made if $H_0$ is rejected when it is actually true. The probability of type I error is also called the *level of significance* of the test, and is denoted as $\alpha$: $$P(\text{reject } H_0|H_0\text{ is true}) = \alpha.$$
+
+Def: A *type II* error is made if we fail to reject $H_0$ when $H_0$ is actually false. The probability of type II error is denoted by $\beta$: $$P(\text{fail to reject }H_0|H_0\text{ is false}) = \beta.$$ 
+
+We want both $\alpha$ and $\beta$ to have low values when we construct tests. However, there is often a tradeoff between these two for fixed sample sizes. Type II errors are usually considered less serious thatn type I errors, since they involve drawing no conclusion rather than drawing a false conclusion. In general we can construct the rejection region so that $\alpha$, the level of significance, is controlled.
+
+Ex: Let $X_1,...,X_n$ be a random sample from a Bernoulli($p$) distribution. This model can be used to reperesent acceptable/defective products in a quality control study, or support for a certain side in a poll with two competing options, among other cases. We wish to test the hypothesis $$H_0: p = 0.8$$ versus the hypothesis $$H_a: p = 0.6.$$ Note that this is an example of a simple alternative hypothesis, since an exact distribution is specified as the alternative. Suppose we decide that the highest $\alpha$ (probability of type I error) we are willing to tolerate should be around 0.03. We will investigate how to construct rejection regions and compute probabilities of errors for the case where our sample size is $n=10$ and for the case where our sample size is $n=20$. For our test statistic we will use $\sum_{i=1}^n X_i$, the total number of successes in the sample. We know by the construction of the Binomial distribution that the sum of $n$ independent Bernoulli trials with the same probability of success $p$ has a binom($n,p$) distribution. We'll call this $K$ for easier notation, and use our knowledge of the binomial distribution to find the probabilities of errors.
+
+Let $K = \sum_{i=1}^n X_i$ be our test statistic. Suppose we decide that the highest $\alpha$ (probability of type I error) we are willing to tolerate should be under 0.03 or as close to 0.03 as possible. For each of the following sample sizes, we want tofind a rejection region (set of observed values of $Y$ for which we will reject $H_0$) that meets this critera, and compute $\beta$ (the probability of type II): 
+    
+$n=10$: First we want to create the rejection region to control our probability of type I error. Since this type of error is made when the null hypothesis is falsely rejected, we need to find some cutoff value $c$ such that $P(K \leq c|p = 0.8) \leq 0.03.$ We can look at the binom($10,0.8$) distribution to find this cutoff should be $5$: $$P(K \leq 5|p=0.8) \approx 0.03.$$ Essentially this means that if the null hypothesis is true, then there's only a 3\% chance of seeing 5 or fewer total successes (leading us to falsely rejecct the null hypothesis). We can see that the probability of type I error is dependent only on the null hypothesis, not the alternative. Since this is almost always a simple hypothesis referring to one unique distribution, we should always be able to control the probability of type I error this way. Next we want to find $\beta$, the probability of type II error. This will depend on our alternative hypothesis and our chosen rejection region. Under the alternative hypothesis $K$ should have a binom($10,0.6)$ distribution so we can use that to find the probability: $$\beta = P(\text{fail to reject } H_0|p = 0.6) = P(K > 5|p = 6) = 0.733.$$ Note that we fail to reject the null hypothesis when $K > 5$, since this is outside the rejection region.
+
+$n=5$: Reject the null hypothesis if we see 0 or 1 successes out of the five trials. $\beta =$ `r 1- pbinom(1, p = 0.6, size = 5)`. 
+
+$n=20$. To decide our cutoff for the rejection region we use the same process as above. This gives us a cutoff of 12: $$P(K \leq 12|p=0.8) \approx 0.03.$$ Finding $\beta$: $$\beta = P(K > 12|p = 0.6) = 0.416.$$
+    
+Note that when we fix $\alpha$, $\beta$ decreases when our sample size increases. It can be shown that this will hold in general.
+

@@ -1,0 +1,64 @@
+---
+title: "Solution 10"
+author: "Ben White"
+date: "4/16/2018"
+output: pdf_document
+---
+
+1. 
+    a. (1 point) Since $\beta$ is a fixed constant in this model, we can let $Y = g(X)=X/\beta$ and treat it as a monotone transformation of the random variable $X$ and find its pdf using the relevant theorem, noting that the inverse function is $g^{-1}(y) = \beta Y$: $$f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)|$$ $$= \frac{1}{\beta}e^{-\beta Y / \beta}|\beta|$$ $$= e^{-y}.$$ This is the pdf of an exponential$(1)$ random variable. To construct the interval estimator start with $$0.8 = P(a < X/\beta < b).$$ To find $a$ and $b$ we can use software, integration, or the cdf of the exponential$(1)$ distribution. Using the cdf $F(y) = 1 - e^{-y}$: $$0.8 = P(a < X/\beta < b) = F(b) - F(a)$$ $$0.1 = F(a) = 1 - e^{-a}$$ $$0.9 = F(b) = 1 - e^{-b}$$ which gives us $$a = 0.1054$$ and $$b = 2.3026.$$ Continuing to construct the interval estimator: $$0.8 = P(a < X/\beta < b)$$ $$= P(X/b < \beta < X/a)$$ $$\Rightarrow (L,U) = (X/b, X/a) = (X/2.3026, X/0.1054)$$ When $X = 4.2$ we get the 80\% confidence interval $(1.824025, 39.8482)$.
+    
+    b. (1 point) $X\sim \text{exponential}(1)$ when the null hypothesis is true. If we want our probability of Type I error ($\alpha$) to be 0.25 at most, then we need to find the 0.75 quantile of the exponential$(1)$ distribution (i.e. the point at which the area under the curve to the right is 0.25), and reject the null hypothesis if our test statistic is greater than that value. Using software or solving the integral equation by hand we find that this value is `r round(qexp(0.75, 1), 4)`. We should reject the null hypothesis if our observed value of $X$ is greater than this value. If we observe $X = 4.2$ then we reject the null hypothesis, and the p-value is found by finding the area under the pdf curve to the right of 4.2: `r round(pexp(4.2, 1, lower.tail = FALSE), 4)`.
+    
+    c. (1 point) We need to find the probability that $X$ falls outside the rejection region assuming that the true distribution of $X$ is exponential$(3.5)$. Since the rejection region is the open interval greater than `r round(qexp(0.75, 1), 4)`, we need to find the probability that an exponential$(3.5)$ random variable is less than that value. This probability is `r pexp(round(qexp(0.75, 1), 4), rate = 1/3.5, lower.tail = TRUE)`, using software or integrating over the pdf to find this value.
+    
+2. 
+    a. (1/2 point) Recall that if $X$ and $Y$ are independent then the mgf of $Z  = X + Y$ is $M_Z(t) = M_X(t)M_Y(t)$. Let us denote the population mgf as $M_X(t) = \exp(\lambda(e^{t} - 1))$ (Poisson$(\lambda)$ mgf). This means that the mgf of $K = \sum X_i$ is $$M_K(t) = (M_X(t))^n = (\exp(\lambda(e^{t} - 1)))^n = \exp(n\lambda(e^{t} - 1)).$$ This is the mgf of a $\text{Poisson}(n\lambda)$ random variable.
+    
+    b. (1/2 point) If the null hypothesis is true then $K \sim \text{Poisson}(6)$, with pmf $$f(k) = P(K = k) = \frac{6^ke^{-6}}{k!}$$ Since we are rejecting $H_0$ when $K \leq 3$ we can find the probability of type I error as $P(K \leq 3)$ assuming $K \sim \text{Poisson}(6)$. $$\alpha = P(K \leq 3|\lambda = 2) = \sum_{k =0}^3 P(K =k) = \sum_{k=0}^3 \frac{6^ke^{-6}}{k!} = 0.1512.$$
+    
+    c. (1/2 point) If the true parameter value is $\lambda = 1$, then $K \sim \text{Poisson}(3)$. If we fail to reject $H_0$ then we observed $K > 3$, so we can compute the probability of type II error as $P(K > 3) = 1 - P(K \leq 3)$ assuming $K \sim \text{Poisson}(3)$: $$\beta = 1 - P(K \leq 3|\lambda = 1) = 1 - \sum_{k=0}^3 P(K =k) = 1 - \sum_{k=0}^3 \frac{3^ke^{-3}}{k!} = 0.3528.$$
+    
+    d. (1/2 point) With the observed sample we get $K = 4$. The p-value is the lowest level of significance (probability of type I error) at which we would reject $H_0$, so it can be computed as $P(K \leq 4)$ assuming the null hypothesis is true ($K \sim \text{Poisson}(6))$ This gives us $$\text{p-value} = P(K \leq 4|\lambda = 2) = \sum_{k =0}^4 P(K =k) = \sum_{k=0}^3 \frac{6^ke^{-6}}{k!} = 0.2851.$$
+    
+2.  a. (1/2 point) This has a $t_{n+m-2}$ distribution. See the previous homework for the derivation and remember that in this case under the null hypothesis $\mu_X - \mu_Y = 0$.
+
+    b. (1/2 point) We need to find the point such that the area under the $t_{n+m-2}$ pdf to the right is 0.005. The negative of this value will give us the other bound, since this is a two-sided test and we want $\alpha = 0.01$. Using tables or software to find the cutoff, we reject the null hypothesis if the absolute value of our test statistic $T$ is greater than `r round(qt(0.005, df = 8+9-2, lower.tail = FALSE), 4)` (two tailed test).
+
+
+    c. (1/2 point) This has a $F_{n-1, m-1}$ distribution if the null hypothesis is true. See the normal sampling distribution notes on the $F$ distribution, and remember that in this case under the null hypothesis that $\sigma^2_Y/\sigma^2_X = 1$.
+
+    d. (1/2 point) We need to find the point such that the area under the $F_{n-1, m-1}$ pdf to the left is 0.05. Using software or tables we find this to be `r round(qf(0.05, 7, 8), 4)`. We will reject the null hypothesis if our observed test statistic is less than this value (lower tailed test).
+    
+3.  Solutions provided with R code.
+
+```{r}
+#loading data set
+tg <- read.csv("tooth_growth.csv", header = TRUE)
+
+#saving each group separately
+vc <- tg$len[1:10] 
+oj <- tg$len[11:20]
+```
+a. (1 point) Since our sample size is small but we are assuming that the population is normally distributed the test statistic will be $\frac{\bar{X} - \mu_0}{S/\sqrt{n}}$ using the sample from the "VC" group. This will have a $t_{n-1} = t_9$ distribution assuming the null hypothesis is true, so if we want $\alpha = 0.01$ we should reject the null hypothesis if we observe the absolute value of our test statistic to be greater than `r qt(p = 0.995, df = 9)`. Exact value of the statistic assuming $\mu=20$, $n=10$: `r (mean(vc) - 20)/(sd(vc)/sqrt(10))`. So in this case we would reject the null hypothesis. R output with p-value: 
+    
+```{r}
+t.test(vc, alternative = "two.sided", mu = 20)
+```
+    
+b. (1 point) The test statistic is the ratio of the two sample variances: $S^2_{OJ}/S^2_{VC}$. This is equal to `r round(var(oj)/var(vc), 4)`. Under the null hypothesis this test statistic should have a $F_{9,9}$ distribution, so if we want $\alpha = 0.05$ we need to reject the null hypothesis if the observed value of the test statistic is greater than `r round(qf(0.95, 9,9), 4)`. Since our observed test statistic is less than this value we will not reject the null hypothesis. The p-value is the probability that a $F_{9,9}$ random variable is greater than our observed test statistic value. Using software or tables we find that this is `r round(pf(round(var(oj)/var(vc), 4), 9, 9, lower.tail = FALSE), 4)`. We do not have enough evidence to reject the null hypothesis that the two population variances are equal. R output for the test: 
+```{r} 
+var.test(oj, vc, alternative = "greater")
+```
+
+
+
+c. (1 point) The test statistic here is the $T$ statistic with the pooled variance estimator, with the sample means taken from each group. The observed value and p-value can be seen in the R output below. Since this statistic has a $t$ distribution with $n+m-2 = 18$ degrees of freedom under the null hypothesis, we can find the rejection region by finding the point such that the area under the curve to the right is 0.05. If the absolute value of our test statistic is greater than this value then we reject the null hypothesis. This value is `r round(qt(0.05, 18, lower.tail = FALSE), 4)`. Here we reject the null hypothesis, finding that there is a statistically significant difference between the two means. R output for the test: 
+```{r} 
+t.test(oj, vc, var.equal = TRUE)
+```
+
+
+    
+
+

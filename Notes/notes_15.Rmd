@@ -1,0 +1,104 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "3/29/2018"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+#### Maximum likelihood estimation
+
+Idea: suppose we observe that our random sample has a sample mean of 5.5, with the true mean unknown. It seems intuitive that the true distribution that generated the random sample has an unknown population mean that is closer to 5 or 6 than it is to say, 20 or 30. We can express this idea formally through the idea of a *likelihood function*.
+
+Def: Let $X_1, ..., X_n$ be an iid random sample from a population with the pdf or pmf $f(x|\vec{\theta})$, where $\vec{\theta} = \theta_1,...,\theta_l$ represents the vector of unknown distribution parameters. Suppose the observed values of our random sample are $x_1,..,x_n$. The *likelihood function* of $\vec{\theta}$ is defined as $$L(\vec{\theta}|x_1,...,x_n) = \prod_{i=1}^n f(x_i|\vec{\theta}).$$ Note that this is actually the joint distribution of the random sample, but expressed as a function of the distribution parameters. It is also important to note that the likelihood function DOES NOT give us probabilities, but we can use it to compare different possible sets of parameters to find the set that is most "likely" to have generated the actual observations $x_1,...,x_n$. 
+
+We can illustrate this in the discrete case. Suppose that $X_1,...,X_n$ has pmf $f(x|\theta)$, with some unknown parameter $\theta$. We observe the sample to have the values $x_1,...,x_n$. If we compare the likelihood function for two specific parameter points $\theta_1$ and $\theta_2$ and find that $L(\theta_1|x_1,...,x_n) > L(\theta_2|x_1,...,x_n)$ then what does this imply? $$L(\theta_1|x_1,...,x_n) = \prod_{i=1}^n f(x_i|\theta_1) = \prod_{i=1}^n P(X_i = x_i|\theta = \theta_1) = P(X_1=x_1,...,X_n=x_n|\theta = \theta_1).$$ Similarly, $L(\theta_2|x_1,...,x_n) = P(X_1 = x_1,...,X_n = x_n|\theta = \theta_2)$. So if $L(\theta_1|x_1,...,x_n) > L(\theta_2)|x_1,...,x_n)$ then $P(X_1= x_1,...,X_n = x_n|\theta = \theta_1) > P(X_1= x_1,...,X_n = x_n|\theta = \theta_2)$. That is, the sample values we actually observed have a higher probability under $\theta_1$ than $\theta_2$. We can think of $\theta_1$ as a more plausible true value of the unknown parameter than $\theta_2$.
+
+The continuous case requires more real analysis to prove, but there's an analogous result. Suppose $X$ is a single random variable with pdf $f(x|\theta)$, and we observe $X=x$. We can show that for small values of $\epsilon>0$ and any two parameter values $\theta_1$ and $\theta_2$ that $$\frac{P(x - \epsilon < X < x + \epsilon|\theta = \theta_1)}{P(x - \epsilon < X < x + \epsilon|\theta = \theta_2)} \approx \frac{L(\theta_1|x)}{L(\theta_2|x)}.$$ That is, if the likelihood function is larger for $\theta_1$ than $\theta_2$ then the observed sample has a higher probability of being in a small interval around the actual observed value under $\theta_1$ than $\theta_2$.
+
+
+The intuition behind this definition is that the likelihood function should have a larger value for the more "plausible" parameter values that could have resulted in the observed sample values $x_1,...,x_n$. In the motivating example where we have an unknown mean parameter and observe values of our sample clustered around 5.5, then the likelihood function of the parameter for this sample will be larger at 5 or 6 than at 20 or 30.
+
+Ex: Let $X_1,..,X_n$ be an iid Bernoulli($p$) random sample ($0<p<1$) with observed values $x_1,...,x_n$ (remember that these can only be 1 or 0). What is the likelihood function of $p$? $$L(\vec{\theta}|x_1,...,x_n) = L(p) = \prod_{i=1}^n f(x_i|p)$$ $$=\prod_{i=1}^n p^{x_i}(1-p)^{1-x_i}$$ $$=p^{\sum_{i=1}^n x_i}(1 - p)^{n-\sum_{i=1}^n x_i}.$$ 
+
+Suppose that we observe a large proportion of ones in our random sample. What values of $p$ result in higher values of the likelihood function? If we had observed a large proportion of zeroes instead, what values of $p$ result in higher values for the likelihood function?
+
+Ex: Let $X_1,...,X_n$ be an iid random sample from a $N(\mu, \sigma^2)$ population, with observed values $x_1,...,x_n$. What is the likelihood function?
+
+$$L(\vec{\theta}|x_1,...,x_n) = L(\mu,\sigma^2) = \prod_{i=1}^n f(x_i|\mu,\sigma^2)$$ $$=\prod_{i=1}^n \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2} \right)$$ $$=(2\pi)^{-n/2}\sigma^{-n} \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2 \right).$$
+
+So likelihood functions are larger for the parameter values that give high probabilities for the samples we observed (or for small neighborhoods around the observed samples in the continuous case). From the examples we can also see that they are expressions that involve the sample values $x_1,...,x_n$. Putting these two properties together we can come up with a structured procedure for finding estimators of unknown parameters: find the maximum value of the likelihood function for the sample and look at the value of $\theta$ which maximizes it. This value will be some expression involving the observed sample $x_1,...,x_n$, which then will give us a statistic we can use to estimate $\theta$.
+
+Def: Let $X_1,...,X_n$ be an iid random sample from a population with unknown parameter $\theta$. For each possible sample point $x_1,...,x_n$, let $\hat{\theta}(x_1,...,x_n)$ be a parameter value at which the likelihood $L(\theta|x_1,...,x_n)$ attains its maximum as a function of $\theta$, with $x_1,...,x_n$ held fixed. A *maximum likelihood estimator* (MLE) of the parameter $\theta$ based on the random sample $X_1,...,X_n$ is $\hat{\theta}(X_1,...,X_n)$.
+
+Note that this process will always give us an estimate that is part of the "allowed" parameter space (as opposed to the method of moments). We also often supress the functional notation and just use $\hat{\theta}$ as the symbol for the statistic we use to estimate $\theta$.
+
+In most cases we can find MLEs using the calculus-based method for finding maxima and/or inspecting the boundaries of the likelihood function. Note that since the natural log is a monotone transformation, finding the maximizer of the log likelihood will give us the same maximizer of the likelihood itself. It's often easier to work with these expressions instead.
+
+Usual process for deriving MLE of $\theta$:
+
+1. Find $L(\theta)$ and/or $\log L(\theta)$.
+
+2. Differentiate $L(\theta)$ or $\log L(\theta)$ (whichever one you're using) and set the derivative equal to zero.
+
+3. Solve for $\theta$ to obtain our candidate MLE $\hat{\theta}.$
+
+4. Verify that it is indeed a global maximum and not a local maximum or minimum (check that second derivative is negative at your candidate spot $\hat{\theta}$).
+
+If steps 2 and 3 don't work (no solution), check the function itself to find the maximum (look at the boundaries, increasing or decreasing, etc.).
+
+OPTIONAL EXERCISE: Let $X_1,...,X_n$ be an iid random sample from a Bernoulli$(p)$ population. Log transform the likelihood function we found earlier and follow the steps above to show that $\bar{X}$ is a maximum likelihood estimator of $p$.
+
+When there are multiple unknown parameters of the distribution (which we can represent as the vector $\vec{\theta} = (\theta_1,...,\theta_l)$), then finding the full MLE of $\vec{\theta}$ involves solving the system of equations $$\frac{\partial}{\partial\theta_i} L(\theta_1,...\theta_l|x_1,...,x_n)=0$$ or $$\frac{\partial}{\partial\theta_i} \log L(\theta_1,...\theta_l|x_1,...,x_n)=0$$ for $i=1,...,l$. Note that partial derivatives are found by taking the derivative with respect to just one variable, treating the rest as constant. These are sometimes called "maximum likelihood equations", giving the solutions $\hat{\theta_1},...,\hat{\theta_l}$ as our MLEs for $\theta_1,...,\theta_l$.
+
+Let $X_1,...,X_n$ be an iid random sample from a $N(\mu,\sigma^2)$ distribution. We will find MLEs for unknown parameters in the following three cases:
+
+- $\mu$ is unknown but $\sigma^2 = \sigma^2_0$ is known, want the MLE for $\mu$.
+
+- $\mu = \mu_0$ is known but $\sigma^2$ is unknown, want the MLE for $\sigma^2$.
+
+- Both $\mu$ and $\sigma^2$ are unknown, want the MLE for both.
+
+Parameter space: $-\infty < \mu < \infty$, $\sigma^2 > 0$.
+
+For easier notation we will let $\theta = \sigma^2$. Recall from the previous lecture where we found the likelihood function for the normal distribution parameters for observed sample values $x_1,...,x_n$:
+
+$$L(\mu, \theta) = (2\pi\theta)^{-n/2} \exp\left(-\frac{1}{2\theta}\sum_{i=1}^n(x_i - \mu)^2 \right)$$ In this case epressions involve exponents so we should use the log likelihood: $$\log L(\mu, \theta) = -\frac{n}{2} \log 2\pi - \frac{n}{2} \log \theta - \frac{1}{2\theta}\sum_{i=1}^n(x_i -\mu)^2.$$
+
+1. *Finding MLE of $\mu$ when variance $\theta = \theta_0$ is known.* We need to take the derivative with respect to $\mu$, set it equal to zero, and solve to get our candidate MLE $\hat{\mu}$. Then we check to make sure it's a maximum.
+
+$$\frac{\partial}{\partial \mu} \log L(\mu,\theta_0) = 0 - 0 - (2)(-1)\frac{1}{2\theta_0}\sum_{i=1}^n (x_i - \mu) = \frac{1}{\theta_0}\sum_{i=1}^n(x_i - \mu)$$ Setting equal to zero and solving for $\mu$: $$\frac{1}{\theta_0}\sum_{i=1}^n(x_i - \mu) = 0$$ $$\sum_{i=1}^n(x_i - \mu) = 0$$ $$\sum_{i=1}^{n}x_i = n\mu$$ $$\mu = \frac{1}{n}\sum_{i=1}^n x_i.$$ So our candidate MLE is $\hat{\mu} = \bar{X}$. To check that this actually maximizes the log likelihood function, show that the second derivative with respect to $\mu$ is negative: $$\frac{\partial^2}{\partial \mu^2} \log L(\mu, \theta_0) = -\frac{n}{\theta_0} < 0$$
+2. *Finding MLE of $\theta$ when mean $\mu = \mu_0$ is known.* 
+
+$$\frac{\partial}{\partial \theta} \log L(\mu_0, \theta) = -\frac{n}{2\theta} + \frac{1}{2\theta^2}\sum_{i=1}^n(x_i -\mu_0)^2$$ Setting equal to zero and solving for $\theta$: $$\frac{1}{2\theta^2}\sum_{i=1}^n(x_i -\mu_0)^2 = \frac{n}{2\theta}$$ $$\theta = \frac{1}{n}\sum_{i=1}^n (x_i - \mu_0)^2.$$ So our candidate MLE is $\hat{\theta} = \frac{1}{n}\sum_{i=1}^n (X_i - \mu_0)^2.$ Verifying: $$\frac{\partial^2}{\partial \theta^2} \log L(\mu_0, \theta) = \frac{n}{2\theta^2} - \frac{1}{\theta^3}\sum_{i=1}^n(x_i - \mu_0)^2$$ $$=\frac{n\theta -2\sum_{i=1}^n (x_i - \mu_0)^2}{2\theta^3}$$ This is negative at $\theta = \frac{1}{n}\sum_{i=1}^n (x_i - \mu_0)^2$, since the numerator will be $$\sum_{i=1}^n (x_i - \mu_0)^2  - 2\sum_{i=1}^n(x_i - \mu_0)^2 = -(\sum_{i=1}^n(x_i - \mu_0)^2)< 0$$, and the denominator is positive.
+
+3. *Finding MLE of $\mu$ and $\theta$ when both are unknown.* Our two partial derivatives are 
+
+$$\frac{\partial}{\partial \mu} \log L(\mu,\theta) = \frac{1}{\theta}\sum_{i=1}^n(x_i - \mu)$$
+
+
+$$\frac{\partial}{\partial \theta} \log L(\mu, \theta) = -\frac{n}{2\theta} + \frac{1}{2\theta^2}\sum_{i=1}^n(x_i -\mu)^2$$ Setting these both to zero and solving simultaneously we get the candidates $$\hat{\mu} = \bar{X}$$ and $$\hat{\theta} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.$$ You can verify that these are maxima using the same steps from above.
+This next example demonstrates two points. First, remember that one of the problems with moment estimators is that they could occasionally provide estimates outside the set of possible paramter values (uniform upper bound estimation example from the previous lecture). MLEs never have this issue since we're maximizing over parameter space from the beginning. Second, the example will show how to find maximum values of the likelihood function when the usual calculus method (set derivative to zero) fails.
+
+Ex: Let $X_1,...,X_n$ be a random sample from a uniform$(0,\theta)$ distribution, with pdf $f(x) = \theta$ for $0\leq x\leq\theta$ and zero otherwise. What is the MLE of $\theta$? First let's find the likelihood function for sample values $x_1,...,x_n$: $$L(\theta) = \prod_{i=1}^n f(x_i|\theta)$$
+$$
+= \begin{cases}
+\theta^{-n} &\mbox{ if } 0\leq x_1,...,x_n \leq \theta \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+Note that this is a strictly decreasing function of $\theta$, so we can't use the usual calculus method (since the derivative will always be negative). Since it's strictly decreasing what we need to do is find the lowest bound on $\theta$ in the allowed parameter space, and that will give us the maximum value of the likelihood (since it's decreasing, the likelihood function has a smaller value for any $\theta$ larger than this bound). Since $\theta$ must be at least as large as our largest observed value out of $x_1,...,x_n$, the lowest possible bound on $\theta$ must be $\max(x_1,...,x_n)$. So the the MLE of $\theta$ is $$\hat{\theta} = \max(X_1,...,X_n).$$ Recall that the moment estimator for $\theta$ that we found earlier was $2\bar{X}$ which could potentially offer impossible estimates of the upper bound if there were large outlying observations. The MLE will never have this problem since it will always yield an estimate that will lie within the set of possible parameter values.
+
+There is a property of MLEs that is very useful for estimating functions of parameters, known as the *invariance* property:
+
+Th: If $\hat{\theta}$ is a MLE of an unknown parameter $\theta$, then for any function $g(\theta)$ the MLE of $g(\theta)$ is $g(\hat{\theta})$. 
+
+The proof of this requires some real analysis so we will omit it for now. We can illustrate the usefulness of this result with the following example.
+
+Ex: Suppose $X_1,...,X_n$ is an iid random sample from a Bernoulli($p$) population. What is the MLE of the odds of success, $p/(1-p)$? 
+
+We have seen before that the MLE of $p$ is $\bar{X}$, so by the invariance property of MLEs, the MLE of $p/(1-p)$ must be $\bar{X}/(1-\bar{X})$.
+
+Finally, it can be shown that MLEs are almost always consistent estimators, that is, they will usually converge to the true value of the unknown parameter as the sample size $n$ goes to infinity.

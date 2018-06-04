@@ -1,0 +1,55 @@
+---
+title: "Homework 6"
+author: "Due March 6"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by March 6 in class. This assignment covers material from chapter 3 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (2 points) Let $X$ and $Y$ be two random variables with $E[X] = \mu_X$ and $E[Y] = \mu_Y$, and let $a,b,c,$ and $d$ be real-valued constants. Prove the following.
+
+    a. $\text{Cov}(X,Y) = E[XY] - \mu_X\mu_Y$. 
+    
+    b. If $X$ and $Y$ are independent then $\text{Cov}(X, Y) = \rho_{XY} = 0$. *Note: this isn't necessarily true the other way around.*
+    
+    b. Let $Y = aX + b$ with $a \neq 0$. Then $\rho_{XY} = 1$ if $a > 0$ and $\rho_{XY} = -1$ if $a < 0$. 
+    
+    c. Let $U = aX + c$, $V = bY + d$. Then $\text{Cov}(U,V) = ab\text{Cov}(X,Y).$ and $\rho_{UV} = \rho_{XY}$ if $ab>0$ and $-\rho_{XY}$ if $ab<0$.
+    
+    d. $\text{Var}(aX + bY) = a^2\text{Var}(X) + b^2\text{Var}(Y) + 2ab\text{Cov}(X,Y).$
+    
+1. (1 point) Suppose that the distribution of $Y$, conditioned on $X = x$ is $N(0, x^2)$, and that the marginal distribution of $X$ is Uniform$(0, 1)$. Find $\text{Cov}(X,Y)$ and $\rho_{XY}$.
+
+
+1. Let $X$ and $Y$ be two random variables with the joint pdf $$f(x,y) = e^{-y}$$ for $0 \leq x \leq y$ and zero otherwise. 
+    a. (1 point) Find $E[X|Y]$. 
+    
+    b. (1 point) Find $\text{Cov}(X,Y)$. Are $X$ and $Y$ independent? Briefly explain your answer.
+    
+1. (1 point) Suppose we have three coins in a box. We know that one coin is fair, one lands on heads every time it is flipped, and the last lands on tails every time it is flipped. We will pick one coin randomly and flip it 3 times. We can specify a hierarchical model for this experiment as follows. Let $Y$ be a random variable representing the "heads" probability of the coin we pick from the box. $Y$ has the probability mass function 
+$$
+f_Y(y) = P(Y = y) =  \begin{cases}
+\frac{1}{3} &\mbox{ if } y = 0, 0.5, \text{ or }1 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$ Let $X$ be a random variable representing the number of heads observed in the 3 flips. That is, $X$ conditioned on observing $Y = y$ has the distribution $$X|Y = y \sim \text{Binom}(3, y)$$ with the conditional pmf
+$$f(x|y) = P(X = x|Y = y) = \begin{cases}
+{3 \choose x}y^x(1-y)^{3-x} &\mbox{ if } x = 0,1,2, \text{ or }3 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$ Find $\text{Cov}(X, Y)$ and $\rho_{XY}$.
+    
+1. (1 point) Let $X_1,...,X_n$ be an i.i.d. random sample from a $\text{Poisson}(\lambda)$ distribution with population pmf $$f(x) = \frac{\lambda^x e^{-\lambda}}{x!}$$ for $x = 0,1,2,...$ and $\lambda > 0$ and zero otherwise. Let $S = \sum_{i=1}^n X_i$. Find the sampling distribution of $S$, $E[S]$, and $\text{Var}(S)$. *Tip: you may use known properties of the Poisson distribution, including its expectation, variance, and moment generating function.*
+
+
+1. (1 point) Let $X_1, ..., X_n$ be an i.i.d. random sample, with sample variance $S^2 = \frac{1}{n-1}\sum_{i=1}^n(X_i - \bar{X})^2$. Show that $(n-1)S^2 = (\sum_{i=1}^n X_i^2) - n\bar{X}^2$.
+
+1. Let $X_1, ..., X_n$ be an i.i.d. random sample from a Uniform$(0,1)$ distribution. Let $X_{(1)} = \min(X_1,...,X_n)$. 
+
+    a. (1 point) Find the cdf of $X_{(1)}$.
+    
+    b. (1 point) What is $E[X_{(1)}]$?

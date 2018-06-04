@@ -1,0 +1,42 @@
+---
+title: "Homework 1"
+author: "Due January 23"
+output: pdf_document
+---
+
+#### Instructions
+
+This assignment is worth 10 points total. You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by January 23 in class. This assignment covers material from chapters 1 and 2 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. 
+
+
+#### Problems
+
+1. For this problem you will need to use the "Radon.csv" data file (available on the course Canvas page). This data set contains measurements of radon activity (home radon levels in picoCuries per liter) in homes in Arizona (AZ), Indiana (IN), and Massachusetts (MA). Provide a brief summary (2-3 sentences) of what radon gas is, how it is measured, and why it is important to know your exposure.  The following websites might be useful: https://www.epa.gov/radon/publications-about-radon or http://www.radon.com/radon_facts/.
+
+    a. (1 point) Create histograms of the activity measurements, for the entire data set and separately for each state. Obtain summary statistics (means, medians, five number summaries, etc.), for the entire data set and separately for each state. Briefly interpret your results (both the plots and summary statistics).
+
+    c. (1 point) Take the **EDIT (1/19)**~~(natural) log transform~~ **log plus one transform** ($ln(1+x)$) of the radon activity measurement variable and create histograms and obtain summary statistics of the transformed measurements, for the entire data set and separately for each state. How do these compare to the histograms and summary statistics of the untransformed data?
+    
+1. Let $A$, $B$ and $C$ be events in a sample space $S$, and let $P(\bullet)$ be a valid probability function defined on that sample space (i.e. it satisfies the axioms of probability). Prove the following statements.
+    
+    a. (1 point) If $A \subset B$ then $P(A) \leq P(B)$.
+    
+    b. (1 point) $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+    
+    c. (1 point) $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$.
+    
+    
+1. (1 point) Suppose that $A$ and $B$ are mutually exclusive events in a sample space of an experiment, with $P(A) = 0.32$ and $P(B) = 0.45$. What is $P(A^c \cup B^c)$?
+
+
+5. A preschool intervention leads a child to graduate from high school with probability $p$ (where $p$ is some fixed number between 0 and 1), and to drop out of high school with probability $1-p$. Suppose that 6 students are selected at random and their graduation (or failure to graduate) is recorded ~~and that the outcomes for these 6 students are independent (i.e. no peer effects)~~. **Edit (1/19): independence will be covered next week, ignore part b and the second question in part a.**
+    
+    a. (1 point) How many ways are there for us to observe exactly 2 of the 6 students dropping out?~~, and what is the probability of this event~~? 
+    
+    ~~b. (1 point) What is the probability that at least one student we selected drops out of high school?~~
+    
+
+1. (1 point) 5 people are together in a room. What is the probability that at least two of them have a common birthday? You may disregard leap years and assume that every day of the year is equally likely to be a birthday. Explain your reasoning at each step, and briefly describe how to generalize the solution for $n$ people. *Tip: think of the sample space as the set of all possible collections of birthdays that the 5 people can have (i.e. a single observation would be a list of the birthdays of all 5 people).*
+
+1. (1 point) A package of 15 apples contains two defective apples. Four are selected at random  (without replacement). What is the probability that at least one of the four is defective?
+

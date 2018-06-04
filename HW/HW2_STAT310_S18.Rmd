@@ -1,0 +1,42 @@
+---
+title: "Homework 2"
+author: "Due January 30"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by January 30 in class. This assignment covers material from chapter 2 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+
+#### Problems
+
+1. (1 points) *(Generalized Multiplication Rule)* Suppose that $A_1$, $A_2$, ..., $A_n$ are events with the property that $P(\cap_{i=1}^{n-1} A_i) > 0$. Show that $$P(\cap_{i=1}^{n} A_i) = P(A_1)P(A_2|A_1)P(A_3|A_1 \cap A_2) \times ... \times P(A_n|\cap_{i=1}^{n-1} A_i).$$
+
+1. (1 points) *(Law of Total Probability)* Let $A_1$, $A_2$, ..., $A_n$ partition a sample space $S$. That is, $\cup_{i=1}^n A_i = S$ and $A_i \cap A_j = \emptyset$ if $i \neq j$. Let $B \subset S$. Show that $$P(B) = \sum_{i=1}^{n} P(B|A_i)P(A_i).$$
+
+1. (1 points) *(Bayes' Rule)* Let $A_1$, $A_2$, ... $A_n$ partition a sample space $S$, and let $B \subset S$. Show that for each $i = 1, 2, ..., n$, $$P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum_{j=1}^{n}P(B|A_j)P(A_j)}.$$
+
+1. (1 point) In Morse code messages are sent using combinations of "dots" and "dashes". The dots and dashes are known to occur in the proportion 3:4. This means that for any given symbol, $$P(\text{dot sent}) = \frac{3}{7} \quad \text{and} \quad P(\text{dash sent}) = \frac{4}{7}.$$ Suppose there is interference in the transmission, and with probability $1/8$ a dot is received as a dash and vice versa. If we a receive a dot in a transmission, what is the probability that this dot is the correct symbol that was originally transmitted to us? That is, find $P(\text{dot sent}|\text{dot received})$.
+
+1. (1 point) Two litters of a particular rodent species have been born, one with two brown-haired and one grey-haired (litter 1), and the other with three brown-haired and two grey-haired (litter 2). We select a litter at random then select one of the offspring from that litter at random. Given that a brown-haired offspring was selected, what is the probability that the sampling was from litter 2?
+
+1. There are two boxes, labeled $A$ and $B$. Box $A$ contains 7 green balls and 3 red balls, and Box $B$ contains 2 green balls and 8 red balls. One of the boxes is chosen randomly by flipping a fair coin, and three balls are drawn without replacement. Suppose we are given the information that at least one of the balls is green. 
+
+    a. (1 point) What is the probability that they were drawn from Box $A$ given this observation? 
+    
+    b. (1 point) What is the probability they were drawn from Box $B$ given this observation?
+    
+1. For each of the following, find the value of $c$ that makes $f(x)$ a valid probability density function (pdf).
+
+    a. (1/2 point) $f(x) = c \sin x, \quad 0<x<\pi/2$
+    
+    b. (1/2 point) $f(x) = c e^{-|x|}, \quad -\infty < x < \infty$
+    
+1. (1 point) An appliance store receives a shipment of 30 microwave ovens, 5 of which are defective. The manager selects 4 ovens at random and tests them to see if they are defective. Let the random variable $X$ represent the number of defective microwave ovens found. Find the probability mass function (pmf) and cumulative distribution function (cdf) of $X$. 
+
+1. (1 point) The lifetime of an electronic device is modeled using the random variable $T$. The device has value $V = 5$ if it is observed to fail before time $t = 3$ (that is, if $T \leq 3$), otherwise it has value $V = 2T$. Suppose the probability density function (pdf) of $T$ is $$f_T(t) =  \frac{1}{1.5}e^{-t/1.5}$$ for $t>0$ and zero otherwise. Find $F_V(v)$, the cumulative distribution function (cdf) of $V$. *Tip: You need to express $F_V(v) = P(V \leq v)$ piecewise over three different intervals on the real number line. For instance, what is $P(V \leq v)$ if $v < 5$? Or what is $P(V \leq v)$ if $v > 6$? How does $V$ relate to the lifetime $T$?*
+    
+
+
+    

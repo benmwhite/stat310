@@ -1,0 +1,39 @@
+---
+title: "Homework 7"
+author: "Due March 20"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by March 20 in class. This assignment covers material from chapters 3 and 4 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (1 point) Suppose that the distribution of the number of cars arriving in a given hour has a mean of 100 and a standard deviation of 10. Use Chebyshev's inequality to find a lower bound for the probability that the number of cars arriving at the intersection in one hour is between 70 and 130.
+
+1. (1 point) Suppose that we wish to model the failure rate of a component produced in a factory. We take a random sample of components and record whether they fail (1) or not (0). We can model these as an i.i.d. random sample $X_1,...,X_n$ from a Bernoulli$(p)$ distribution, with pmf $f(x) = p^x(1 - p)^{n-x}$ for $x = 0,1$ and zero otherwise. Here $p$ represents the probability that an individual component will fail (failure rate), and we are assuming each component has an equal probability of failing. Suppose we want to pick our sample size $n$ be to be sure that our sample mean $\bar{X}$ will be within 0.1 of the true failure rate at least 95\% of the time. What should our sample size be? In other words, find $n$ such that $P(|\bar{X} - p| < 0.1) \geq 0.95$ for all possible values of $p$. *Tip: Use the CLT, and see HW3 problem 3 for the value of $p$ that maximizes the variance of a Bernoulli random variable ($p(1-p)$). If the sample size guarantees our requirements for that value of $p$ then will it guarantee our requirements for all other values of $p$?* 
+
+1. (2 points) Let $X_1, X_2,...$ be a sequence of independent, identically distributed uniform$(0,1)$ random variables. Let $X_{(n)}= \max(X_1, ..., X_n)$. That is, $X_{(n)}$ takes on the largest observed value out of the first $n$ random variables in the sequence. Show that for any given constant $\epsilon > 0$, $$\lim_{n \to \infty}P(|X_{(n)} - 1|\geq\epsilon) = \lim_{n \to \infty} P(X_{(n)} \leq 1 - \epsilon) = 0.$$ That is, show that $X_{(n)}$ converges to 1 in probability. *Tip: Find the cdf of the statistic and recall that $\lim_{n \to \infty} a^n = 0$ when $|a| < 1$.*
+    
+
+1. 
+
+    a. (1 point) Let $X_1, X_2,...$ be a sequence of i.i.d. random variables from a population with $E[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2$. Let $S_n^2 = \frac{1}{n-1} \sum_{i=1}^n (X - \bar{X})^2.$ Show that if $\lim_{n \to \infty} \text{Var}(S_n^2) = 0$, then $S_n^2$ converges to $\sigma^2$ in probability. *Tip: review the proof of the Law of Large Numbers.*
+
+    b. (1 point) Let $X_1,...,X_n$ be an iid random sample from a population with a $N(\mu, \sigma^2)$ distribution. Let $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ be the sample variance. Find $\text{Var}(S^2)$. Based on the result in part (a), does $S^2$ converge to $\sigma^2$ for random samples from normal distributions?
+
+
+1. (1 point) It is known that a healthy human body has an average temparature of 98.6 degrees Farenheit, with a standard deviation of 0.95 degrees Farenheit. Suppose 30 healthy people are selected at random. What is the approximate probability that their temperatures average at least 99.1 degrees Farenheit? What if we had sampled 60 healthy people? 100? Briefly describe how this probability relates to the sample size.
+
+1. (1 point) Let $X_1, ..., X_{15}$ be an i.i.d random sample of size $n=15$ from a normally distributed population with standard deviation $\sigma = 1.41$. Find numbers $a$ and $b$ such that $P(a \leq S^2 \leq b) = 0.95$.
+
+1. (1 point) A particular brand of sugar is sold in 5 pound packages. The weight of sugar in these packages can be assumed to be normally distributed with mean $\mu = 5$ pounds and standard deviation $\sigma = 2$ pounds. Suppose we randomly select 15 packages for quality control, measuring their weights (i.e. $X_i$'s are i.i.d. $N(5, 4)$). What is the probability that the mean weight of sugar in our random sample will be more than 5.1 pounds?
+
+1. (1 point)  Let $X_1, X_2,$ and $X_3$ be independent normal random variables with $X_i \sim N(i, i^2)$ for $i=1,2,3$. Use these three random variables to construct new random variables with the following distributions:
+
+    a. Chi-square with 3 degrees of freedom ($\chi^2(3)$)
+    
+    b. Student's $t$ with 2 degrees of freedom ($t(2)$)
+    
+    c. $F$ with 1 and 2 degrees of freedom ($F(1, 2)$)

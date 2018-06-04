@@ -1,0 +1,98 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "1/18/2018"
+output: pdf_document
+---
+## Probability
+
+Recall that a "probability function" (sometimes called a "probability measure") is a function $P(\dot)$ that maps events (subsets of a sample space of an experiment) to the real numbers, and satisfies the following:
+
+**Axioms of Probability**. Given an experiment with sample space $S$:
+
+- For any event $A \subset S$, $P(A) \geq 0$. 
+
+- $P(S) = 1$.
+
+- If $A_1, A_2,...$ are pairwise disjoint, then $P(\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i)$.
+
+The third axiom is stated in terms of countably infinite collections of events, but it implies *finite additivity* as well. In particular if $A$ and $B$ are mutually exclusive/disjoint, then $P(A \cup B) = P(A) + P(B)$.
+
+The following theorem provides some useful results for calculations involving probability functions which follow from the axioms.
+
+**Th**: Let $P$ be a probability function defined for events in a sample space $S$, and let $A \subset S$.
+
+- $P(A^c) = 1 - P(A)$
+
+- $P(A) \leq 1$
+
+- $P(\emptyset) = 0$
+
+
+
+
+
+**Proof**: Note that $A$ and $A^c$ form a partition of $S$ since $A$ and $A^c$ are disjoint and $A \cup A^c = S$. So $1 = P(S) = P(A \cup A^c) = P(A) + P(A^c)$. This gives us $P(A^c) = 1 - P(A)$. Since $P(A^c) \geq 0$ by the original axioms, it also follows that $P(A) \leq 1$. For the first part of the theorem, note that $S$ and $\emptyset$ are disjoint, and $S \cup \emptyset = S$, so $1 = P(S) = P(S \cup \emptyset) = P(S) + P(\emptyset)$. This implies that $P(\emptyset) = 0$.
+
+**Th**: Let $P$ be a probability function defined for events in a sample space $S$, and let $A$ and $B$ be events in $S$.
+
+- $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+- If $A \cup B$, then $P(A) \leq P(B)$.
+
+Proof is left as a homework exercise. Tip: try to express the events as unions of mutually exclusive events, then use the third axiom to find expressions for the probabilities. Drawing Venn diagrams may aid with this.
+
+**Th**: If $P$ is a probability function, then
+
+- $P(A) = \sum_{i=1}^\infty P(A \cap C_i)$ for any event $A$ and partition $C_1, C_2,...$ of the sample space $S$.
+
+- $P(\cup_{i=1}^\infty A_i) \leq \sum_{i=1}^\infty P(A_i)$ for any collection of events $A_1, A_2,...$. 
+
+**Proof**: Since $C_1, C_2,...$ form a partition of $S$, we know that $C_i \cap C_j = \emptyset$ for all $i \neq j$ and $\cup_{i=1}^\infty C_i = S$. So $$A = A \cap S = A \cap (\cup_{i=1}^\infty C_i) = \cup_{i=1}^\infty(A \cap C_i).$$ The collection of sets $(A \cap C_i)$ are also all pairwise disjoint, so $$P(A) = P(\cup_{i=1}^\infty(A \cap C_i)) = \sum_{i=1}^\infty P(A \cap C_i),$$ proving the first part of the theorem.
+
+Proof of the second part is left as an optional exercise.
+
+#### Counting
+
+In many cases, the individual outcomes of our "experiment" can be assumed to be equally likely (e.g. fair coin flip, fair die roll, etc.). If we can assume that all $N$ of the possible outcomes are equally likely, then we can assign probability $1/N$ to each individual outcome (check that this satisfies the axioms!). Also, since these are individual outcomes they must all be mutually exclusive (i.e. it is not possible for two of these outcomes to happen at the same time). This means that for any event which contains $M$ possible individual outcomes, the probability of that event is $M/N$ (adding up the individual probabilities). In general, if the sample space $S$ is a finite set: $$S = \{s_1,...,s_N \},$$ and each individual outcome ${s_i}$ has equal probability, then finding the probability of an event involves finding the total number of individual outcomes contained in the event of interest and dividing that number by the total number of individual outcomes: $$P(A) = \sum_{s_i \in A} P(\{s_i\}) = \sum_{s_i \in A} \frac{1}{N} = \frac{\text{number of elements in A}}{\text{number of elements in S}}.$$
+
+For certain applications we may need theorems to find $N$ or $M$ however.
+
+**Ex**: A certain lottery operates as follows. A person selects six numbers from 1,2,3,...,44 for their ticket, then the winning number is found by picking six numbers from the fourty-four randomly. To find the probability of a given set of six numbers winning, we'll need to count the total number of possibilities, which will be different depending on whether order matters or not, and whether we can pick the same number multiple times (known as counting *with replacement* as opposed to *without replacement*). 
+
+**Th**: *Multiplication principle*, or *Fundamental Theorem of Counting*. If a job consists of $k$ separate tasks, the $i^{th}$ of which can be done in $n_i$ ways with $i = 1,2,...,k$, then the entire job can be done in $\prod_{i=1}^k n_i = n_1 \times n_2 \times ... \times n_k$ unique ways.
+
+**Ex**: Lottery from previous example. Suppose we are only allowed to pick each number once for our ticket (*without replacement*). How many different ways can we pick the first two numbers? There are 44 different ways to pick the first number, then 43 ways to pick the second number, so there are $44\times 43 = 1892$ different ways to pick the first two numbers. What about if we are allowed to pick the same number multiple times? Now there are still 44 different ways to pick the first number but there are now 44 different ways to pick the second number as well: $44 \times 44 = 1936$. However, another consideration is whether order matters for the winning ticket. For instance, are $(1,2,3,4,5,6)$ and $(6,5,4,3,2,1)$ considered to be identical or unique? We will continue with this example after some definitions.
+
+**Def**: For a positive integer $n$, $n$ *factorial* (denoted $n!$) is defined as $$n! = n \times (n-1) \times (n-2) \times ... \times 3 \times 2 \times 1.$$ By convention $0!$ is defined as 1.
+
+**Def**: For nonnegative integers $n$ and $k$ with $n \geq k$, $n$ *choose* $k$ (denoted $n \choose k$) is defined as $${n \choose k} = \frac{n!}{k!(n-k)!}.$$
+
+There are four different cases which each need different counting rules:
+
+- *Ordered without replacement*. 
+
+- *Ordered with replacement*
+
+- *Unordered without replacement*
+
+- *Unordered with replacement*
+
+We will illustrate each case with the lottery example, then summarize the general counting formulas afterwards.
+
+1. **Ordered without replacement**: Here we consider two tickets to be unique if they contain the same numbers, but in different orders. Additionally, no number is allowed to be selected twice. To find the total number of possible tickets, we have 44 ways to select the first number, 43 ways to select the second number, and so on. So in total there are $$44 \times 43 \times 42 \times 41 \times 40 \times 39 = \frac{44!}{38!} = 5082517440$$ possible unique tickets. The general formula for finding the number of unique arrangements of size $k$ out of a collection of $n$ objects, ordered without replacement, is $$\frac{n!}{(n-k)!}.$$
+
+2. **Ordered with replacement**: Now the order matters, but we can select each number more than once. In this case there will be $$44 \times 44 \times 44 \times 44 \times 44 \times 44 = 44^6 = 7256313856$$ unique tickets. The general formula for finding the number of unique arrangements of size $k$ out of a collection of $n$ objects, ordered with replacement, is $$n^k.$$
+
+3. **Unordered without replacement**: Order doesn't matter, but each number is only allowed to be selected once. We already know how many tickets there are when the ordering DOES matter, so what we need to do is divide out the number of redundant orderings. For any given collection of six unique numbers (remember each has to be unique), there are $6!$ unique orderings. so we can take the number from before then divide it by $6!$, giving us the total number of unique tickets for this case: $$\frac{5082517440}{6!} = \frac{44!}{38!6!} =  7059052.$$ The general formula for finding the number of unique subsets of size $k$ out of a collection of $n$ objects is $$\frac{n!}{k!(n-k)!} = {n\choose k}.$$
+
+4. **Unordered with replacement**: Order doesn't matter, but this time we can select each number multiple times. This one is the trickiest to count, since we can't simply divide by the number of unique orderings (different collections of can have different total numbers of unique orderings depending on the number of repeated elements). Instead we need to cast the problem in a slightly different way: think of this problem as placing 6 markers into 44 bins in a row. For example:
+
+![](bins.png)
+
+Now all we have to do is keep track of the arrangements of markers and bin "walls", ignoring the two outer walls. We have 45 walls total, 43 ignoring the two outer walls, with 6 markers. There are thus 49 total objects that can all be ordered in $49!$ different ways, now what we need to do is take care of the redundant orderings by dividing by $6!$ and $43!$. So there are $$\frac{49!}{6!43!} = {49 \choose 6} = 13983816$$ total unique tickets. The general formula for finding the number of unique collections of size $k$ out of $n$ objects, unordered with replacement, is $$\frac{(n+k-1)!}{k!(n-1)!} = {n+k-1 \choose k}.$$
+
+As mentioned before, these counting rules are useful when we can assume that individual outcomes are equally likely. In the lottery example, we can assign the probability that a specific ticket will win as $1/N$, where $N$ is the total number of possible unique tickets depending on whether there is ordering and/or replacement. 
+
+
+

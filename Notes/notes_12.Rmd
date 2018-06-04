@@ -1,0 +1,66 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "3/6/18"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+We've seen that sample size plays an important role in determining the sampling distribution of certain statistics, for instance the variance of the statistic $\bar{X}$. By letting $n$ increase "to infinity" we can investigate the behavior of some statistics and find some useful approximations for when our sample size is large. In particular we will be investigating the sample mean for a random sample as we let the sample size $n$ increase. The homework will have some exercises investigating the behavior of the sample variance as the sample size increases for certain populations.
+
+First we need some definitions and theorems to describe "convergence" of sequences of random variables.
+
+#### Chebyshev's Inequality 
+
+This inequality is useful for finding bounds on certain probabilities and expectations, and for proving one of the major theorems we'll be discussing later in this lecture.
+
+Th: Let $X$ be a random variable and let $g(x)$ be a non-negative function. Then for any $\epsilon > 0$, $$P(g(X) \geq \epsilon) \leq \frac{E[g(X)]}{\epsilon}.$$
+
+Proof: Let $f(x)$ denote the pdf of $X$. This proof holds for discrete random variables as well, with summation replacing integration. $$E[g(X)] = \int_{-\infty}^{\infty} g(x) f(x) dx$$ $$\geq \int_{\{x:g(x)\geq \epsilon\}}g(x)f(x)dx \quad (g(x)f(x) \text{ non-negative, integral over subset of reals})$$ $$\geq \epsilon \int_{\{x:g(x)\geq \epsilon\}} f(x)dx \quad (\text{integral is over region where } g(x) \geq \epsilon)$$ $$=\epsilon P(g(X) \geq \epsilon).$$
+
+Ex: Often this is used to get a probabilistic bound on a rv's deviation from its mean in terms of its variance. By letting $E[X] = \mu$, $\text{Var}(X) = \sigma^2$ and representing the constant as $\epsilon = K^2\sigma^2$ we can re-express the inequality as follows: $$P((X - \mu)^2 \geq K^2\sigma^2) \leq \frac{E[(X - \mu)^2]}{K^2\sigma^2}$$ $$\implies P(|X - \mu| \geq K\sigma) \leq \frac{\text{Var}(X)}{K^2\sigma^2}$$ $$\implies P(|X - \mu| \geq K\sigma) \leq 1/K^2.$$ For example, taking $K=2$ we get $$P(|X-\mu| \geq 2\sigma) \leq 1/4,$$ or in other words, for any random variable with finite mean and variance there is at least a 75\% chance that it will be within two standard deviations away from the mean. Taking $K = 3$, $$P(|X-\mu| \geq 3\sigma) \leq 1/9,$$ or there is at least a 8/9 chance that it will be within three standard deviations of the mean. Note that holds for any distribution as long as the mean and variance are finite.
+
+Ex: Let $X$ be a random variable with has mean 24 $(E[X] = \mu =  24)$ and variance 9 $(Var(X) = \sigma^2 = 9)$. What is a lower bound on the $P(16.5 < X < 31.5)$? Using Chebyshev's inequality, and letting $K>0$ be given: $$P(|X - \mu| \geq K\sigma) \leq \frac{1}{K^2}$$ $$P(|X - \mu| > K\sigma) = 1 - \frac{1}{K^2}$$ $$P(\mu - K\sigma < X < \mu + K\sigma) = 1 - \frac{1}{K^2}$$ Equating $\mu + K\sigma = 31.5$ and $\mu - K\sigma = 16.5$ and plugging in our known values we get $$P(16.5 < X < 31.5) \geq 1 - \frac{1}{(2.5)^2} = 0.84$$ So there is at least an 84 percent probability that the random variable will be observed to be between 16.5 and 31.5. 
+
+
+#### Law of Large Numbers
+
+First we need to introduce some new definitions for our limits, since we are dealing with random variables rather than deterministic functions.
+
+Def: A sequence of random variables $X_1,X_2,...$ *converges in probability* to the random variable $X$ if for every $\epsilon > 0$ $$\lim_{n \to \infty} P(|X_n - X| < \epsilon) = 1$$ or equivalently $$\lim_{n \to \infty} P(|X_n - X| \geq \epsilon) = 0.$$
+
+Convergence in probability extends to continuous functions of random variables as well:
+
+Th: Suppose that $X_1,X_2,...$ converges in probability to a random variables $X$, and that $h$ is a continuous function. Then $h(X_1,),h(X_2),...$ converges in probability to $h(X)$.
+
+**Th: (Weak) Law of Large Numbers**. Let $X_1,X_2,...$ be a sequence of iid random variables with $E[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2$. Let $\bar{X_n} = \frac{1}{n}\sum_{i=1}^n X_i$. Then $\bar{X_n}$ converges in probability to $\mu$ as $n \to \infty$.
+
+This result tells us that as our sample size gets larger, our sample mean $\bar{X}$ gets closer and closer to the true mean $\mu$ with increasingly higher probability. Note that this holds for any distribution with finite mean and variance, and will be true even if the underlying population distribution is unknown. This is a useful result that allows us to use the sample mean to estimate an unknown population mean with a high level of confidence for larger sample sizes.
+
+Proof: Use Chebyshev's inequality. Let $\epsilon > 0$ be given. $$P(|\bar{X_n} - \mu| \geq \epsilon) = P((\bar{X_n} - \mu)^2 \geq \epsilon^2) \leq \frac{E[(\bar{X_n} - \mu)^2]}{\epsilon^2} = \frac{\text{Var}(\bar{X_n})}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}.$$ We know that $P(|\bar{X_n} - \mu| \geq \epsilon)$ must be greater than or equal to zero since it's a probability, but we also know that it's bounded from above by $\frac{\sigma^2}{n\epsilon^2}$ which clearly approaches $0$ as $n\to \infty$ since $\sigma$ and $\epsilon$ are constants. So $\lim_{n \to \infty} P(|\bar{X_n} - \mu| \geq \epsilon) = 0$ (the justification for this is sometimes known as the "squeeze" theorem in calculus and real analysis).
+
+Note that we called this the "weak" LLN. It turns out we can show a stronger form of the LLN with a stronger mode of convergence ("almost sure" convergence), but that is beyond the scope of the course.
+
+
+#### Central Limit Theorem
+
+We will introduce one more mode of convergence before getting to the theorem:
+
+Def: A sequence of random variables $X_1,X_2,...$ *converges in distribution* to the random variable $X$ if $$\lim_{n \to \infty} F_{X_n}(x) = F_X(x)$$ for all $x$ where $F_X(x)$ is continuous. This definition relies on the usual limit definition from calculus, but applied to the cdfs of the rvs in the sequence and the cdf of the rv they're converging towards.
+
+In can be shown that convergence of mgfs also implies convergence in distribution. That is, if $M_{X_i}(t)$ are the mgfs of the random variables in the sequence $X_i, X_2,...$ and $X$ is a random variable with mgf $M_X(t)$, then if $M_{X_i}(t) \to M_X(t)$ as $n \to \infty$ then $X_i \to X$ in distribution.
+
+Convergence in probability implies convergence in distribution, but not the other way around. Because of this we usually say that convergence in probability is "stronger" than convergence in distribution.
+
+**Th: Central Limit Theorem.** Let $X_1,X_2,...$ be a sequence of iid rvs whose moment generating functions exist in a neighborhood of 0. Let $E[X_i] = \mu$ and $\text{Var}(X_i) = \sigma^2$. These must both exist and be finite since we have specified that the mgfs exist around 0. Let $\bar{X_n} = \frac{1}{n}\sum_{i=1}^n X_i$. Then $\sqrt{n}(\bar{X_n} - \mu)/\sigma$ converges in distribution to a $N(0,1)$ random variable.
+
+This result allows us to use the normal distribution to approximate the sampling distribution of $\bar{X}$ regardless of the population distribution, as long as our sample size is large. Note that the quantity $\sqrt{n}(\bar{X_n} - \mu)/\sigma$ takes $\bar{X}$, subtracts its expected value from it ($\mu$) and divides that by its standard deviation ($\sqrt{\sigma^2/n}$). The resulting term will have mean 0 and variance 1. This process (taking some random variable $X$ and transforming it to $(X - \mu_X)/\sigma_X$ where $\mu_X = E[X]$ and $\sigma_X = \sqrt{\text{Var}(X)}$) is often called a "$z$-transform", since $Z$ is used to denote standard normal random variables with expected value 0 and variance 1. 
+
+Sketch of proof (feel free to look up the complete proof online if you are interested): The broad idea is that you can show that the sequence of mgfs of the $\sqrt{n}(\bar{X_n} - \mu)/\sigma$ terms will converge to $\exp(t^2/2)$, the mgf of the standard $N(0,1)$ distribution. First you express the mgfs of the  terms as Taylor series (remember that Taylor series expansion is the reason mgfs "work" the way they do for generating moments of the distribution). The terms are simplified using properties of expectation and the initial theorem assumptions, and the tail of the sequence can be shown to go to converge "quickly" enough that only the first couple terms are important for the limit. The final result is shown using the property that $e^x = \lim_{n \to \infty} (1 + x/n)^n$.  
+
+If we have a large sample size, the CLT allows us to approximate the sampling distribution of the quantity $\sqrt{n}(\bar{X} - \mu)/\sigma$ as $N(0,1)$, or equivalently to approximate the distribution of $\bar{X}$ as $N(\mu, \sigma^2/n)$. Additionally this will work no matter if the population distribution is normal or not. We can use this distribution to answer probabilistic questions about $\bar{X}.$ There are some rules of thumb for when a sample size is "large enough" for this approximation to be accurate, generally this will work for $n>30$, or for $np > 5$ and $n(1-p) > 5$ in the case of a Bernoulli$(p)$ random sample (i.e. the probability of success is not too close to 1 or 0, with a large sample size). These two theorems (CLT and LLN) guarantee certain properties of $\bar{X}$ that will be useful for estimating population means when the true distribution parameters are unknown.
+
+Ex: Let $X_1,...,X_n$ be an iid random sample from a Bernoulli$(p)$ population, and we can assume that the previous rule of thumb holds. How can we find an approximate sampling distribution of $\bar{X}$? Since the variance of the population distribution is $p(1-p)$, and the mean of the population distribution is $p$, we know by the CLT that $\sqrt{n}(\bar{X} - p)/[p(1-p)] \to N(0,1)$ in distribution. Thus we can approximate the sampling distribution of $\bar{X}$ as follows: $$\bar{X} \sim N(p, p(1-p)/n).$$ For instance, suppose the true probability of success was $p=0.45$ and we had a random sample of size 40. Optional exercise: What is $P(\bar{X} > 0.5)$?
+
+Optional exercise: Suppose $X_1,...,X_n$ is an iid random sample from an Exponential$(\beta)$ distribution. What is the approximate sampling distribution of $\bar{X}$ if we have a large sample size $(n>30)$? If the true parameter value of $\beta$ is 2, what is $P(\bar{X} < 1.8)$ for a sample size of 35?

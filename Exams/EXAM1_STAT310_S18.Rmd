@@ -1,0 +1,132 @@
+---
+title: "STAT 310 Exam 1"
+date: "2/13/2018"
+output: pdf_document
+---
+
+Name (netID):_______________________________________________________________
+
+
+#### Instructions
+
+- **This exam is graded on a 10 point scale.**
+
+- Please print your name and netID on the first line above.
+
+- You will have 75 minutes to complete this exam. You are only allowed to have your writing materials, your handwritten cheat sheet, your scrap paper, and a calculator.
+
+- Do not open the exam until the time begins.
+
+- Write down your answers using the space provided. If you need more space for your answers you may use extra scrap paper, as long as you clearly print the problem number and staple your sheet to the exam.
+
+- Show your work.
+
+#### Rice University Honor Code Pledge 
+
+Please sign the Honor Code pledge on the line below.
+**"On my honor, I have neither given nor received any unauthorized aid on this exam."**
+
+\ 
+
+\
+
+\
+
+\ 
+
+Signature:_______________________________________________________________
+
+\ 
+
+\ 
+
+
+
+
+
+\newpage
+
+#### Problem 1
+
+(1 point) The following four histograms were generated using four different data sets, A, B, C, and D.
+
+```{r, echo = FALSE, fig.height = 5}
+set.seed(666)
+d1 <- rnorm(100, mean = 5, sd = 1)
+d2 <- rpois(100, 2.5) + rnorm(100, sd = 0.005)
+d3 <- 10 - rpois(100, 2.5) + rnorm(100, sd = 0.005)
+d4 <- c(rexp(50), 10 - rexp(50))
+par(mfrow = c(2, 2))
+hist(d4, xlab = "measurement value", main = "Histogram 1", breaks = 8)
+hist(d2, xlab = "measurement value", main = "Histogram 2", breaks = 8)
+hist(d1, xlab = "measurement value", main = "Histogram 3", breaks = 8)
+hist(d3, xlab = "measurement value", main = "Histogram 4", breaks = 8)
+par(mfrow = c(1, 1))
+```
+
+Statistical summaries (minima, quartiles, means, medians, and maxima) of A, B, C, and D:
+```{r, echo = FALSE}
+out <- rbind(summary(d1), summary(d2), summary(d3), summary(d4))
+rownames(out) <- c("A", "B", "C", "D")
+round(out, 3)
+```
+
+Match each histogram to its corresponding data set (A, B, C, or D).
+
+\newpage
+
+#### Problem 2
+
+(1 point) Let $A$ and $B$ be two mutually exclusive events in a sample space with $P(A) > 0$ and $P(B) > 0$. Can $A$ and $B$ also be independent from each other? Show your work and explain your reasoning.
+
+\newpage
+
+#### Problem 3
+
+(1 point) A quiz consists of 5 multiple choice questions each with 4 possible answers. A passing grade is acheived if 3 or more questions are correct. Suppose a student decides to guess randomly and independently for each question. What is the probability that they pass the quiz?
+
+\newpage
+
+#### Problem 4
+
+(2 points) A box contains 3 white balls and 2 black balls. A number between 1 and 4 is randomly chosen by rolling a fair four-sided die, and that many balls are randomly drawn from the box without replacement. Suppose this experiment is performed and we are given the information that at least one black ball had been picked from the box. What is the probability that we rolled a 4 given this observation?
+
+
+\newpage
+
+
+
+#### Problem 5
+
+(1 point) Let $X$ be a random variable with probability density function $f_X(x)$ and cumulative distribution function $F_X(x)$. Let $a$ be a fixed constant with $F_X(a) < 1$, and let $$g(x) =
+\begin{cases}
+\frac{f_X(x)}{1-F_X(a)} &\mbox{ if } x \geq a \\
+0 &\mbox{ if } x < a
+\end{cases}$$ Is $g(x)$ a valid probability density function? Show your work and explain your reasoning.
+
+\newpage
+
+
+#### Problem 6
+
+(2 points) Let $X$ be a random variable with probability density function 
+
+$$
+f_X(x) = 
+\begin{cases}
+kx^2 &\mbox{ if } 0 \leq x \leq 1 \\
+0 &\mbox{ otherwise }
+\end{cases}$$
+
+Find the value of $k$ that makes this a valid probability density function, and find $E[X]$ and $\text{Var}(X)$.
+
+\newpage
+
+
+
+#### Problem 7
+
+(2 points) Let $X$ be a random variable that takes a value of either 1 or -1, with $P(X = 1) = p$ and $P(X = -1) = 1-p$. Here $p$ is a constant between 0 and 1. Find $M_X(t)$, the moment-generating function of $X$, and use it to find $E[X]$ and $\text{Var}(X)$. This question is worth only 1 point if you find $E[X]$ and $\text{Var}(X)$ without using the moment generating function.
+
+
+

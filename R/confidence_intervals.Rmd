@@ -1,0 +1,90 @@
+---
+title: "Confidence Intervals"
+output:
+  html_document:
+    df_print: paged
+---
+
+In this notebook we will be demonstrating how to compute interval estimates using R and its built-in functions. For our example data we will be using a set of (fake) measurements of the weights of male and female squirrels in pounds (**squirrel.csv**). First, make sure that the file is saved in your working directory (see "working_with_data.html" in the R folder on Canvas). Next we can import the data.
+
+```{r}
+squirrel <- read.csv("squirrel.csv")
+squirrel
+```
+
+There are two columns, one representing the sex of the squirrel and the other the weight.
+
+Suppose we assume that the weights of each of the sexes are normally distributed, and that both populations have equal variance. We can let $X_1,...,X_n$ represent the female squirrels and $Y_1,...,Y_m$ represent the male squirrels, with $$X_i \sim N(\mu_F, \sigma_f^2)$$ $$Y_i \sim N(\mu_M, \sigma_m^2),$$ assuming the samples are each i.i.d. and that the two random samples are independent from each other. Now our data set can be assumed to be observations from these populations. Next we need to get our point estimates for the means and the variance. We can save the weights of the female and male squirrels separately and find their sample means and standard deviations, along with the sample sizes for each sample:
+
+```{r}
+female <- subset(squirrel, sex == "f")
+male <- subset(squirrel, sex == "m")
+
+#sample means
+x_bar <- mean(female$weight)
+y_bar <- mean(male$weight)
+
+#sample standard deviations
+s_x <- sd(female$weight) 
+s_y <- sd(male$weight)
+
+#sample sizes
+n <- nrow(female)
+m <- nrow(male)
+```
+
+So our estimate of $\mu_f$ is $\bar{x}$ and our estimate of $\mu_m$ is $\bar{y}$ (lower case notation since they have been directly measured and computed already):
+```{r}
+x_bar
+y_bar
+```
+
+Suppose we wish to obtain a 99\% confidence interval for $\mu_x$. Recall that in this case (small sample size, normally distributed populations) we can use the estimator constructed using the Student's $t$ pivot: $$L = \bar{X} - t_{\alpha/2}(S/\sqrt{n})$$ $$U = \bar{X} + t_{\alpha/2}(S/\sqrt{n})$$ In this case our sample size is $n = 8$, so the $t$ distribution we should use will have $n-1 = 7$ degrees of freedom, with $\alpha/2 = 0.005$. We can find this using the qt() function in R:
+
+```{r}
+t_1 <- qt(0.995, df = 7)
+t_1
+```
+
+So we have what we need to compute our interval estimate for $\mu_f$:
+
+```{r}
+c(x_bar - t_1 * (s_x / sqrt(n)), x_bar + t_1 * (s_x / sqrt(n)))
+```
+
+Remember, since we are assuming that $\mu_f$ is a fixed constant, there is NOT a 99\% probability that $\mu_f$ is in this exact interval. Rather, we say that this construction procedure will capture the true $\mu_f$ 99\% of the time for samples from the assumed population.
+
+Now suppose we want a 90\% confidence interval for $\sigma_m^2$, the true variance of the males' weights. Recall that we can use the chi square distribution pivot for this case, giving us the interval estimator $$L = \frac{(m-1)S_Y^2}{\chi^2_{upper}}$$ $$U = \frac{(m-1)S_Y^2}{\chi^2_{lower}}$$ where $\chi^2_{upper}$ and $\chi^2_{lower}$ represent the appropriate upper and lower-tailed quantiles with $m-1 = 9$ degrees of freedom.
+
+```{r}
+chisquare_lower <- qchisq(0.05, df = 9)
+chisquare_upper <- qchisq(0.95, df = 9)
+c(chisquare_lower, chisquare_upper)
+```
+
+Interval estimate for $\sigma_m^2$:
+
+```{r}
+c(((m - 1) * s_y^2) / chisquare_upper, ((m - 1) * s_y^2) / chisquare_lower)
+```
+
+Now suppose we want a 95\% confidence interval for the ratio of the variances: $\sigma^2_f/\sigma^2_m.$ Here we can use the $F$ pivot from the notes, finding the upper and lower bound estimators $$L = \frac{(S^2_X/S_Y^2)}{F_{lower}}$$ $$U = \frac{(S^2_X/S_Y^2)}{F_{upper}}$$ where $F_{lower}$ and $F_{upper}$ represent the appropriate lower and upper tail quantiles from an $F$ distribution with $n=1$ and $m-1$ degrees of freedom. 
+
+```{r}
+f_upper <- qf(0.975, df1 = n-1, df2 = m-1)
+f_lower <- qf(0.025, df1 = n-1, df2 = m-1)
+c(f_lower, f_upper)
+```
+
+Interval estimate:
+
+```{r}
+c((s_x^2) / (s_y^2) / f_upper, (s_x^2) / (s_y^2) / f_lower)
+```
+
+In the large sample case where we are not assuming normally distributed populations we need to use the standard normal pivot to construct our interval estimators. This can be done using the qnorm() function. For example:
+
+```{r}
+qnorm(0.975)
+```
+This gives us the point such that the area under the curve to the right is 0.025 for the standard normal pdf. The qnorm() function uses the standard normal by default, but you can change the parameters if you wish (type ?qnorm in the console to see the manual page to figure out how to do this). You can also compare the outputs from the R functions demonstrated here to distribution tables.

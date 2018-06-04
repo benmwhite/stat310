@@ -1,0 +1,38 @@
+---
+title: "Homework 5"
+author: "Due February 27"
+output:
+  pdf_document: default
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by February 27 in class. This assignment covers material from chapter 3 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. Let $X$ and $Y$ be random variables with joint pdf $f(x,y)$. For each of the following the joint pdf is assumed to be zero outside of the support of the distribution.
+
+    a. (1/2 point) $f(x, y) = 2x$ for $0 \leq x \leq 1$ and $0 \leq y \leq 1$. Find $P(X^2 < Y < X)$.
+
+    b. (1/2 point) $f(x,y) = \frac{8}{9}xy$ for $1 \leq x \leq y \leq 2$. Find $P(1.5 < X < 1.75, Y > 1)$.
+
+1. (1 point) A "parallel" system is one which functions as long as at least one of its individual components is functioning. A particular parallel system is composed of two components whose lifetimes can be modeled using independent exponential($\beta$) distributions. In particular, let $X_1$ and $X_2$ be independent random variables representing the lifetimes of the two components with pdfs $f_{X_1}(x) = f_{X_2}(x) = \frac{1}{\beta}e^{-x/\beta}$ if $x > 0$ and $0$ otherwise (with $\beta > 0$). Let $Y$ be a random variable representing the lifetime of the whole parallel system (i.e. $Y = \text{max}(X_1, X_2)$). Find the cdf and pdf of $Y$. *Tip: if $\max(X_1, X_2) \leq x$, what does that mean for $X_1$ and $X_2$ indivivually?*
+
+1. Two people, $A$ and $B$, agree to meet at a certain place between 1 pm and 2 pm. Suppose they arrive at the meeting location independently and randomly during the hour (i.e. the arrival times of $A$ and $B$ can be assumed to be independent uniform($1,2$) random variables). Let $T$ denote the length of time that $A$ waits for $B$ (if $B$ arrives first then define $A$'s waiting time as 0).
+
+    a. (1 point) Find the joint probability density function of $A$ and $B$'s arrival times. What is the probability that $B$ arrives before $A$?
+
+    b. (1 point) Find the cumulative distribution function of $T$~~, then find $E[T]$~~ (removed 2/23). *Tip: recall that $F_T(t) = P(T \leq t)$. For a given $t$ you need to figure out how to find the set of possible values of $A$ and $B$ such that the waiting time $T$ is less than or equal to $t$. Drawing a graph of the support of this distribution and the set of values of $A$ and $B$ that give you $T \leq t$ may be helpful.*
+    
+1. Let X and Y be random variables with finite expectation (i.e. $E[X]$ and $E[Y]$ exist and are finite). 
+
+    a. (1 point) Show that $\text{Var}(X|Y) = E[X^2|Y] - (E[X|Y])^2$.
+
+    b. (1 point) Using the indentity from above, show that $\text{Var}(X) = E[\text{Var}(X|Y)] + \text{Var}(E[X|Y])$.
+  
+    
+1. (2 points) Suppose we have a box full of two sided coins, but we don't know how biased each coin is towards heads or tails and each coin could be different. Suppose we wish to model the expected number of heads if we pull out one coin and flip it $n$ times. We can use the following hierarchical model: let $W$ be a Uniform$(0,1)$ random variable representing the probability of heads for the coin we pull out of the box. Next, let $Y$ be a random variable equal to the number of heads out of $n$ flips using that coin. That is, the distributionof $Y$ conditioned on $W=w$ is Binomial($n, w$). Full model specification: $Y|W=w \sim \text{Binom}(n,w)$ and $W \sim \text{Unif}(0,1).$ Recall the binomial pmf for $n$ trials and success probability $p$: $f(x) =  \binom{n}{x} p^x(1-p)^{n-x}$ if $x = 0, 1, ..., n$ and $0$ otherwise. Uniform$(a,b)$ pdf: $f(x) = 1/(b-a)$ if $a \leq x \leq b$ and 0 otherwise. Find $E[Y]$ and $\text{Var}(Y)$.
+    
+1. (2 points) Suppose that the distribution of $Y$, conditioned on $X = x$ is $N(x, x^2)$, and that the marginal distribution of $X$ is Uniform$(0, 1)$. Recall that the pdf of a normal distribution with mean $\mu$ and variance $\sigma^2$ is $f(x) = \frac{1}{\sqrt{2 \sigma^2 \pi}}e^{-\frac{(x - \mu)^2}{2\sigma^2}}$. The pdf for the uniform distribution on $(0,1)$ is $f(x) = 1$ for $0 < x < 1$ and 0 otherwise. Find $E[Y]$ and $\text{Var}(Y)$.
+    

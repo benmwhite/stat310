@@ -1,0 +1,39 @@
+---
+title: "Exam 2 Solutions"
+author: "Ben White"
+date: "3/22/2018"
+output: pdf_document
+---
+
+1. 
+
+    a. (1 point) $g(x) = e^x$ is a differentiable and monotonically increasing transformation over the support of $X$, so we can use the relevant theorem. We have $g^{-1}(y) = \log x$ and $\frac{d}{dy}g^{-1}(y) = 1/y$, so $$f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| = \frac{1}{y\sqrt{2\pi}}e^{-(\log(y))^2/2}$$ if $y > 0$ and zero otherwise (since $X$ can take on any real-numbered value, $Y = e^X$ can only take values above zero). 
+    
+    b. (1 point) $g(x) = 3x + 2$ is differentiable and monotonically increasing, so we can use the same theorem as the previous part. $g^{-1}(y) = (y -2)/3$, so $\frac{d}{dy} g^{-1}(y) = \frac{1}{3}$. $$f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| = \frac{1}{3\sqrt{2\pi}}e^{-\frac{(y - 2)^2}{18}}.$$ Note that this is a normal pdf with $\mu = 2$ and $\sigma^2 = 9$. The support is the whole real number line.
+    
+1. 
+
+    a. (1 point) $$P(X<1, Y>1) = \int_0^1 \int_1^2 \frac{x^3y^3}{16} dy dx = \frac{15}{256}$$
+  
+    b. (1 point) $$f_X(x) = \int_{-\infty}^\infty f_{XY}(x,y) dy = \int_0^2 \frac{x^3y^3}{16} dy =\frac{x^3}{4}$$ Similarly $$f_Y(y) = \frac{y^3}{4}$$ Since $f_{XY}(x,y) = f_X(x)f_Y(y)$, the two random variables are independent. This can also be shown by noting that the joint distribution factorizes into the product of a function of $x$ only and a function of $y$ only.
+
+    c. (1 point) Since the two random variables are independent $$f(y|x) = f_Y(y) = \frac{y^3}{4}.$$ So $$E[Y|X] = \int_{-\infty}^\infty y f(y|x) dy = \int_0^2 y\frac{y^3}{4} dy = \frac{8}{5}$$
+
+1. (1 point) $$E[X] = \sum_x xf_X(x) = \frac{1}{3}(-1 + 0 + 1) = 0$$ $$E[Y] = E[X^2] = \sum_x x^2 f_X(x) = \frac{1}{3}((-1)^2 + 0^2 + 1^2) = \frac{2}{3}$$ $$E[XY] = E[X(X^2)] = E[X^3] = \sum_x x^3 f_X(x) = \frac{1}{3}((-1)^3 + 0^3 + 1^3) = 0$$ $$\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 0 + 0(2/3) = 0$$ The covariance is zero, but these two random variables are clearly NOT independent since $Y$ is a direct transformation of $X$. Observing $X$ tells us the exact observation of $Y$ rather than providing no information about the distribution of $Y$.  
+
+1. 
+
+    a. (1 point) $$P(|X - \mu| \leq K\sigma) = P(\mu - K\sigma \leq X \leq  \mu + K\sigma) \geq 1 - \frac{1}{K^2}$$ Setting $\mu - K\sigma = 2$ and $\mu + K\sigma$ with $\mu = 2.5$ and $\sigma = 0.25$ we get $K = 2$ and a lower bound of $1 - 1/2^2 = 3/4.$ For any given individual in our sample there is at least a 75\% chance that their gene expression level is between 2 and 3.
+  
+    b. (1 point) Central Limit Theorem approximation: $$\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} = \frac{\bar{X} - \mu}{0.25/\sqrt{n}} \sim N(0,1)$$ Letting $Z$ represent a standard normal random variable we can check the tables to get $$0.95 = P(-1.96 < Z < 1.96) \approx P\left(-1.96 < \frac{\bar{X} - \mu}{0.25/\sqrt{n}} < 1.96\right) = P(|\bar{X} - \mu| < 1.96(0.25/\sqrt{n}))$$ Set $1.96(0.25/\sqrt{n}) = 0.06$ to get $n \approx 66.69$. Since we need to round to an integer $n = 67$ will satisfy our sample size requirement.
+    
+1. 
+    a. (1/2 point) $$0.95 = P(a \leq \bar{Y} \leq b) = P\left(\frac{a - 3}{2/\sqrt{10}} \leq \frac{\bar{Y} - 3}{2/\sqrt{10}} \leq \frac{(b - 3)}{2/\sqrt{10}} \right) = P\left(\frac{a - 3}{2/\sqrt{10}} \leq Z \leq \frac{(b - 3)}{2/\sqrt{10}} \right),$$ where $Z \sim N(0,1)$. This gives us $\frac{a - 3}{2/\sqrt{10}} = -1.96$ and $\frac{b - 3}{2/\sqrt{10}} = 1.96$, looking for the 0.025 and 0.975 quantiles. We solve these to get $a=1.760387$ and $b = 4.239613$.
+    
+    b. (1/2 point) $\frac{\sqrt{8}(\bar{X} - 5)}{S_X} \sim t_{7}$, so checking the Student $t$ table we get $b = 1.415$
+    
+    c. (1/2 point) $$0.99= P(a \leq S_X^2 \leq b) = P\left(\frac{7}{4}a \leq \frac{7}{4}S_X^2 \leq \frac{7}{4}b\right).$$ We know $\frac{7}{4}S_X^2$ has a chi square distribution with 7 degrees of freedom, so picking the 0.005 and 0.995 quantiles we get $7a/4 = .989265$ and $7b/4 = 20.2777$, giving us $a = 0.5652943$ and $b = 11.58726$.
+    
+    d. (1/2 point) $$0.9 = P\left(\frac{S^2_X}{S^2_Y} \leq b\right).$$ We know this ratio must have an $F$ distribution with $df1= 7$ and $df2= 9$ degrees of freedom (since the variance terms cancel out). So $b = 2.51$, looking for the 0.1 quantile.
+
+

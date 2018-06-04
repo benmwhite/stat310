@@ -1,0 +1,58 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "2/1/2018"
+output: pdf_document
+---
+
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "9/21/2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+#### Moments and moment-generating functions
+
+**Def**: The $k^{th}$ *moment* of a random variable $X$ is defined as $$\mu_k = E[X^k].$$ the $k^{th}$ *central moment* of a random variable $X$ is defined as $$\mu_k' = E[(X - \mu_1)^2],$$ where $\mu_1$ is the first moment of $X$ (the expectation)
+
+We've used the first moment (standard expectation), the second central moment (variance), and the second moment (in the alternate expression for variance). The first moment describes the "location" of the distribution, and the second moment can be thought of as a measure of the "variability" or "spread" of the distribution. Expressions involving the third and fourth central moments have been used to measure symmetry and peakedness/flatness of distributions as well, but we won't go into that for now (you can look up information on "skewness" and "kurtosis" if you wish).
+
+We now introduce a new type of distribution function.
+
+**Def**: Let $X$ be a rv (with pmf or pdf $f_X(x))$, and suppose there exists some $h>0$ such that for $-h < t < h$ the expectation $E[e^{tX}]$ exists (i.e. it exists in a neighborhood of zero). This expectation is called the *moment generating function* (mgf) of $X$ and is considered to be a function of $t$: $$M_X(t) = E(e^{tX}) = \begin{cases}\sum_x e^{tx}f_X(x) &\mbox{ if discrete} \\
+\int_{-\infty}^\infty e^{tx} f(x) dx &\mbox{ if continuous}
+\end{cases}
+$$
+
+How to generate moments with the mgf.
+
+**Th**: If the mgf $M_X(t)$ of the rv $X$ exists, then for any positive integer $k$: $$M_X^{(k)}(0) = E[X^k] = \mu_k$$ where $M_X^{(k)}(0)$ is the $k^{th}$ derivative of the mgf evaluated at $t = 0$. 
+
+This result shows why we needed the mgf to exist in a neighborhood of zero.
+
+Recall the Maclaurin series of the function $e^{tx}$: $$e^{tx} = 1 + tx + \frac{(tx)^2}{2!} + ... + \frac{(tx)^n}{n!}+...$$
+
+Using the properties of expectation: $$M_X(t) = E[e^{tX}] = E\left[1 + tX + \frac{(tX)^2}{2!} + ... + \frac{(tX)^n}{n!}+... \right]$$ $$= 1 + tE[X] + \frac{t^2E[X^2]}{2!} ... + \frac{t^nE[X^n]}{n!}+...$$ Taking the $kth$ derivative and evaluating at $t=0$, all terms reduce to zero (through differentiation or because it's multiplied by $t$) except for the term infolving $E[X^k]$ which simplifies to only the expectation.
+
+**Ex:** Let $X \sim Bernoulli(p)$, with pmf $f_X(x) = p^x(1 - p)^{1-x}$ for $x \in \{0,1\}$. From our direct calculations we know that $E[X] = p$. $$M_X(t) = E[e^{tX}] = \sum_x e^{tx} f_X(x) = (e^{(0)t})(1-p) + (e^{(1)t})p = 1 - p + pe^t$$ Taking the derivative with respect to $t$: $$\frac{d}{dt}M_X(t) = pe^t$$ At $t = 0$ this gives us $E[X] = p$. We can use the second derivative with respect to $t$ to help us find the variance as well. $$\frac{d^2}{dt^2}M_X(t) = pe^t$$ So at $t = 0$ this gives us $E[X^2] = p$, so $$Var(X) = E[X^2] - E[X]^2 = p - p^2 = p(1 - p)$$
+
+**Ex:** Let $X \sim Unif(a, b)$, with pdf $f_X(x) = 1/(b-a)$ for $a \leq x \leq b$. $$M_X(t) = E[e^{tX}] = \int_{-\infty}^\infty e^{tx}f_X(x) dx$$ $$=\int_a^b e^{tx}/(b-a)dx = \frac{e^{bt} - e^{at}}{t(b-a)}.$$ Verification of $E[X]$ and $Var(X)$ left as an optional practice exercise. Note that this is one case where the calculations are somewhat more straightforward using the basic definition of expectation rather than the mgf (simple integrals rather than quotient rule derivatives). 
+
+**Ex:** Let $X \sim Poisson(\lambda)$, with pmf $f_X(x) = \lambda^x e^{-\lambda}/x!$ for $x=0,1,2,...$ and paramter $\lambda>0$. This distribution is often used to model counts of occurrences over a given unit of time (e.g. clicks on web pages, arrivals of customers in a store over a day, etc.). $$M_X(t) = \sum_{x=0}^\infty \frac{e^{tx}\lambda^x e^{-\lambda}}{x!} = e^{-\lambda} \sum_{x=0}^\infty \frac{(e^{t}\lambda)^x}{x!}$$ The key to finding the expression for the infinite sum relies on noticing that the term in the sum matches the "kernel" of another Poisson distribution (the kernel is the part of the function that relies directly on $x$ and not on other constant scaling factors). We can treat $e^t\lambda$ as the new positive constant parameter then try to figure out what the scaling factor should be to turn this into a valid pmf. Then since the pmf is getting summed over all its possible values we can change it to 1. $$M_X(t) = e^{-\lambda} \sum_{x=0}^\infty \frac{(e^{t}\lambda)^x}{x!}$$ $$= e^{-\lambda} \sum_{x=0}^\infty {e^{\lambda e^t}}\left[\frac{e^{-(\lambda e^t)}(\lambda e^t)^x}{x!} \right]$$ $$= e^{\lambda (e^t - 1)}\sum_{x=0}^\infty \left[\frac{e^{-(\lambda e^t)}(\lambda e^t)^x}{x!}\right]$$ $$= e^{\lambda (e^t - 1)}$$ since the sum goes to 1. Optional practice exercise: show using the mgf that $E[X] = Var(X) = \lambda$.
+
+Properties of mgfs:
+
+1. If $M_X(t) = M_Y(t)$ in some neighborhood of 0, then $F_X(u) = F_Y(u)$ for every real number $u$. Explanation: if the mgfs of two rvs are the same, then the two rvs have the same distribution.
+
+2. If $Y = aX + b$, where $a$ and $b$ are constants, then $M_Y(t) = e^{bt}M_X(at)$. This is straightforward to show using the properties of expectation. This also assumes that the mgf of $X$ exists at $at$.
+
+Proof of (2): $$M_Y(t) = E[e^{tY}]=E[e^{t(aX + b)}] = e^{bt}E[e^{atX}] = e^{bt}M_X(at)$$
+
+These are useful for deriving some results for the Normal (or Gaussian) distribution.
+
+**Ex:** Let $X \sim N(\mu, \sigma^2)$. This distribution takes two parameters, $\mu$ and $\sigma^2$. $\mu$ can be any real number, but $\sigma^2$ must be strictly greater than zero. It has the following pdf: $$f_X(x) = \frac{1}{\sigma\sqrt{2 \pi}}e^{-\frac{(x - \mu)^2}{2\sigma^2}}, \quad -\infty < x <\infty.$$ This distribution gives us a symmetric bell curve. Finding the mgf: $$M_X(t) = E[e^{tX}] = \int_{-\infty}^\infty e^{tx} \frac{1}{\sigma\sqrt{2 \pi}}e^{-\frac{(x - \mu)^2}{2\sigma^2}} dx$$ Make the following substitution: $$u = (x - \mu)/\sigma$$ $$x = \sigma u  + \mu$$ $$dx = \sigma du.$$ This gives us $$M_X(t) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{t(\sigma u + \mu)}e^{-u^2/2} du$$ $$= \frac{e^{t\mu}}{\sqrt{2\pi}} \int_{-\infty}^{\infty}\exp({-\frac{1}{2}(u^2 - 2t\sigma u)}) du$$ $$= \frac{e^{t\mu}}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\exp(-\frac{1}{2}(u^2 - 2t\sigma u + t^2 \sigma^2) + \frac{t^2\sigma^2}{2}) du$$ $$= \frac{e^{t\mu}}{\sqrt{2\pi}}e^{t^2\sigma^2/2}\int_{-\infty}^\infty \exp(-\frac{1}{2}(u - t\sigma)^2) du.$$ Note that the integrand matches the kernel of a $N(t\sigma, 1)$ distribution. $$M_X(t) = \frac{\exp(t\mu + t^2\sigma^2/2)}{\sqrt{2\pi}}\sqrt{2\pi}\int_{-\infty}^\infty\frac{1}{\sqrt{2\pi}} \exp(-\frac{1}{2}(u - t\sigma)^2) du$$ $$= \exp(t\mu + t^2\sigma^2/2)$$ Finding the mean and variance: $$\frac{d}{dt}M_X(t) = (\mu + t\sigma^2)\exp(t\mu + t^2\sigma^2/2)$$ At $t = 0$ this gives us $E[X] = \mu$. Variance: $$\frac{d^2}{t^2} M_X(t) = (\mu^2 + \sigma^2 + t\sigma^4 + 2\mu \sigma^2 t)\exp(t\mu + t^2\sigma^2/2)$$ At $t = 0$ this gives us $$E[X^2] = \mu^2 + \sigma^2$$ $$Var(X) = E[X^2] - E[X]^2 = \mu^2 + \sigma^2  - \mu^2 = \sigma^2$$ The parameters supply the mean and variance of the symmetric bell curve. 
+
+Let $X \sim N(0, 1)$ ("standard" normal). Let $Y = aX + b$. What is the distribution of $Y$? First, plugging in $\mu = 0$ and $\sigma^2 = 1$ into the normal mgf formula we know that $M_X(t) =e^{t^2/2}$. Using the previous result for mgfs, we know that the mgf of $Y$ is $$M_Y(t) = e^{bt}M_X(at) = e^{bt}e^{a^2t^2/2} = e^{bt + a^2t^2/2}$$ This is the normal mgf with $\mu = b$ and $\sigma^2 = a^2$, so this means that $Y \sim N(b, a^2)$. In general applying a linear transformation to a normal random variable will result in a new normal random variable (with new mean and variance). 

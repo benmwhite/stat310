@@ -1,0 +1,42 @@
+---
+title: "Solution 6"
+output: pdf_document
+---
+
+1. (2 points, 0.4 per part)
+    
+  a. $$\text{Cov}(X,Y) = E[(X- \mu_X)(Y - \mu_Y)]$$ $$= E[XY - \mu_XY - X\mu_Y + \mu_X\mu_Y]$$ $$= E[XY] - \mu_XE[Y] - \mu_YE[X] + \mu_X\mu_Y$$ $$= E[XY] - \mu_X\mu_Y.$$
+    
+  b. $\text{Cov}(X,Y) = E[XY] - \mu_X \mu_Y = E[X]E[Y] - \mu_X \mu_Y = 0.$
+    
+  c. Let $\sigma_X$ and $\sigma_Y$ represent the standard deviations (square root of variance) for $X$ and $Y$ respectively. From previous properties of expectation and variance we know that $\sigma_Y = \sqrt{\text{Var}(Y)} = \sqrt{a^2\text{Var}(X)} = |a|\sigma_X$. So $$\text{Cov}(X,Y) = E[XY] - E[X]E[Y]$$ $$= E[X(aX+b)] - E[X]E[aX+b]$$ $$=(aE[X^2] + bE[X]) - (a(E[X])^2 + bE[X])$$ $$=a(E[X^2] - (E[X])^2)$$ $$=a\text{Var}(X).$$ Then $$\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sigma_X\sigma_Y} = \frac{a\text{Var(X)}}{\sigma_X(|a|\sigma_X)} = \frac{a\text{Var(X)}}{|a|\text{Var(X)}} =   \begin{cases}
+  1 &\mbox{ if } a > 0\\
+  -1 &\mbox{ if } a < 0
+  \end{cases}$$
+
+  d. $$\text{Cov}(U, V) = E[UV] - E[U]E[V]$$ $$=E[(aX + c)(bY + d)] - E[aX+c]E[bY+d]$$ $$= \left(abE[XY] + adE[X] + cbE[Y] + cd\right) - \left(abE[X]E[Y] + adE[X] + cbE[Y] + cd\right)$$ $$= abE[XY] - abE[X]E[Y]$$ $$=ab\text{Cov}(X,Y)$$ Next, note that $\sigma^2_U = a^2\text{Var}(X)$ and $\sigma^2_V = b^2 \text{Var}(Y)$. so $$\rho_{UV} = \frac{\text{Cov}(U,V)}{\sigma_U\sigma_V} = \frac{ab\text{Cov(X,Y)}}{\sqrt{a^2\text{Var(X)}b^2\text{Var}(Y)}} = \frac{ab\text{Cov}(X,Y)}{|ab|\sigma_X\sigma_Y} = \frac{ab}{|ab|}\rho_{XY} = \begin{cases}
+  \rho_{XY} &\mbox{ if } ab > 0\\
+  -\rho_{XY} &\mbox{ if } ab < 0
+  \end{cases}$$
+  
+  e. $$\text{Var}(aX+bY) = E[(aX+bY)^2] - (E[aX+bY])^2$$ $$= (a^2E[X^2] + 2abE[XY] + b^2E[Y^2]) - (a^2\mu_X^2 + 2ab\mu_X\mu_Y + b^2\mu_Y^2)$$ $$= a^2(E[X^2] - \mu_X^2) + b^2(E[Y^2] - \mu_Y^2) + 2ab(E[XY] - \mu_X\mu_Y)$$ $$= a^2\text{Var}(X) + b^2\text{Var}(Y) + 2ab\text{Cov}(X,Y)$$
+    
+    
+2. (1 point) First we need to find the joint distribution of $X$ and $Y$: $$f_{XY}(x,y) = f(y|x)f_X(x) = \frac{1}{\sqrt{2\pi x^2}}\exp\left(-\frac{y^2}{2x^2}\right)$$ for all real values of $y$ and values of $x$ between 0 and 1. This is equivalent to the $N(0,x^2)$ pdf since $f_X(x) = 1$ on the support. This will be useful for simplifying integrals later.  Next, note that $E[Y] = 0$ no matter what value $X$ has: $$E[Y] = E[E[Y|X]] = E[0] = 0.$$ So $$\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = E[XY] - 0 = E[XY].$$ $$E[XY] = \int_{-\infty}^\infty \int_{-\infty}^\infty xyf_{XY}(x,y) dy dx$$ $$\int_0^1 \int_{-\infty}^\infty xy \frac{1}{\sqrt{2\pi x^2}}\exp\left(-\frac{y^2}{2x^2}\right)dydx$$ $$= \int_0^1 x\left(\int_{-\infty}^\infty y\frac{1}{\sqrt{2\pi x^2}}\exp\left(-\frac{y^2}{2x^2}\right)dy\right)dx$$ $$= \int_0^1x(E[Y|X=x])dx$$ $$= 0$$ since $E[Y|X = x] = 0$ for all possible values of $x$. So $$\text{Cov}(X,Y) = \rho_{XY} = 0.$$ This is an example of random variables which are not independent (since the conditional distribution of $Y$ given $X$ depends on the observed value of $X$), but still have covariance and correlation of 0.
+
+3. 
+
+a. (1 point) First we need the conditional distribution of $X$ given $Y$, $f(x|y) = f(x,y)/f_Y(y)$, which requires the marginal distribution of $Y$. $$f_Y(y) = \int_{-\infty}^\infty f(x,y) dx = \int_0^ye^{-y}dx = e^{-y}\int_0^y1dy = e^{-y}(y-0) = ye^{-y}$$ for $y \geq 0$. Then $$f(x|y) = \frac{e^{-y}}{ye^{-y}} = \frac{1}{y}$$ for $0 \leq x \leq y$. This is the uniform distribution from 0 to $y$, so this means that $$E[X|Y] = Y/2.$$
+
+b. (1 point) $$E[Y] = \int_{-\infty}^\infty y f_Y(y) dy = \int_0^\infty y(ye^{-y})dy = 2$$ where the integral can be solved either by using integration by parts or by taking advantage of the fact that the integrand is identical to the one that finds the second moment of an exponential$(1)$ random variable. $$E[X] = E[E[X|Y]] = E[Y/2] = 2/2 = 1$$ $$E[XY] = \int_{-\infty}^\infty\int_{-\infty}^\infty xyf(x,y)dxdy$$ $$= \int_0^\infty \int_0^y xye^{-y}dxdy$$ $$=\int_0^\infty ye^{-y}\left(\int_0^yxdx\right)dy$$ $$=\int_0^\infty ye^{-y}(y^2/2) dy$$ $$= 3$$ The integral can be solved using integration by parts combined with the result from the previous integral. Putting these all together: $$\text{Cov(X,Y)} = E[XY] - E[X]E[Y] = 3-(2)(1) = 1.$$ This covariance is positive, which fits an initial intuition from inspecting the joint distribution (larger values of $Y$ tend to occur along with larger values of $X$, and smaller values of $Y$ tend to occur along with smaller values of $X$).
+
+4. (1 point) *Note to graders: since the numbers in this problem were edited the Friday before the due date to simplify the required arithmetic, so answers using the original values of $Y$ (0.3, 0.5, and 0.7) are also acceptable.* We will be making use of the fact that a binom$(n,p)$ random variable has expected value $np$ and variance $np(1-p)$. $$E[Y] = \frac{1}{3}(0 + 0.5 + 1) = 0.5$$ $$E[X] = E[E[X|Y]] = E[3Y] = 3(0.5) = 1.5$$ Next, $$E[XY] = \sum_x\sum_y xyf(x|y)f_Y(y)$$ $$\frac{1}{3}\sum_y \left[y \sum_x xf(x|y)\right]$$ $$= \frac{1}{3}\sum_y yE[X|Y=y]$$ $$= 0 + \frac{1}{6}E[X|Y=0.5] + \frac{1}{3}E[X|Y = 1]$$ $$= \frac{1}{6}(3)(0.5) + \frac{1}{3}(3)(1)$$ $$=\frac{5}{4}.$$ Getting the variances: $$E[Y^2] = \frac{1}{3}(0^2 + 0.5^2 + 1^2) = \frac{5}{12}$$ $$\text{Var}(Y) = E[Y^2] - (E[Y])^2 = \frac{5}{12} - \left(\frac{1}{2}\right)^2 =\frac{1}{6}$$ $$E[\text{Var}(X|Y)] =E[3Y(1-Y)] = 3(E[Y] - E[Y^2]) = 3\left(\frac{1}{2} - \frac{5^2}{12^2}\right) = \frac{47}{48}$$ $$\text{Var}(E[X|Y]) = \text{Var}(3Y) = 9\text{Var}(Y) = \frac{3}{2}$$ $$\text{Var}(X) = E[\text{Var}(X|Y)] + \text{Var}(E[X|Y] = \frac{47}{48} + \frac{3}{2} = \frac{119}{48}$$ So $$\text{Cov(X,Y)} = E[XY] - E[X]E[Y] = \frac{5}{4} - \frac{3}{2}\frac{1}{2} = \frac{1}{2}$$ and $$\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var(X)}\text{Var}(Y)}} = \frac{1/2}{\sqrt{(119/48)(1/6)}} = 6\sqrt{\frac{2}{119}} \approx 0.778$$
+
+5. (1 point) The mgf of a Poisson$(\lambda)$ random variable is $M_X(t) = \exp\left(\lambda(e^t - 1)\right)$ where the parameter $\lambda$ must be positive, and the expected value and variance are both equal to $\lambda$. So if $X_1,...,X_n$ all have this mgf (identically distributed) and are independent from each other, then $$M_S(t) = (M_X(t))^n = [\exp\left(\lambda(e^t - 1)\right)]^n = \exp\left(n\lambda(e^t - 1)\right).$$ Since $n\lambda$ is positive this is the mgf of a Poisson$(n\lambda)$ random variable, which means $$S \sim \text{Poisson}(n\lambda)$$ with expected value $n\lambda$ and variance $n\lambda$. 
+
+6. (1 point) $$(n-1)S^2 = \sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n (X_i^2 - 2\bar{X}X_i + \bar{X}^2) = \sum_{i=1}^n X_i^2 + \sum_{i=1}^n 2\bar{X}X_i + \sum_{i=1}^n \bar{X}^2$$ $$= \sum_{i=1}^n X_i^2 + 2 \bar{X} \sum_{i=1}^n X_i + n\bar{X}^2 = \sum_{i=1}^n X_i^2 + 2 \bar{X}(n \bar{X}) + n\bar{X}^2$$ $$=\sum_{i=1}^n X_i^2 - n\bar{X}^2$$
+
+7.  a. (1 point) First, note that the cdf of the population (uniform$(0,1)$) is $P(X_i \leq x) = x$ for $0 \leq x \leq 1$ (zero below the support and one above it). So for $0 \leq x \leq 1$ the cdf is $$P(X_{(1)} \leq x) = 1 - P(X_{(1)} > x) = 1 - P(X_1 > x, ..., X_n > x)$$ $$= 1 - P(X_1 > x)\times P(X_2 > x)\times...\times P(X_n > x)$$ $$= 1 - (1 - P(X_1 \leq x))\times...\times (1 - P(X_n \leq x))$$ $$= 1 - (1 - x)^n$$
+
+    b. (1 point) To get the expectation we need to find the pdf first: $$f(x) = \frac{d}{dx} F(x) = \frac{d}{dx} \left[ 1 - (1 - x))^n\right]$$ $$= n(1 - x)^{n-1}$$ $$E[X_{(1)}] = \int_{-\infty}^\infty xf(x)dx = \int_0^1 x n(1 - x)^{n-1} dx$$ $$=\frac{1}{n+1}$$
+    

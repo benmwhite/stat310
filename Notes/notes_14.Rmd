@@ -1,0 +1,60 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "3/27/2018"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## Point Estimation
+
+When we model our experimental measurements as a random sample from a population, the key initial step is to identify the distribution that characterizes this population. We often assume that the population follows a certain distribution family. However, in most applications the distribution parameters (e.g. $\mu$, $\sigma^2$ for the normal distribution, $\beta$ for the exponential distribution, $p$ for the Bernoulli trial based distributions, etc.) are unknown and must be inferred in some way from our random sample. The process of constructing the "best" possible estimates of unknown population parameters and quantifying their effectiveness is known as "point estimation".
+
+Formal framework:
+Let $X_1,...,X_n$ be an iid random sample from a population with pdf or pmf $f(x; \theta)$ where $\theta$ is an unknown population parameter. Note that for now we are considering the parameter to be an unknown but fixed constant. A *point estimator* of $\theta$ is any statistic $T(X_1,...,X_n)$ that can be used to to assign an approximate value to $\theta$. Our *estimate* of $\theta$ is the exact observed value $T(x_1, ..., x_n)$, where $x_1, ...,x_n$ are the observed (measured) values of $X_1,...,X_n$ (i.e. an *estimator* is a statistic/random variable, an *estimate* is an exact observed value). Generally we will use the notation $\hat{\theta}$ to denote an estimator of $\theta$. If there are multiple unknown parameters $\theta_1,...,\theta_l$ we will end up constructing an estimator for each parameter: $T_1(X_1,...,X_n),...,T_l(X_1,...,X_n)$.
+
+Ex: $X_1,...,X_n$ is an iid random sample from a $N(\mu,\sigma^2)$ population, with both parameters unknown. We can choose to use $\bar{X}$ as an estimator of $\mu$, and $S^2$ as an estimator of $\sigma^2$. We have already shown that $E[\bar{X}] = \mu$, $E[S^2] = \sigma^2$, $\bar{X} \overset{p}\to \mu$ (Law of Large Numbers), and $S^2 \overset{p}\to \sigma^2$ (homework problem), so these seem like reasonable estimators for the unknown $\mu$ and $\sigma^2$, since their sampling distributions are centered around the unknown constants we wish to estimate, and their observed values will be getting closer and closer to the true values with higher probability as our sample size increases. Those properties are known as "unbiasedness" and "consistency".
+
+Def: Let $\hat{\theta}$ be an estimator of a population parameter $\theta$. $\hat{\theta}$ is a "consistent" estimator of $\theta$ if $\hat{\theta} \overset{p}\to \theta$. $\hat{\theta}$ is an "unbiased" estimator of $\theta$ if $E[\hat{\theta}] = \theta$.
+
+In general we will always want to use consistent estimators, since their performance is basically guaranteed to improve as our sample size increases. However, there will sometimes be cases where we will use biased estimators if they have other good properties. We will cover metrics for evaluating the "performance" of point estimators in a later lecture.
+
+In this section of the course we will discuss how to construct point estimators and evaluate their properties and performance.
+
+#### Method of Moments
+
+One of the first "tricks" that was developed for estimating one or more unknown parameters of a population distribution. Recall that the $k^{th}$ "moment" of a random variable $X$ with a certain distribution is $$\mu'_k = E[X^k].$$ We have a similar idea which applies to random samples as well:
+
+Def: Let $X_1,...,X_n$ be an iid random sample from some distribution. The $k^{th}$ *sample moment* of $X_1,...,X_n$ is defined as $$m_k' = \frac{1}{n}\sum_{i=1}^n X_i^k$$
+
+*Method of Moments*: Suppose we have a random sample from a population with unknown distribution parameters $\theta_1,...,\theta_l$. 
+
+1. Find $l$ population moments of the population distribution. Generally these will be the first $l$ moments $\mu_1',...,\mu_l'$. These will be expressed in terms of the unknown parameters.
+
+2. Find the corresponding $l$ sample moments of the random sample. These will be expressed in terms of the random sample $X_1,..,X_n$. 
+
+3. Set up the system of equations $\mu_k'=m_k'$, $k=1,2,...,l$, solve for the parameters $\theta_1,...,\theta_l$. These solutions will be expressed in terms of the random sample $X_1,..,X_n$ and can be used as estimators of the parameters.
+
+Ex: Let $X_1,...,X_n$ be an iid random sample from a Bernoulli($p$) distribution, with $p$ unknown. What is the moment estimator of $p$?
+
+We know the first moment of a Bernoulli($p$) rv $X$ is $E[X] = p$, so our first population moment is $p$. Our first sample moment is $\frac{1}{n}\sum_{i=1}^n X_i = \bar{X}$. Since we only have one unknown parameter, we set up $$\mu_1' = m_1'$$ or $$p=\bar{X},$$ getting $\bar{X}$ as $\hat{p}$, our estimator of $p$. 
+
+Suppose we flip a coin ten times, recording "heads" as 1 and "tails" as 0, and recording the following values for our observations $x_1,...,x_n$: 0, 1, 1, 0, 1, 0, 1, 1, 1, 0 (6 heads, 4 tails in the sample). If we wish to estimate $p$, the probabilitiy of heads, we can use the moment estimator we derived: $\bar{x} = \frac{1}{10}\sum x_i = 0.6$. (again, for notation we use capital letters to denote unobserved random variables and lowercase letters to denote their specific observed values, here we're extending that practice to random samples).
+
+Note that the moment estimator of the population mean will always be $\bar{X}$.
+
+Ex: What estimators does this method give us if our we assume our random sample comes from a normal distribution with unknown $\mu$ and $\sigma^2$? If $X\sim N(\mu,\sigma^2)$ we have $$\mu_1' = E[X] = \mu,$$ $$\mu_2' = E[X^2] = Var(X) + (E[X])^2 = \sigma^2 + \mu^2.$$ Sample moments: $$m_1' = \frac{1}{n}\sum_{i=1}^n X_i = \bar{X},$$ $$m_2' = \frac{1}{n}\sum_{i=1}^n X_i^2.$$ So setting up the system of equations: $$\mu = \bar{X},$$ $$\sigma^2 + \mu^2 = \frac{1}{n}\sum_{i=1}^n X_i^2.$$ Solving for $\mu$ and $\sigma^2$ we get the estimators $$\hat{\mu} = \bar{X}$$ and $$\hat{\sigma^2} = \frac{1}{n}\sum_{i=1}^n X_i^2 - \bar{X}^2 = \frac{1}{n}\sum_{i=1}^n(X_i - \bar{X})^2.$$ Note that the moment estimator of $\sigma^2$ is actually $\frac{n-1}{n}S^2$. 
+
+In general, the method of moments will always suggest $\bar{X}$ as the estimator of the population mean and $\frac{1}{n}\sum_{i=1}^n(X_i - \bar{X})^2$ as the estimator of the population variance. In cases where we are estimating parameters other than the population mean or variance the moment estimators will be some combination of these two statistics.
+
+Ex: Let $X_1,...,X_n$ be a random sample from a Gamma($\alpha$, $\beta$) distribution. Recall that the expected value of this distribution is $\alpha\beta$ and its variance is $\alpha\beta^2$. This gives us $\alpha\beta$ as the first population moment and $\alpha\beta^2 + \alpha^2\beta^2$ as the second population moment. Setting up the system of equations: $$\bar{X} = \alpha\beta,$$ $$\frac{1}{n}\sum_{i=1}^n X_i = \alpha\beta^2 + \alpha^2\beta^2.$$ Solving for $\alpha$ and $\beta$ we get the estimates $$\hat{\alpha} = \frac{\bar{X}}{\hat{\beta}},$$ $$\hat{\beta} = \frac{\frac{1}{n} \sum_{i=1}^n X^2_i - \bar{X}^2}{\bar{X}}$$ $$=\frac{\frac{1}{n}\sum_{i=1}^n(X_i - \bar{X})^2}{\bar{X}}.$$ 
+
+While the method of moments gives us a quick way to construct estimators, its main liability is that it can often suggest "impossible" estimates in certain cases as we can see in the following example:
+
+Ex: Let $X_1,...,X_n$ be a random sample from a uniform($0,b$) distribution. What is the moment estimator for the unknown upper bound $b$? We know that the mean of the distribution is $b/2$, so setting the first moments equal we get $$\bar{X} = \frac{b}{2},$$ giving us the estimator $\hat{b} = 2\bar{X}$. To see what is wrong with this estimator, suppose our random sample values are observed to be 0.25, 0.1, 0.2, and 0.9. This gives us $\bar{x} = \frac{1}{4}(0.25 + 0.1 + 0.2 + 0.9) = 0.3625$, so our estimate of the upper bound is $\hat{b} = 0.725$, but we already have an observation that is known to be larger than this estimate! That is, it is impossible for the actual upper bound to be 0.725 given our model assumptions.
+
+The principal problem with moment estimators occurs when we have parameters that have certain bounds on their "parameter space" (set of allowed parameters values) that are related to the random sample itself. Generally this will occur when the parameter we are estimating determines a bound on the support of the population distribution. The previous example showed how this can occur when the parameter determines the upper bound of the support, but you can come up with examples for lower bound parameters as well. 
+
+In the next lecture we will introduce a more ideal method which accounts for this issue (maximum likelihood estimation).
+

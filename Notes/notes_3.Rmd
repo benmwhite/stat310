@@ -1,0 +1,59 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "1/23/2018"
+output: pdf_document
+---
+
+#### Conditional Probability and Independence
+
+So far we've calculated probabilites with respect to the original sample space, however we often find ourselves in situations where our knowledge of the outcomes can be updated based on our observations or new information. 
+
+**Def**: If $A$ and $B$ are events in $S$, and $P(B) > 0$, then the *conditional probabiity of* $A$ *given* $B$ is denoted as $P(A|B)$ and is defined as $$P(A|B) = \frac{P(A \cap B)}{P(B)}.$$ The interpretation of this is that we have observed the event $B$, so now $B$ represents our new updated sample space.
+
+A corollary to this definition is known as the *multiplication rule* (different from the general multiplication principle from earlier): $$P(A \cap B) = P(A|B)P(B) = P(B|A)P(A)$$.
+
+**Ex**: A fruit basket contains 25 apples and oranges, of which 20 are apples. If two fruits are randomly picked in sequence, what is the probability that both fruits are apples? We can attempt to find this probability by counting all the outcomes, but it is easier to use the multiplication rule in this case. Let $A$ be the event in which the first fruit is an apple, and let $B$ be be the event in which the second fruit is an apple. Remember that $P(A\cap B) = P(B|A)P(A)$. Assuming that all fruits are equally likely to be picked at each step, we know that $P(A) = 20/25$. If one of the apples has already been picked, then $P(B|A) = 19/24$. So $$P(A\cap B) = P(B|A)P(A) = \frac{19}{24}\frac{20}{25} = 0.633$$
+a
+**Ex**: Suppose we draw four cards off the top of a well-shuffled deck of standard playing cards. What is the probability that all four are aces? Using the counting formulas from before we find that there are $${52 \choose 4} = 270725$$ total four-card hands that can result from this process. Since the four ace hand is unique, the probability of drawing it is $1/270725$. We can calculate this probability using a different argument however. The probability of drawing an ace as the first card is $4/52$. *Given that we've already drawn an ace as the first card*, the probability of drawing an ace as the second card is $3/51$. Continuing this process, we get the probability $$\frac{4}{52} \times \frac{3}{51} \times \frac{2}{50} \times \frac{1}{49} = \frac{1}{270725}.$$ This is formalized in the "Generalized Multiplication Rule" below.
+
+Intutitively we can think of situations where certain events occurring do not influence the probabilities of other events in any way. For example, if we flip two coins in a row we would not expect the result of the first flip to influence the probabilities of outcomes of the second flip. This idea is known as "independence".
+
+**Def**: Two events $A$ and $B$ in a sample space $S$ are *independent* if $$P(A \cap B) = P(A)P(B).$$ This can also be expressed alternatively as $P(A) = P(A | B)$ and $P(B) = P(B|A)$.
+
+**Th**: If $A$ and $B$ are independent, then the following pairs of events are also independent: 
+
+- $A$ and $B^c$
+
+- $A^c$ and $B$
+
+- $A^c$ and $B^c$
+
+**Pf**: We know that $A = (A\cap B) \cup (A\cap B^c)$, which implies that $P(A) = P(A \cap B) + P(A \cap B^c)$ because the two sets on the right hand side are disjoint. So $$P(A \cap B^c) = P(A) - P(A \cap B) = P(A) - P(A)P(B) = P(A)[1-P(B)] = P(A)P(B^c).$$ So they are independent. The same proof works for $A^c$ and $B^c$, and the third pair follows.
+
+Let $B$ be an event in a sample space $S$, with $P(B) > 0$ (i.e. $B$ is not an impossible event). Is $P(\bullet|B)$ a valid probability function?
+
+We can verify that $P(\bullet|B)$ is a valid probability function for events contained in $B$ (the new sample space). Since by definition $P(A|B) = \frac{P(A\cap B)}{P(B)}$, and $P(B) > 0$, we know that $P(A|B) \geq 0$ as well (first axiom verified). Next, we can verify that $P(S|B) = 1$: $P(S|B) = \frac{P(S\cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1$ (since $S \cap B = B$), so the second axiom is verified. Now suppose that $A_1, A_2,...$ is a collection of pairwise mutually exclusive events. $$P(\cup_{i=1}^\infty A_i|B) = \frac{P(B \cap (\cup_{i=1}^\infty A_i))}{P(B)} = \frac{P(\cup_{i=1}^\infty (B \cap A_i))}{P(B)} = \frac{\sum_{i=1}^\infty P(B \cap A_i)}{P(B)} = \sum_{i=1}^\infty P(A_i|B).$$ This follows because the $B \cap A_i$ sets are all also pairwise mutually exclusive. 
+
+We have some theorems that help us work with calculations involving conditional probabilities.
+
+**Th**:*(Generalized Multiplication Rule)* Suppose that $A_1$, $A_2$, ..., $A_n$ are events with the property that $P(\cap_{i=1}^{n-1} A_i) > 0$. Then $$P(\cap_{i=1}^{n} A_i) = P(A_1)P(A_2|A_1)P(A_3|A_1 \cap A_2) \times ... \times P(A_n|\cap_{i=1}^{n-1} A_i).$$
+
+Proof is left as an exercise
+
+
+**Th**: *(Law of Total Probability)* Let $A_1$, $A_2$, ..., $A_n$ partition $S$. That is, $\cup_{i=1}^n A_i = S$ and $A_i \cap A_j = \emptyset$ if $i \neq j$. Let $B \subset S$. Then $$P(B) = \sum_{i=1}^{n} P(B|A_i)P(A_i).$$ 
+
+Proof is left as an exercise.
+
+We can also "turn around" coditional probabilities: $$P(A|B) = P(B|A) \frac{P(A)}{P(B)}.$$ This follows from the multiplication rule. The generalization of this is known as *Bayes' Rule* or *Bayes' Theorem*.
+
+**Th**: Let $A_1$, $A_2$, ... $A_n$ partition $S$, and let $B \subset S$. For each $i = 1, 2, ..., n$, $$P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum_{i=1}^{n}P(B|A_j)P(A_j)}.$$
+
+Proof is left as an exercise.
+
+
+**Ex**: A rare disease affects 1 out of every 10,000 people. There is a medical test for the disease which is correct 99% of the time. That is, if you have the disease and you are tested then 99% of the time the test will be positive, and if you do not have the disease and you are tested then 99% of the time the test will be negative. Suppose a patient showing symptoms is tested and the result is positive. What is the probability that the patient actually has the disease?
+
+Let $A$ represent the event in which the patient has the disease, and let $B$ represent the event in which they test positive. $A^c$ and $B^c$ then are the events in which the patient does not have the disease and the even in which they test negative, respectively. We want $P(A|B)$. By the Law of Total Probability, $$P(B) = P(B|A)P(A) + P(B|A^c)P(A^c) = (0.99)(1/10000) + (0.01)(9999/10000) = 0.000099 + 0.00999 = 0.010098.$$ By Bayes' Rule, $$P(A|B) = \frac{P(A)P(B|A)}{P(B)} = \frac{0.000099}{0.010098} \approx 0.01.$$
+

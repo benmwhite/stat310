@@ -1,0 +1,64 @@
+---
+title: "Homework 8"
+author: "Due April 3"
+date: "3/27/18"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by April 3 in class. This assignment covers material from chapter 4 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (1 point) Let $X_1,...,X_n$ be an i.i.d. random sample from a population with the pdf 
+$$
+f(x) = \begin{cases}
+e^{-(x - \theta)} &\mbox{ if } x \geq \theta \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+With unknown parameter $\theta$ ($-\infty < \theta < \infty$). Find a moment estimator of $\theta$. Is this estimator unbiased and/or consistent? Justify your answer.
+    
+
+
+1. The following application of the binomial distribution has been used to estimate crime rates for crimes that are known to go underreported. Let $X_1,...,X_n$ be an iid random sample from a Binomial($k,p$) population, with both $k$ and $p$ unknown. Population pmf: $$f(x) = P(X_i = x) = {k \choose x}p^x(1-p)^{k-x}$$ if $x = 0,1,...,k,$ $k = 1,2,...,$ $0 \leq p \leq 1$ and zero otherwise. Here $k$ represents the total number of crimes committed and $p$ represents the probability that a given occurrence is reported.
+
+    a. (1 point) Find the moment estimators of $k$ and $p$.
+
+    
+    b. (1 point) Suppose a city police department has looked at their records and found that a certain crime was reported 25, 23, 31, 26, and 20 times in each of the last five months respectively. Using the moment estimators from part(a), what is your estimate for the number of unreported crimes that will occur in a given month? You may round to the nearest integer value.
+    
+    
+1. Suppose we have a single coin, which we know is not biased towards "heads" and is most likely biased towards "tails". We will flip the coin $n$ times, and try to estimate the true probability of heads, which we will call $\theta$. We can use the following model: let $X_1, ..., X_n$ be an i.i.d. random sample from a population with probability mass function 
+$$f(x) = \begin{cases}
+\theta^x(1 - \theta)^{1-x} &\mbox{ if } x=0\text{ or }1 \text{ and } 0 \leq \theta \leq  1/2 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+
+    a. (1 point) Find the moment estimator of $\theta$, call it $\hat{\theta}_1$.
+    
+    b. (1 point) Find the maximum likelihood estimator of $\theta$, call it $\hat{\theta}_2$. Briefly compare and contrast $\hat{\theta_1}$ and $\hat{\theta_2}$. *Tip: be careful with the parameter space. What happens to the likelihood function if $\bar{x}>1/2?$*
+    
+
+    
+1. Let $X_1,...,X_n$ be an iid random sample from a population with the cumulative distribution function 
+$$
+F(x) = P(X_i \leq x) = \begin{cases}
+0 &\mbox{ if } x < 0 \\
+(x/\beta)^\alpha &\mbox{ if } 0 \leq x \leq \beta \\
+1 &\mbox{ if } x > \beta
+\end{cases}
+$$ where $\alpha$ and $\beta$ are unknown positive parameters. 
+
+    a. (2 points) Find the maximum likelihood estimators for $\alpha$ and $\beta$. *Tip: when finding the MLE of $\beta$ be sure to check the parameter space and the behavior of the likelihood function.*
+    
+    b. (1 point) Suppose we wish to use this distribution to model the sizes (in millimeters) of eggs laid by a certain bird species. We take a sample of 14 eggs in the field and measure their lengths (**eggs.txt** available on the course Canvas page). What are our estimates of $\alpha$ and $\beta$?
+    
+1. Let $X_1,...,X_n$ be an i.i.d. random sample from a population with unknown parameter $\theta$. If $\theta=1$, then the population pdf is $$f(x) = 1$$ for $0 < x < 1$ and zero otherwise. If $\theta = 0$, then the population pdf is $$f(x) = 1/(2\sqrt{x})$$ for $0 < x < 1$ and zero otherwise.
+
+    a. (1 point) Find the likelihood function $L(\theta|x_1,...,x_n)$. Note that this defined for $\theta = 0$ and $\theta =1$, and is zero for any other possible value of $\theta$.
+    
+    b. (1 point) What is the maximum likelihood estimator of $\theta$? *Tip: the estimate will be either 0 or 1. Finding the MLE requires determining whether $L(1)$ or $L(0)$ has the larger value for your observed sample.*
+    

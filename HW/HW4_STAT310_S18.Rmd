@@ -1,0 +1,37 @@
+---
+title: "Homework 4"
+author: "Due February 20"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by February 20 in class. This assignment covers material from chapter 3 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (1 point) Let $X$ be a continuous random variable with monotone (strictly increasing) cdf $F_X(x)$, and let $Y = F_X(X)$. That is, we get $Y$ by evaluating the cdf of $X$ at the observed value of $X$. Show that $Y \sim \text{Uniform}(0, 1)$.
+
+1. For the following, $f_X(x)$ denotes the pdf of a random variable $X$. In each case, find the pdf of $Y$ and verify that it integrates to 1.
+    
+    a. (1 point) $f_X(x) = 1$ if $0 < x < 1$ and 0 otherwise. $Y = -\ln X$. 
+    
+    b. (1 point) $f_X(x) = 42x^5(1-x)$ if $0 < x < 1$ and 0 otherwise. $Y = X^3$.
+    
+1. (1 point) Let $X\sim\text{binom}(n, p)$, with pmf $$f_X(x) = P(X = x) = {n \choose x}p^x(1-p)^{n-x}$$ for $x=0,1,...,n$. We have seen that $X$ can represent the total number of "successes" out of $n$ independent Bernoulli trials each with success probability $p$. Let $Y = n - X$. That is, $Y$ represents the total number of failures out of the $n$ Bernoulli trials. Find the pmf of $Y$. What is this distribution?
+
+1. Let $X$ be a random variable with pdf $$f_X(x) = \frac{1}{2}(1 + x)$$ for $-1 < x < 1$ and zero otherwise. Let $Y = X^2$. 
+    a. (1 point) Find the pdf of $Y$.
+    
+    b. (1 point) Find $E[Y]$.
+    
+    c. (1 point) Find $\text{Var}(Y)$.
+    
+1. Let $X \sim N(0,1)$ with pdf $$f_X(x) = \frac{1}{\sqrt{2\pi}}e^{-x^2/2}$$ for $-\infty < x < \infty$. Let $Y = |X|$. 
+
+    a. (1 point) Find the pdf of $Y$.
+    
+    b. (1 point) Find $E[Y]$.
+    
+    c. (1 point) Find $\text{Var}(Y)$.
+

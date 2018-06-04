@@ -1,0 +1,78 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "4/11/2018"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+#### P-values
+
+Def: Corresponding to an observed value of a test statistic, the *p-value* is the lowest level of significance at which the null hypothesis would have been rejected.
+
+
+Alternatively you can think of this as the exact risk of type I error if we decide to reject the null hypothesis based on the observed test statistic.
+
+Steps:
+
+1. Let $T$ represent the test statistic, with known distribution under the null hypothesis.
+
+2. Compute the value of $T$ based on the ovbserved sample. call this value $t$.
+
+3. The p-value is given by $$P(T < t|H_0),\quad \text{if lower tailed test}$$ $$P(T > t|H_0),\quad \text{if upper tailed test}$$ $$P(|T| > |t||H_0),\quad \text{if two-tailed test}.$$ Note that these probababilities are computed using the sampling distribution of $T$ assuming that the null hypothesis is true.
+
+The p-value can be thought as a measure of support for the null hypothesis. The lower it is, the lower the risk of type I error if we reject the null hypothesis. If the p-value is lower then our maximum tolerated value of $\alpha$ then we can reject the null hypothesis at that significance level, otherwise we fail to reject the null hypothesis for that significance level.
+
+Steps for computing p-values:
+1. Let $T$ represent the test statistic, with known distribution under the null hypothesis.
+
+2. Compute the value of $T$ based on the ovbserved sample. call this value $t$.
+
+3. The p-value is given by $$P(T < t|H_0),\quad \text{if lower tailed test}$$ $$P(T > t|H_0),\quad \text{if upper tailed test}$$ $$P(|T| > |t||H_0),\quad \text{if two-tailed test}.$$ Note that these probababilities are computed using the sampling distribution of $T$ assuming that the null hypothesis is true.
+
+
+Ex: Suppose we have a normal population with known variance, and we wish to test the hypothesis $$H_0: \mu = 0$$ versus $$H_a: \mu \neq 0.$$ Note that this is a two tailed test. We will use $Z = \frac{\bar{X}}{\sigma/\sqrt{n}}$ as our test statistic. Under the null hypothesis this should have a $N(0,1)$ distribution. Suppose we take the observed samples and compute $Z = 1.58$. The p-value is $$P(|Z| > 1.58) = P(Z < -1.58) + P(Z > 1.58) = 2(0.0571) = 0.1142.$$ This is our probability of type I error if we reject the null hypothesis for this observed value of the test statistic or any value more extreme.
+
+Ex: Suppose we have a coin which we believe to be biased towards "heads", but we wish to verify this using a statistical hypothesis test. If we flip it 5 times we can use the following model: let $X_1,...,X_5$ be a random sample of size 5 from a Bernoulli$(p)$ population. Here flipping "heads" corresponds to 1 and flipping "tails" corresponds to zero. Competing hypotheses: $$H_0: p = 0.5$$ versus $$H_a: p > 0.5.$$ We will be using $K = \sum{i=1}^5 X_i$ as our test statistic. Suppose we flip the coin 5 times and get 4 "heads" (i.e. our test statistic $K = 4$. What is the p-value associated with this observation? If the null hypothesis is true, then $K \sim \text{binom}(n=5, p=0.5)$, so $$P(K \geq 4|H_0) = P(K = 4|H_0) + P(K = 5|H_0) = 0.1875$$ Whether we reject the null hypothesis or not will depend on what our desired level of significance $\alpha$ is.
+
+#### Hypothesis tests for population means
+
+$$H_0: \mu = \mu_0$$ versus $$H_a: \mu < \mu_0, \quad \text{lower (or left) tailed alternative}$$  $$H_a: \mu > \mu_0, \quad \text{upper (or right) tailed alternative}$$ $$H_a: \mu \neq \mu_0, \quad \text{two-tailed alternative}.$$
+
+Large samples (rule of thumb: $n>30$): Assuming that $H_0$ is true, we know that we use the $N(0,1)$ can approximate the sampling distribution of $$Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}}.$$ If $\sigma$ is unknown we can approximate it using the sample standard deviation $S$ since $S$ converges to the true population standard deviation $\sigma$ in probability (i.e. gets closer to $\sigma$ the larger our sample is). If the observed value of this test statistic is far into one of the tails of the standard normal distribution, then this allows us to safely reject the null hypothesis. The cutoffs are determined by the desired level of significance $\alpha$. 
+
+Rejection regions ($z$ represents the observed value of the test statistic $Z$): $$z > z_\alpha, \quad \text{upper tail test}$$ $$z < -z_\alpha, \quad \text{lower tail test}$$ $$|z| > z_{\alpha/2},\quad \text{two tail test}.$$ If the observed test statistic falls into the rejection region then we can reject the null hypothesis at the $\alpha$ significance level, otherwise we fail to reject the null hypothesis.
+
+When we have a sample size smaller than 30, but we assume that the population is normally distributed we can use Student's $t$ distribution instead of the standard normal. We know that if we assme the null hypothesis is true then  $$T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}} \sim t_{n-1}.$$ This gives us the following rejection regions ($t$ represents the observed value of the test statistic $T$: $$t > t_{\alpha,n-1}, \quad \text{upper tail test}$$ $$t < -t_{\alpha,n-1}, \quad \text{lower tail test}$$ $$|t| > t_{\alpha/2,n-1},\quad \text{two tail test}$$ If the observed test statistic falls into the rejection region then we can reject the null hypothesis at the $\alpha$ significance level, otherwise we fail to reject the null hypothesis.
+
+Suppose we now have two samples from two independent normal populations, call them $X_1,...,X_n$ and $Y_1,...,Y_m$. and we wish to test the hypothesis $$H_0: \mu_X = \mu_Y$$ versus one of the usual alternatives (one-sided and two-sided). The case where the variances are known is left as an exercise, but you can derive the appropriate $Z$ statistic using properties of normal distributions. The case where the sample sizes are too small to use the large sample approximations is slightly more tricky, but with some extra assumptions we can construct an appropriate test statistic. Since $\bar{X}$ and $\bar{Y}$ will both be normally distributed (normal population mean), the quantity $\bar{X}-\bar{Y}$ will also be normally distributed with mean $\mu_X - \mu_Y$ and variance $\sigma^2_X/n + \sigma^2_Y/m$. If the variances are unknown but assumed to be equal, then this reduces to $sigma^2/(n+m)$. We will need to construct a $t$ statistic, but what should we use to estimate the standard deviation of the population? If the variances are assumed to be equal we can create a "pooled" variance estimate $$S_p^2 = \frac{\sum_{i=1}^n (X_i - \bar{X})^2 + \sum_{i=1}^m (Y_i - \bar{Y})^2}{n + m - 2} = \frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}.$$ When the two samples are independent and the null hypothesis is assumed to be true (equal means), then the statistic $$T = \frac{\bar{X} - \bar{Y}}{\sqrt{S_p^2(\frac{1}{n} + \frac{1}{m}})}$$ should have a $t$ distribution with $n+m-2$ degrees of freedom.
+
+Summary: for large samples we can use standard normal distribution, for small samples with normal population assumption we can use the $t$ distribution. See textbook for examples.
+
+#### Hypothesis tests for population variances
+
+Assuming that our random sample of size $n$ comes from a normal population with mean $\mu$ and variance $\sigma^2$, suppose we are interested in testing hypotheses about the variance:
+
+$$H_0: \sigma^2 = \sigma^2_0$$ versus $$H_a: \sigma^2 < \sigma^2_0, \quad \text{lower (or left) tailed alternative}$$  $$H_a: \sigma^2 > \sigma^2_0, \quad \text{upper (or right) tailed alternative}$$ $$H_a: \sigma^2 \neq \sigma^2_0, \quad \text{two-tailed alternative}.$$
+Since we are assuming a normal population, we can use the chi square distribution to come up with an appropriate test statistic. We know that if the null hypothesis is true, then the following statistic (which we will denote as $\chi^2$) should have a chi square distribution with $n-1$ degrees of freedom: $$\chi^2 = \frac{(n-1)S^2}{\sigma^2_0} \sim \chi^2_{n-1}.$$ So if we wish to perform one of the tests above at a level of significance $\alpha$, then we will have the following rejection regions: $$\chi^2 > \chi^2_{\alpha,n-1}, \quad \text{upper tail test}$$ $$\chi^2 < \chi^2_{1-\alpha,n-1}, \quad \text{lower tail test}$$ $$\chi^2 > \chi^2_{\alpha/2,n-1}\text{ or } \chi^2 < \chi^2_{1-\alpha/2,n-1},\quad \text{two tail test}.$$ Note that since the chi square distribution is not symmetric we must be a little more careful finding the appropriate quantiles. If the observed test statistic $\chi^2$ falls into the rejection region for the test we're performing, then we reject $H_0$, otherwise we fail to reject $H_0$. See the textbook for examples.
+
+Now suppose we have two samples: $X_1,...,X_n$ and $Y_1,...,Y_m$ from two independent normal populations with variances $\sigma^2_X$ and $\sigma^2_Y$ and we wish to test the hypothesis $$H_0: \sigma^2_X = \sigma^2_Y$$ versus one of the alternatives $$H_a: \sigma^2_X < \sigma^2_Y, \quad \text{lower (or left) tailed alternative}$$  $$H_a: \sigma^2_X > \sigma^2_Y, \quad \text{upper (or right) tailed alternative}$$ $$H_a: \sigma^2_X \neq \sigma^2_Y, \quad \text{two-tailed alternative}.$$ If we assume the null hypothesis is true, then the variances are equal and thus the statistic $$F = \frac{S^2_X}{S^2_Y}$$ will have an $F$ distribution with n-1 and m-1 degrees of freedom. You can use this distribution to find the appropriate rejection regions and compute p-values.
+
+See the textbook for more examples of commonly used hypothesis tests.
+
+  
+
+
+
+
+    
+
+
+
+
+
+ 
+
+

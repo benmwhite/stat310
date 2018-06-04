@@ -1,0 +1,67 @@
+---
+title: "Solution 1"
+author: "Ben White"
+date: "Jan 23"
+output: pdf_document
+---
+
+1. 
+
+a. (1 point)
+
+```{r}
+radon <- read.csv("radon.csv")
+AZ <- subset(radon, state == "AZ")
+IN <- subset(radon, state == "IN")
+MA <- subset(radon, state == "MA")
+hist(AZ$activity, xlab = "Activity", main = "Radon levels in AZ")
+hist(IN$activity, xlab = "Activity", main = "Radon levels in IN")
+hist(MA$activity, xlab = "Activity", main = "Radon levels in MA")
+hist(radon$activity,  xlab = "Activity", main = "Radon levels (all three states)")
+```
+
+Note the large-valued outliers present in all three sets of data (for each state)
+
+b. (1 point)
+
+```{R}
+fivenum(AZ$activity)
+fivenum(IN$activity)
+fivenum(MA$activity)
+fivenum(radon$activity)
+```
+Indiana has the highest median reading, Arizona has the lowest.
+
+```{R}
+az_log <- log1p(AZ$activity)
+in_log <- log1p(IN$activity)
+ma_log <- log1p(MA$activity)
+all_log <- log1p(radon$activity)
+hist(az_log)
+hist(in_log)
+hist(ma_log)
+hist(all_log)
+```
+
+2. For all of these proofs it helps to draw a Venn diagram to get a better sense of what the intersections and unions of the events can look like. For all these proofs the idea is to split the event of interest into a union of mutually exclusive subsets, then evaluate the individual probabilities.
+
+a. (1 point) The union of $A$ and $A^c \cap B$ is the event $B$, and those two events are mutually exclusive (since $A$ and $A^c$ are mutually exclusive). So $P(B) = P(A \cup (A^c \cap B) = P(A) + P(A^c \cap B))$ and we can rearrange the terms to get $P(A) = P(B) - P(A^c \cap B)$. Since $P(A^c \cap B) \geq 0$ by the probability axioms, This means that $P(A) \leq P(B)$. 
+
+
+b. (1 point) We can split the union of $A$ and $B$ into a partition with the following mutually exclusive subsets: $A \cap B^c$, $A \cap B$, and $A^c \cap B$. This means that $$P(A \cup B) = P(A \cap B^c) + P(A \cap B) + P(A^c \cap B).$$ However, note that $A = (A \cap B) \cup (A \cap B^c)$ and $B = (A \cap B) \cup (A^c \cap B)$. Since we already know that the sets in those two unions are mutually exclusive that gives us $$P(A) = P(A \cap B) + P(A \cap B^c)$$ $$P(B) = P(A \cap B) \cup P(A^c \cap B).$$ Adding the two together: $$P(A) + P(B) = P(A \cap B^c) + 2P(A \cap B) + P(A^c \cap B).$$ Combining this with the first expression for $P(A \cup B)$ gives us the result.
+
+c. (1 point) Note that $$P(A \cup B \cup C) = P((A \cup B) \cup C) = P(A \cup B) + P(C) - P((A \cup B) \cap (C)).$$ Here we applied the result from 2b to the sets $A \cup B$ and $C$. The last term on the rightmost expression of the equation is $$P((A \cup B) \cap C) = P((A \cap C) \cup (B \cap C))$$ $$=P(A \cap C) + P(B \cap C) - P((A \cap C) \cap (B \cap C)).$$ The set in the last term, $(A \cap C) \cap (B \cap C)$, is equivalent to $A \cap B \cap C$, so putting everything together and applying the 2b result again where necessary we get: $$P(A \cup B \cup C) = P(A \cup B) + P(C) - P((A \cup B) \cap (C))$$ $$= [P(A) + P(B) - P(A \cap B)] + P(C) - [P(A \cap C) + P(B \cap C) - P(A \cap B \cap C)]$$ $$= P(A) + P(B) + P(C) - P(A \cap B) - P(B \cap C) - P(A \cap C) + P(A \cap B \cap C).$$ Alternatively we can prove the result using a process similar to the proof for 2b, partitioning $A \cup B \cup C$ into the following mutually exclusive subsets: $$D_1 = A \cap B \cap C$$ $$D_2 = A \cap B \cap C^c$$ $$D_3 = A \cap B^c \cap C$$ $$D_4 = A \cap B^c \cap C^c$$ $$D_5 = A^c \cap B \cap C$$ $$D_6 = A^c \cap B \cap C^c$$ $$D_7 = A^c \cap B^c \cap C.$$ Since $D_1,...D_7$ are all pairwise mutually exclusive and $\cup_{i=1}^7 D_i = A \cup B \cup C,$ we have $$P(A \cup B \cup C) = \sum_{i=1}^7 P(D_i).$$ We can use these sets to partition $A$, $B$, and $C$ and get expressions for their probabilities as well: $$P(A) = P(D_1) + P(D_2) + P(D_3) + P(D_4)$$ $$P(B) = P(D_1) + P(D_2) + P(D_5) + P(D_6)$$ $$P(C) = P(D_1) + P(D_3) + P(D_5) + P(D_7).$$ Next each of the pairs of intersections: $$P(A \cap B) = P(D_1) + P(D_2)$$ $$P(A \cap C) = P(D_1) + P(D_3)$$ $$P(B \cap C) = P(D_1) + P(D_5).$$ Combining these expressions: $$P(A) + P(B) + P(C) = 3P(D_1) + 2P(D_2) + 2P(D_3) + P(D_4) + 2P(D_5) + P(D_6) + P(D_7)$$ $$= P(A \cup B \cup C) + 2P(D_1) + P(D_2) + P(D_3) + P(D_5)$$ $$= P(A \cup B \cup C) + P(A \cap B) + P(A \cap C) + P(B \cap C) - P(A \cap B \cap C),$$ which leads to the desired result after rearranging the equation. Note that the work is much quicker with the first proof that used the result from 2b rather than only the original probability axioms.
+
+
+3. (1 point) Since the two events are mutually exclusive, if $B$ occurs then we know $A$ cannot occur. That is, if an outcome is in $B$ then it implies that it must also be in $A^c$, so $B \subset A^c$. This means that $(B \cup B^c) \subset (A^c \cup B^c)$ as well. However we already know that $B \cup B^c = S$, so $A^c \cup B^c$ must also be equivalent to the entire sample space. In other words, regardless of the outcome, either $A$ does not occur, $B$ does not occur, or neither occurs. Since the event of interest contains every possible outcome in the sample space, its probability must be 1 regardless of what the initial probabilities of $A$ and $B$ are. $$ $$ We can also use the probability calculation theorems combined with DeMorgan's Laws if we wisth to calculate this directly. Using the result from problem 2b we can express the probability as $P(A^c \cup B^c) = P(A^c) + P(B^c) - P(A^c \cap B^c)$. We know $$P(A^c) = 1 - P(A) = 1 - 0.32 = 0.68$$ $$P(B^c) = 1 - P(B) = 1 - 0.45 = 0.55.$$ So now we just need $P(A^c \cap B^c)$. By DeMorgan's Laws we know that $A^c \cap B^c = (A \cup B)^c,$ giving us $$P(A^c \cap B^c) = P((A \cup B)^c)$$ $$= 1 - P(A \cup B)$$ $$ = 1 - (P(A) + P(B))$$ $$= 1 - (0.45 + 0.32) = 0.23.$$ He we used the fact that $A$ and $B$ are mutually exclusive to get from the second line to the third line. This means that $$P(A^c \cup B^c) = P(A^c) + P(B^c) - P(A^c \cap B^c) = 0.68 + 0.55 - 0.23 = 1.$$
+
+
+4. 
+    a. (1 point) This an unordered sample without replacement, so there are ${6 \choose 2} = 6!/2!4! = 15$ different possible ways for this event to occur.
+    
+5. (1 point) There are $365^{5}$ total possible outcomes, which we will assume are all equally likely. Let $A$ denote the event in which at least two people share a birthday. $A^c$ is the event in which there are no shared birthdays among the 5 people. To count the number of outcomes in $A^c$, note that we have 365 options for the first person, 364 options for the second person, etc. with 361 options for the fifth person. Thus there are $365\times364\times...\times361$ possible outcomes that satisfy the condition of no shared birthdays. This means that $$P(A) = 1 - P(A^c)$$ $$=1 - \frac{365\times364\times...\times361}{365^{5}}$$ $$= 1-0.973$$ $$= 0.027.$$ So there's about a 3 percent chance that any given group of 5 people will have a pair with the same birthday. To generalize this to $n$ people, use the following formula: $$P(A) = 1 - \frac{365 \times 364 \times ... \times (365 - n + 1)}{365^n}$$
+
+
+
+6. The sample space of this experiment consists of all the different possible sets of apples that can be selected. The number of unordered subsets of size 4 that can be selected from the 15 apples is ${15 \choose 4} = (15!)/(4!11!) = 1365$. This means that if we assume each subset is equally likely to be chosen then every individual outcome has probability $1/1365$ of occurring. Thus to find the probability of an event in this sample space we need to count the number of individual outcomes (sets of apples) that are part of that event, then divide that number by 1365. The complement of the event in which at least one apple is defective is the event in which no apple is defective. Since there are 13 non-defective apples there are ${13 \choose 4} = (13!)(4!9!) = 715$ possible ways to select a set of 4 non-defective ones. So $P(\text{no defective apples}) = 715/1365 \approx 0.524$. This means that $P(\text{at least one defective apple}) = 1 - P(\text{no defective apples}) = 650/1365 = 10/21 = \approx 0.476$.
+

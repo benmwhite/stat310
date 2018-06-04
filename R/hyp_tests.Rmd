@@ -1,0 +1,128 @@
+---
+title: "Hypothesis Tests in R"
+output:
+  html_document:
+    df_print: paged
+---
+
+R has many built-in functions for performing some of the most commonly used hypothesis tests, especially for two-sample comparisons.
+
+Generating example data from a normal distribution.
+
+```{r, echo = TRUE}
+X <- rnorm(10, mean = 4, sd = 1) #10 observations
+Y <- rnorm(9, mean = 2, sd = 1) #9 observations
+```
+
+Plots of our samples:
+
+```{r, echo = TRUE}
+hist(X)
+```
+```{r, echo = TRUE}
+hist(Y)
+```
+
+
+The true mean from one sample is 4, and the true mean from the other sample is 2. They both come from distributions with variance equal to 1. 
+
+First, we will demonstrate both one and two sample t-tests using both manual calculations and the t.test() function. This works for both one and two sample tests, depending on what inputs you provide.
+
+Testing $$H_0: \mu_X = 5$$ versus $$H_a: \mu_X < 5$$.
+
+Here we need to use the test statistic $T = (\bar{X} - 5)/(S_X/\sqrt{n})$. Under the null hypothesis this statistic should have a $t_{9}$ distribution. 
+
+Observed value of the test statistic:
+```{r}
+t <- (mean(X) - 5) / (sd(X)/sqrt(10))
+t
+```
+
+Computing the p-value $P(T < t)$ assuming the null hypothesis is true:
+
+```{r}
+pt(t, df = 9, lower.tail = TRUE)
+```
+This value is very close to zero, and we can safely reject the null hypothesis at any level of significance above it.
+
+Using the t.test() function:
+```{r}
+t.test(X, mu = 5, alternative = "less")
+```
+This does not show the rejection region or ask for a level of significance, but you can use the reported p-value to determine the outcome of the test. If the p-value is less than your chosen $\alpha$, then we know that the test statistic falls into the chosen rejection region.  
+
+Suppose we decide to test the same null hypothesis against the two-sided alternative $$H_a: \mu_X \neq 5$$ instead. The test statistic should remain the same, but what will happen to the p-value?
+
+```{r}
+t.test(X, mu = 5, alternative = "two.sided")
+```
+
+Note that this function also provides an interval estimate of the true mean using the sample.
+
+Next we will be testing $$H_0: \mu_X = \mu_Y$$ versus $$H_a: \mu_X \neq \mu_Y$$ assuming that the population variances are equal. The test statistic here will be $$T = \frac{\bar{X} - \bar{Y}}{S_p\sqrt{\frac{1}{n} + \frac{1}{m}}}$$, where $S_p$ is the pooled estimator of the standard deviation. This statistic has a $t{n+m-2}$ distribution when the null hypothesis is true.
+
+```{r}
+S_p <- sqrt((9 * var(X) + 8 * var(Y))/ (10 + 9 - 2))
+t <- (mean(X) - mean(Y)) / (S_p * sqrt(1/10 + 1/9))
+t
+```
+
+Finding the p-value:
+
+```{r}
+pt(t, df = 17, lower.tail = FALSE) + 
+  pt(-t, df = 17, lower.tail = TRUE)
+```
+
+Now using the t.test() function:
+
+```{r}
+t.test(X, Y, alternative = "two.sided", var.equal = TRUE)
+```
+Would we reject the null hypothesis here if we were testing at the level of significance $\alpha = 0.05$?
+
+When we assume that the samples are from normal populations then we can use the Chi square distribution to test hypotheses about the population variance $\sigma^2$. Here we will demonstrate a test of $$H_0: \sigma^2_Y = 3$$ versus $$H_a: \sigma^2_Y < 3$$. For our test statistic we will use the quantity $$K = \frac{(n-1)S_Y^2}{3}.$$ When the null hypothesis is true this will have a chi quare distribution with $n-1 = 8$ degrees of freedom. There is no built-in R function for this particular test, but we can compute the test statistic and find the p-value manually.
+
+```{r}
+K <- 8 * var(Y) / 3
+K
+```
+
+Finding p-value:
+
+```{r}
+pchisq(K, df = 8, lower.tail = TRUE)
+```
+Would we end up deciding to reject the null hypothesis if we were testing at the level of significance $\alpha = 0.05$.
+
+Recall that when we assume the samples are from normal populations we can use the $F$ distribution to test whether the population variances are equal or not. Here we will be testing $$H_0: \sigma^2_X = \sigma^2_Y$$ versus the alternative hypothesis $$H_a: \sigma^2_X < \sigma^2_Y.$$ When the null hypothesis is true the statistic $F = S^2_X/S^2_Y$ should have an $F_{n-1, m-1}$ distribution.
+
+First computing the statistic and p-value manually:
+
+```{r}
+f <- var(X) / var(Y)
+f
+```
+
+```{r}
+pf(f, df1 = 9, df2 = 8)
+```
+
+Using the function var.test():
+
+```{r, echo = TRUE}
+var.test(X, Y, alternative = "less")
+```
+
+Would the test statistic fall into the rejection region if we were testing at the $\alpha = 0.1$ level of significance?
+
+There are other tests listed in the textbook, including those for large samples which use test statistics which have a standard normal distribution when the null hypothesis is true. For those, you can use the pnorm() function to find the p-value of your observed test statistic. By default the pnorm() function returns tail probabilities for the standard normal distribution. For instance, suppose we are performing a two-tailed test of this type and get the observed test statistic $Z = -1.7$. What is the p-value in this case?
+
+```{r}
+z <- abs(-1.7) #absolute value
+2 * pnorm(z, lower.tail = FALSE)
+```
+
+
+
+

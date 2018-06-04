@@ -1,0 +1,67 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "2/15/18"
+output: pdf_document
+---
+
+## Transformations of random variables
+
+If $X$ is a rv, then any transformation $Y = g(X)$ is also a rv (remember that rvs are just functions of the original sample space of an experiment). We've seen how to find the expectation of transformations ($E[Y] = E[g(X)]$) using the original distribution functions, but to fully characterize $Y$ and compute probabilities involving it we need the actual distribution functions of $Y$ itself. 
+
+In almost all cases this can be done by inspecting the transformation directly and relating it to the original distribution functions, looking at the mapping from values of $X$ to values of $Y$ and the inverse mapping from values of $Y$ to values of $X$.
+
+Discrete case: let $X$ be a discrete rv and let $Y = g(X)$ be a transformation of $X$. We can find the new pmf of $Y$ in terms of the pmf of $X$. For any $y$, we need to find the set of values of $x$ such that $g(x) = y$, then sum the pmf of $X$ over those values. Formally: $$f_Y(y) = P(Y = y)$$ $$=P(g(X) = y)$$ $$=P(X \in \{x:g(x) = y\})$$ $$= \sum_{\{x: g(x) = y\}} f_X(x)$$ The cdf of $Y$ can be found in a similar fashion: $$F_Y(y) = P(Y \leq y)$$ $$=P(g(X) \leq y)$$ $$=P(X \in \{x:g(x) \leq y\})$$ $$= \sum_{\{x: g(x) \leq y\}} f_X(x).$$
+
+**Ex:** In our experiment we roll a fair six-sided die. Let $X$ represent the number on the upward-facing side: $f_X(x) = 1/6$ if $x = 1,2,...,6$ and 0 otherwise. Suppose we define a transformation $g(x)$ to be 1 if $x$ is even and 0 if $x$ is odd. What is the new pmf of $Y = g(X)$? We can see that $\{x: g(x) = 1\} = \{2, 4, 6\}$ and $\{x: g(x) = 0 \} = \{1, 3, 5\}$. So $P(Y = 1) = P(X \in \{2,4,6\}) = 1/6+1/6+1/6 = 1/2$ and $P(Y = 0) = P(X \in \{1, 3, 5\}) = 1/6 + 1/6 + 1/6 = 1/2$. That is, $Y$ is a Bernoulli$(1/2)$ rv. 
+
+Continuous case: Let $X$ be a continuous rv and let $Y = g(X)$ be a transformation of $X$. In this case we want to find the cdf of $Y$ first, then we can take its derivative to get the pdf. Since $F_Y(y) = P(Y \leq y) = P(g(X) \leq y)$, this means for any $y$, we want to find the set of values $\{x:g(x) \leq y\}$ and integrate $f_X(x)$ over those values to get the probability. Formally: $$F_Y(y) = P(Y \leq y)$$ $$=P(g(X) \leq y)$$ $$=P(X \in \{x:g(x) \leq y\})$$ $$= \int_{\{x: g(x) \leq y\}} f_X(x) dx,$$ $$f_Y(y) = \frac{d}{dy}F_Y(y).$$
+
+**Ex:** Let $X \sim \text{Unif}(-1, 1)$, and let $Y = |X|$. Note that the pdf of $X$ is $f_X(x) = 1/[1 - (-1)] = 1/2$ for $-1 \leq x \leq 1$. For the cdf of $Y$ we can see that $P(Y \leq y) = 0$ for $y<0$ and $P(Y\leq y = 1$ for $y > 1$. For $0 \leq y \leq 1$: $$F_Y(y) = P(Y \leq y) = P(|X| \leq y) = P(-y \leq X \leq y)$$ $$= \int_{-y}^y \frac{1}{2} dx$$ $$= \frac{y}{2} - \frac{-y}{2}$$ $$=y.$$ Note that if we have the cdf of $X$, we can skip the integration step and get $P(-y \leq X \leq y) = F_X(y) - F_X(-y)$. To get the pdf we take the derivative with respect to $y$: $$f_Y(y) = \frac{d}{dy}F_Y(y) = \frac{d}{dy} y = 1.$$ Since the pdf is 1 over the support ($0 \leq y \leq 1$), $Y \sim \text{Unif}(0,1).$
+
+If we restrict ourselves to "well-behaved" continuous transformations then it's possible to figure out general formulas for getting the new pdf that allow us to skip multiple steps compared to the direct method. Here we will be assuming that the transformation $g(x)$ is differentiable and monotone (i.e. strictly increasing or strictly decreasing). 
+If $g(x)$ is strictly increasing, then this means that if $x_1 > x_2$ then $g(x_1) > g(x_2)$, and if $g(x)$ is strictly decreasing, then $x_1>x_2$ implies $g(x_1) < g(x_2)$. For all monotone functions the inverse function $g^{-1}(y)$ exists and is also differentiable (proof involves real analysis, so we will take this as a given) and monotone itself, in the same direction. 
+
+
+Ex: monotone transformations.
+
+1. Location transformations: $g(x) = x + a$. Strictly increasing for all values of $a$ with inverse mapping $g^{-1}(y) = y -a$
+
+1. Scale transformations: $g(x) = ax$ Strictly increasing if $a>0$, strictly decreasing if $a<0$. Inverse mapping: $g^{-1}(y) = y/a$.
+
+1. $g(x) = e^x$, $-\infty < x < \infty$. Differentiable and strictly increasing. Inverse mapping: $g^{-1}(y) = log(y)$, $y>0$
+
+1. $g(x) = x^2$, $-\infty < x < \infty$. Differentiable, but this function is decreasing for $x < 0$ and increasing for $x > 0$. Not monotone. 
+
+So how does this let us get an easier method for finding distributions of transformations?
+
+Th: Let $X$ be a continuous rv with pdf $f_X(x)$, with $Y = g(X)$ where $g$ is a differentiable and monotone transformation. Then the pdf of $Y$ is $$f_Y(y) = f_X(g^{-1}(y)) |\frac{d}{dy}g^{-1}(y)|.$$ 
+
+Pf: If $g$ is a strictly increasing function of $x$, we know that the inverse mapping $g^{-1}(y)$ must also be an increasing function of $y$. This means that $$F_Y(y) = P(Y \leq y)$$ $$= P(g(X) \leq y)$$ $$=P(g^{-1}(g(X)) \leq g^{-1}(y)) \quad \text{(the inequality holds since }g^{-1} \text{ is an increasing function of y)}$$ $$= P(X \leq g^{-1}(y))$$ $$= F_X(g^{-1}(y)).$$ By the chain rule, $f_Y(y) = f_X(g^{-1}(y)) \frac{d}{dy}g^{-1}(y)$. In this case since $g^{-1}(y)$ is strictly increasing we know that its derivative will be positive, so we can express this in the form given in the theorem statement
+
+The proof for strictly decreasing functions is left as an optional exercise. 
+
+
+Ex: Let $X \sim N(0,1)$, and let $Y = g(X) = e^X$. Since $g^{-1}(y) = \log x$, we have $\frac{d}{dy}g^{-1}(y) = 1/y$. By the previous theorem, $$f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)|$$ $$= \frac{1}{y\sqrt{2\pi}}e^{-[\log(y)^2]/2}$$ for $y > 0$ and 0 otherwise.  
+
+We can adapt the theorem above to transformations that aren't monotone over the whole real number line but may be monotone over certain intervals (such as $g(x) = |x|, g(x) = x^2$, $g(x) = \sin(x)$, etc.). We will go through an example then state the general theorem.
+
+Ex: Let $X \sim N(0,1)$, and let $Y = g(X) = X^2$. $$F_Y(y) = P(Y \leq y) = P(X^2 \leq y)$$ $$=P(-\sqrt{y} \leq X \leq \sqrt{y})$$ $$= P(X \leq \sqrt{y}) - P(X \leq -\sqrt{y})$$ $$=F_X(\sqrt{y}) - F_X({-\sqrt{y}}).$$ The cdf of the normal distribution does not have a closed form expression, but we can still use differentiation to get $f_Y(y)$: $$f_Y(y) = \frac{d}{dy}F_Y(y)$$ $$=\frac{d}{dy}[F_X(\sqrt{y}) - F_X({-\sqrt{y}})]$$ $$=\frac{1}{2\sqrt{y}}f_X(\sqrt{y}) + \frac{1}{2\sqrt{y}}f_X(-\sqrt{y}).$$ So the full pdf is $$f_Y(y) = \frac{1}{2\sqrt{y}}(f_X(\sqrt{y}) + f_X(-\sqrt{y})).$$ $$= \frac{2}{\sqrt{2\pi}} e^{-y/2} \frac{1}{2\sqrt{y}}$$ $$= \frac{1}{\sqrt{2\pi}} y^{-1/2} e^{-y/2}$$ for $y > 0$ and 0 otherwise. This distribution is known as the "Chi-square" distribution with 1 degree of freedom (the Chi square distribution will be covered in more detail later). Note that we've expresssed this as the sum of two "pieces", where each piece represents an interval where the transformation is monotone. 
+
+Th: General form of the example above. Let $X$ have pdf $f_X(x)$, and let $Y = g(X)$. Suppose there exists a partition of the sample space of $X$ (set of all possible values $X$ can take) $A_0, A_1, ..., A_k$ such that $P(X \in A_0) = 0$, and $f_X(x)$ is continous on each $A_i$. Further, suppose there exist functions $g_1(x), ..., g_k(x)$ defined on $A_1, ..., A_k$ respectively satisfying the following:
+
+1. $g(x) = g_i(x)$ for $x \in A_i$
+
+2. $g_i(x)$ is monotone on $A_i$
+
+3. The set $\{y: y = g_i(x) \text{ for some } x \in A_i \}$ is the same for each $i=1,...,k$ (i.e. all the functions have the same range)
+
+4. $g_i^{-1}(y)$ has a continuous derivative on the range of $g_i(x)$ for each $i=1,...,k$.
+
+Then $$f_Y(y) = \sum_{i=1}^k f_X(g_i^{-1}(y)) |\frac{d}{dy}g_i^{-1}(y)|$$ for values of $y$ in the ranges of $g_i$ and 0 otherwise.
+
+In the example above, we had $A_0 = \{0\}$, $A_1 = (\infty,0)$, $A_2 = (0, \infty)$, $g_1^{-1}(y) = -\sqrt{y}$, and $g_2^{-1}(y) = \sqrt(y)$. In the uniform/absolute value transformation example earlier in the lecture we can go directly to the pdf using $A_0=\{0\}$, $A_1 = (\infty,0)$, $A_2 = (0, \infty)$, $g_1(x) = -x$, $g_1^{-1}(y) = -y$, $g_2(x) = x$, $g_2^{-1}(y) = y$.  
+
+
+
+

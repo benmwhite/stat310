@@ -1,0 +1,175 @@
+---
+title: "Basic Data Visualization and Descriptive Statistics with R"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+R can be used as a calculator
+```{r}
+1+1
+```
+```{r}
+4*3
+```
+```{r}
+15/5
+```
+```{r}
+4+2*3-5
+```
+```{r}
+(4+2)*(3-5)
+```
+```{r}
+log(4)
+```
+```{r}
+exp(log(4))
+
+```
+```{r}
+log1p(0) #log plus one transformation
+```
+To look at manual pages, use ? or help():
+```{r}
+help(log)
+?log
+```
+
+To create vectors of numbers or characters, use the "concatenate" function:
+```{r}
+c(1, 2, 3, 4)
+```
+
+You can name objects for easier reference using "=" or "<-":
+```{r}
+a <- c(1, 2, 3, 4)
+a
+```
+
+R performs operations element-wise. We can test this using our named object that we saved earlier.
+```{r}
+4*a
+```
+
+```{r}
+a*c(2, 2, 3, 3)
+```
+
+###Working with data###
+
+Use the drop-down menu in the upper right window of the RStudio to import data sets. Alternatively you can import manually:
+
+```{r}
+cars <- read.csv("cars.csv")
+cars
+```
+
+This type of object is called a "data frame" in R.
+For larger data frames it's often easier to look at the first couple rows instead of the whole thing all at once:
+
+```{r}
+head(cars)
+```
+
+
+We can select individual columns of data frames and save them under new names:
+
+```{r}
+x <- cars$speed
+x
+```
+```{r}
+y <- cars$dist
+y
+```
+
+Some commonly used numerical summaries:
+
+```{r}
+mean(x)
+```
+```{r}
+median(y)
+```
+```{r}
+range(x)
+```
+```{r}
+fivenum(x)
+```
+
+###Data Visualization###
+
+We can make histograms using the "hist()" function.
+```{r}
+hist(x)
+```
+
+The histogram function has some options depending on how whether we want to represent the heights as frequencies (counts) or densities (counts divided by total number of elements in the vector)
+
+```{r}
+hist(x, freq = TRUE)
+```
+```{r}
+hist(x, freq = FALSE)
+```
+
+We can also adjust the histogram bins using "breaks" argument. 
+
+```{r}
+hist(x, breaks = 10)
+```
+```{r}
+hist(x, breaks = 20)
+```
+
+We can also add titles to the plots.
+
+```{r}
+hist(x, main = "Distribution of car speeds")
+```
+
+Boxplots:
+```{r}
+boxplot(x, ylab = "Speed", main = "Distribution of car speeds")
+```
+The middle line represents the median, the box edges represent the interquartile range, and the "whiskers" extend to the most extreme data point which is no more than 1.5 times the length of the box away from the box (this can be adjusted, see the manual page for details). 
+
+Scatter plots:
+```{r}
+plot(x,y)
+```
+
+Adding labels and titles:
+```{r}
+plot(x, y, main = "Car Speed versus Braking Distance",
+     xlab = "Speed", ylab = "Distance")
+```
+
+Examples with the "iris" data set
+```{r}
+iris <- read.csv("iris.csv")
+head(iris)
+```
+
+The "Species" column is categorical, not numeric. How does the plot() function handle these?
+
+```{r}
+plot(iris$Species, iris$Sepal.Length)
+```
+
+Using color to represent categories:
+```{r}
+plot(iris$Sepal.Width, iris$Petal.Width, col = iris$Species)
+```
+
+We can also extract subsets of our data based on categories. Suppose we wish to examine the petal lengths of the setosa species only:
+
+```{r}
+setosa <- subset(iris, Species == "setosa")
+head(setosa)
+hist(setosa$Petal.Length)
+fivenum(setosa$Petal.Length)
+```

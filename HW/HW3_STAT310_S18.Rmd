@@ -1,0 +1,55 @@
+---
+title: "Homework 3"
+author: "Ben White"
+date: "Due February 6"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by February 6 in class. This assignment covers material from chapter 2 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (1 point) Let $T$ be a random variable representing the lifetime of a mechanical system. Suppose that the cdf of $T$ is 
+$$F_T(t) = P(T \leq t) = 
+\begin{cases}
+0 &\mbox{ if } t < \gamma \\
+1 - \text{exp}\left(-\frac{(t - \gamma)^\beta}{\alpha}\right) &\mbox{ if }t \geq \gamma
+\end{cases}
+$$ where the $\beta$, $\alpha$, and $\gamma$ are nonnegative constants with $\alpha$ strictly greater than 0. Find the pdf of $T$, the lifetime of the system.
+
+1. Let $a$ and $b$ be real-valued constants and let $X$ be a random variable. Show the following: 
+   
+    a. (1/2 point) $\text{Var}(aX + b) = a^2\text{Var}(X)$.
+
+    b. (1/2 point) $\text{Var}(X) = E[X^2] - (E[X])^2$.
+
+1. (1 point) Let $X \sim \text{Bernoulli}(p)$, with the pmf $$f_X(x) =  p^x(1-p)^{1-x}, \quad x = 0 \text{ or } 1, \quad 0 \leq p \leq 1.$$ What value of $p$ maximizes $\text{Var}(X)$? Verify that your candidate value of $p$ is a maximum and not a minimum.
+
+1. (1 point) Suppose our experiment consists of running 5 independent Bernoulli trials all with the same success probability $p$, $0 \leq p \leq 1$. Let $Y$ be a random variable equal to the total number of successes that we observe out of the 5 trials. Find the pmf of $Y$, showing your work and reasoning process at each step. How would we generalize this if we had $n$ trials instead of 5?
+
+1. Let $X$ be a random variable with pdf $$f_X(x) = \frac{1}{2}e^{-|x|}$$ for $-\infty < x < \infty$.
+    a. (1/2 point) Find $E[X]$.
+    
+    b. (1/2 point) Find $\text{Var}(X)$.
+
+1. Let $X$ be a random variable with pdf $$f_X(x) = \frac{1}{\beta}e^{-x/\beta}$$ for $x>0$ and constant parameter $\beta>0$ and zero otherwise. 
+
+    a. (1 point) Find $E[X]$ and $\text{Var}(X)$ using the pdf.
+    
+    b. (1 point) Find the mgf of $X$ and use it to verify your findings for $E[X]$ and $\text{Var}(X)$ from part (a).
+
+
+1. Let $X$ be a random variable representing the result of a single roll of a balanced six-sided die. 
+
+    a. (1/2 point) What is the support of $X$? Find the pmf of $X$ and use it to compute $E[X]$. 
+    
+    b. (1/2 point) Find the moment generating function of $X$ and use it to compute $\text{Var}(X)$.
+
+
+1. Suppose we run a sequence of independent Bernoulli trials each with success probability $p$, and stop once we observe the first success. Let $Y$ be a random variable representing the number of failed trials recorded. 
+
+    a. (1 point) Find $f_Y(y)$, pmf of $Y$. What is the support of $Y$ (i.e. what are the possible values $Y$ can take)? 
+    
+    b. (1 point) Find $M_Y(t)$, the mgf of $Y$. For what values of $t$ does the mgf exist? Use the mgf to find $E[Y]$. *Tip: you will need to use the identity $\sum_{x=0}^\infty a^x = 1/(1-a)$ for $|a| < 1$.*

@@ -1,0 +1,99 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "4/5/18"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Interval Estimation
+
+Suppose we have a random sample from a population with unknown parameter $\theta$. With point estimation we construct statistics to give us estimated values of $\theta$ depending on the observed sample values. Interval estimation goes a step further, and attempts to find two statistics $L$ and $U$ that balance the following two properties: 
+
+1. $L \leq\theta \leq U$ with high probability.
+
+2. The interval $(L,U)$ will be relatively narrow. 
+
+Terminology: the interval ($L,U$) is known as a *confidence interval*, $L$ and $U$ are the *lower* and *upper confidence limits*, and $P(L \leq \theta \leq U)$ is the *confidence coefficient*. The confidence coefficient gives proportion of the time that the random constructed interval will contain the true parameter (remember that $L$ and $U$ are constructed from random variables in our sample). 
+
+If $P(L \leq \theta \leq U) = 1 - \alpha$, where $0<\alpha<1$, then we call $(L,U)$ a $(1 - \alpha)100$\% confidence interval. For exampls, if $P(L \leq \theta \leq U) = 0.95,$ then $(L,U)$ is a 95\% CI. Remember that these are still statistics though! If we construct estimators and collect measurements and find that our estimated 95\% CI is $(3.2,4.0)$ for example, this DOES NOT mean that there is a 95\% chance that the true $\theta$ is between $3.2$ and $4$. 
+
+In general we will use point estimators and our knowledge of their sampling distributions to find CIs. 
+
+
+
+#### Pivot method for finding CI
+
+This is a general method for finding confidence intervals (interval esimators) which relies on knowledge of sampling distributions. We will be looking for quantities which have the following characteristics:
+
+1. function of the random sample (a statistic) and the unknown parameter $\theta$. Generally this involves a point estimator of $\theta$, which we'll call $\hat{\theta}$, and $\theta$ itself.
+
+2. Probability distribution of the quantity does not depend on $\theta$.
+
+Call this quantity $p(\hat{\theta}, \theta)$. Since the distribution of this quantity does not depend on any unknown parameters, we can find an interval $(a,b)$ such that $P(a \leq p(\hat{\theta},\theta) \leq b) = 1 - \alpha$ for some specified $\alpha$. We can then convert the expressions inside the probability to relate to the unknown $\theta$ directly. Examples of pivots for $N(\mu, \sigma^2)$ populations:
+
+1. $\mu$ unknown but $\sigma^2$ known. If we wish to construct an interval estimator of $\mu$, we can use the quantity $$\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1)$$ as the pivot.
+
+2. Both $\mu$ and $\sigma^2$ unknown. We can use $$\frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t_{n-1}$$ as the pivot.
+
+3. Estimating $\sigma^2$. We can use $$\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$$ as the pivot.
+
+General procedure to find CIs using pivotal quantities:
+
+1. Find an estimator of $\theta$, call it $\hat{\theta}$. 
+
+2. Find a function of $\hat{\theta}$ and $\theta$ $p(\theta,\hat{\theta})$ whose probability distribution does not depend on $\theta$ (pivot).
+
+3. Find $a$ and $b$ such that $P(a \leq p(\theta, \hat{\theta}) \leq b) = 1 - \alpha$ for your pre-specified $\alpha$.
+
+4. Transform expression from pivot CI to $\theta$ CI, re-writing expression as $P(L \leq \theta \leq U) = 1-\alpha$. '
+
+
+Ex: Suppose we have a random sample $X_1,...,X_n$ from a $N(\mu,1)$ population. WWe wish to construct a 95\% CI for $\mu$. Pivot: $Z = \frac{\bar{X} - \mu}{1/\sqrt{n}} \sim N(0,1).$ Using tables or software we can find the quantities $a$ and $b$ such that $P(a \leq Z \leq b) = 1-\alpha$, in this case we have $P(-1.96 \leq Z \leq 1.96) = 0.95$. Next, we convert the expression and solve for $\mu$: $$0.95 = P(-1.96 \leq Z \leq 1.96) = P(-1.96 \leq (\bar{X}  - \mu)/(1/\sqrt{n}) \leq 1.96) = P(\bar{X} - 1.96/\sqrt{n} \leq \mu \leq \bar{X} + 1.96/\sqrt{n}).$$ So our 95\% CI for $\mu$ is $(\bar{X} - 1.96/\sqrt{n}, \bar{X} + 1.96/\sqrt{n})$.
+
+
+#### Large sample CIs
+
+Recall that under the Central Limit Theorem if the sample size is large then cerain sampling distributions can be assumed to be approximately normal. In these cases we can use the $z$ transform $$z = \frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}}$$ as our approximately $N(0,1)$ pivot. Here $\sigma_{\hat{\theta}}$ represents the standard deviation of the statistic $\hat{\theta}$ (sometimes called the standard error). $$\sigma_{\hat{\theta}} = \sqrt{\text{Var}(\hat{\theta})}$$ Generally due to the large sample sizes we can also approximate the standard error using another estimator as well.
+
+Let $z_{\alpha}$ represent the real number for which the tail probability of the standard normal distribution is $\alpha$: $$P(Z > z_\alpha) = \alpha,\quad Z \sim N(0,1).$$ For a $1-\alpha$ CI, we can pick tail values $-z_{\alpha/2}$ and $z_{\alpha/2}$ so that $$P(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}) = 1-\alpha.$$ Here $z_{\alpha}$ represents the real number for which the tail probability of the standard normal distribution is $\alpha$: $P(Z > z_\alpha) = \alpha$, $Z \sim N(0,1)$. Because of the normal distribution's symmetry this will be the shortest interval that contains the area $1-\alpha$. Then $$P(\hat{\theta} - z_{\alpha/2}\sigma_{\hat{\theta}} \leq \theta \leq \hat{\theta} + z_{\alpha/2}\sigma_{\hat{\theta}}) = 1-\alpha,$$ So our $1-\alpha$ confidence limits are $$L = \hat{\theta} - z_{\alpha/2}\sigma_{\hat{\theta}}$$ $$U = \hat{\theta} + z_{\alpha/2}\sigma_{\hat{\theta}}$$ Often $\sigma_{\hat{\theta}}$ will be an estimate as well if the true population variance is unknown, usually but not always involving the sample variance 
+
+Ex: The management of a health club wants to estimate the average weight loss for its members within the first 3 months after joining the club. They took a random sample of 45 members and found that they lost an average of 13.8 pounds within the first 3 months with a sample standard deviation of 4.2 pounds. We wish to find a 95\% confidence interval for the true mean weight loss. 
+
+Pivotal quantity: $\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1)$. Even though we don't have any distributional assumptions about the population, we know that by the CLT the Z transform of the sample mean will be approximately standard normal. In this case we can also approximate $\sigma$ using our sample standard deviation (this works for large sample sizes, recall that $S^2 \overset{p}{\to} \sigma^2$). The $0.025$ and $0.9725$ quantiles from the normal distribution are -1.96 and 1.96, and we have our estimate of the $\sigma/n$ as $s/\sqrt{n} = (4.2/\sqrt{45}) = 0.626$ So our 95\% CI is $$(\bar{x} - z_{\alpha/2}s/\sqrt{n}, \bar{x} + z_{\alpha/2}s/\sqrt{n}) = (13.8 - (1.96)(0.626), 13.8 + (1.96)(0.626)) = (12.57, 15.03)$$ Suppose we increase the sample size to 200. How does that affect the interval estimate? $(4.2/\sqrt{200}) = 0.297$, so the 95\% CI is $(13.22,14.38)$. We can see that increasing the sample size will generally tighten the length of the interval estimate. It must be emphasized again that this DOES NOT mean that there is probability 0.95 that the true mean $\mu$ is between 12.57 and 15.03, but that this construction procedure should capture the true mean 95\% of the time under repeated sampling based on our model assumptions (See figure 6.1 in the textook). 
+
+Ex: CI for binomial proportion $p$. Let $X_1,...,X_n$ be an iid random sample from a Bernoulli($p$) distribution. Recall that the MLE for $p$ is $\bar{X}$. If we have a large enough sample size (rule of thumb: $np > 5$ and $n(1-p) > 5$) then we can approximate the sampling distribution of $\bar{X}$ using the normal distribution by the CLT. Again we need to estimate the standard error of the estimator. We know that the variance of the individual $X_i$s is $p(1-p)$, so the variance of $\bar{X}$ must be $\frac{p(1-p)}{n}$. This means the standard error of $\bar{X}$ is $\sqrt{\frac{p(1-p)}{n}}$. Since this is a function of $p$, the MLE of $\sqrt{\frac{p(1-p)}{n}}$ must be  $\sqrt{\frac{\bar{X}(1-\bar{X})}{n}}$ (MLE is invariant under transformations). So the $(1-\alpha)100$\% CI for $p$ is $$\left(\bar{X} - z_{\alpha/2}\sqrt{\frac{\bar{X}(1-\bar{X})}{n}},\bar{X} + z_{\alpha/2}\sqrt{\frac{\bar{X}(1-\bar{X})}{n}}\right).$$
+
+Usual general form: $$L = \bar{X} - z_{\alpha/2}{\hat{\sigma}}/n$$ $$U = \bar{X} + z_{\alpha/2}\hat{\sigma}/n$$ Remember that we need to use an estimator $\hat{\sigma}$ to approximate the exact population standard deviation. This estimator $\hat{\sigma}$ should be consistent; remember we are assuming a large sample, so we want the estimator to converge to the true value of the paramter as the sample size increases. Most commonly this will be $S$ (sample standard deviation) but this can change depending on the model used (like in the binomial case).
+
+Ex: Suppose $X_1,...,X_n$ is a random sample from a Poisson$(\lambda)$ distribution with $\lambda$ unknown, but with large $n$. Optional exercise: What is a 90\% CI for $\lambda$ in this case? *Tip: we know that $\lambda$ is both the population mean and variance (property of Poisson distribution), so we can start by picking $\bar{X}$ as our point estimator for $\lambda$*
+
+#### Confidence Intervals for Normal Populations
+
+If $X_1,...,X_n$ is an iid random sample from a $N(\mu,\sigma^2)$ population the we can use our knowledge of sampling distributions and pivots to find $(1-\alpha)100$\% CIs.
+
+For estimating $\mu$: recall that the quantity $$T = \frac{\bar{X} - \mu}{S/\sqrt{n}}$$ has a $t$ distribution with $n-1$ degrees of freedom. Since this doesn't depend on any unknown parameters, we can use it as our pivot. Let $t_{\alpha,n-1}$ represent the quantity for which $P(T > t_{\alpha,n-1}) = \alpha$ for $T \sim t_{n-1}$ (remember that this distribution is symmetric and centered around 0). $$1-\alpha = P\left(t_{\alpha/2,n-1} \leq T \leq t_{\alpha/2,n-1} \right)$$ $$=P(\bar{X} - t_{\alpha/2,n-1})S/\sqrt{n} \leq \mu \leq \bar{X} + t_{\alpha/2,n-1}S/\sqrt{n}).$$ So our $(1-\alpha)100$\% CI for $\mu$ is $$(\bar{X} - t_{\alpha/2,n-1}(S/\sqrt{n}), \bar{X} + t_{\alpha/2,n-1}(S/\sqrt{n})).$$
+
+This is very similar to the estimators we constructed using the standard normal distribution, but there are key differences in the model assumptions.
+
+Assumptions for using standard normal quantiles: large sample size, no assumptions necessary for population distribution because of the CLT result.
+
+Assumptions for using $t$ quantiles: smaller sample size, but normal population. The normal population assumption gives us exact distributions for the pivot.
+
+For estimating $\sigma^2$ for a normal population, remember that $(n-1)S^2/\sigma^2$ has a chi square distribution with $n-1$ degrees of freedom. So $$1-\alpha = P\left(\chi^2_{\alpha/2,n-1} \leq (n-1)S^2/\sigma^2 \leq \chi^2_{1-\alpha/2,n-1}\right)$$ $$= P\left(\frac{(n-1)S^2}{\chi^2_{1-\alpha/2,n-1}} \leq \sigma^2 \leq \frac{(n-1)S^2}{\chi^2_{\alpha/2,n-1}}  \right).$$ So our $(1-\alpha)100$\% CI is $$\left(\frac{(n-1)S^2}{\chi^2_{1-\alpha/2,n-1}}, \frac{(n-1)S^2}{\chi^2_{\alpha/2,n-1}}  \right).$$ Here $\chi^2_\alpha/2$ is representing the number for which the area under the curve to the *left* is $\alpha/2$ (i.e. the quantile for the "lower" tail). Be careful since different texts may use slightly different notation to represent quantiles.
+
+When we have two independent samples from different populations and wish to compare their variances we can use a pivot quantity with an $F$ distribution: $$\frac{(S_X^2/\sigma_X^2)}{(S_Y^2/\sigma_Y^2)} \sim F_{n-1,m-1}$$ where our samples our $X_1,...,X_n$ and $Y_1,...,Y_m$. $$1-\alpha = P\left(F_{\alpha/2,n-1,m-1} \leq \frac{(S_X^2/\sigma_X^2)}{(S_Y^2/\sigma_Y^2)} \leq F_{1-\alpha/2,n-1,m-1}\right)$$ $$= P\left(\frac{(S_X^2/S_Y^2)}{F_{1-\alpha/2,n-1,m-1}} \leq \frac{\sigma^2_X}{\sigma^2_Y} \leq \frac{(S_X^2/S_Y^2)}{F_{\alpha/2,n-1,m-1}} \right)$$ So we have $$L = \frac{(S_X^2/S_Y^2)}{F_{1-\alpha/2,n-1,m-1}}$$ $$U = \frac{(S_X^2/S_Y^2)}{F_{\alpha/2,n-1,m-1}}.$$ Again, be careful with the notation here; $F_{\alpha, n-1, m-1}$ is representing the point for which the area under the $F$ distribution curve to the *left* is $\alpha$. For this and the chi square confidence intervals it helps to think of them as quantiles in the "upper" or "lower" tails of the distribution.
+
+#### Confidence intervals for samples from two independent populations
+
+Suppose we're interested in comparing two different independent populations (for example measurements from a treatment group versus measurements from a control group). Often this involves comparing parameters for the two populations, and will involve estimating some kind difference or ratio. 
+
+Formally, let $X_1,...,X_n$ be a random sample from a population with mean $\mu_X$ and variance $\sigma^2_X$, and let $Y_1,...,Y_m$ be a random sample from a population with mean $\mu_Y$ and variance $\sigma^2_Y$. We are primarily interested in comparing the means by estimating the difference $\mu_X - \mu_Y$ and the variances by estimating the ratio $\sigma^2_X/\sigma^2_Y$.
+
+**Large samples:** Suppose that both $m$ and $n$ are large enough to use the CLT approximation for the distributions of $\bar{X}$ and $\bar{Y}$ (sample means from each): $$\bar{X} \sim N(\mu_X, \sigma^2_X/n)$$ $$\bar{Y} \sim N(\mu_Y, \sigma^2_Y/m)$$ In this case we want to find a CI for $\mu_X - \mu_Y$. First we need a point estimator for this difference: $\bar{X} - \bar{Y}$. It is straightforward to show that this is both unbiased and consistent. Next we want to find the sampling distribution of this estimator, and an appropriate pivotal quantity to construct the CI. Since we are using normal approximations for the sampling distributions of each sample mean, the difference between the two can also be approximated as a normally distributed random variable with $$E[\bar{X} - \bar{Y}] = E[\bar{X}] - E[\bar{Y}] = \mu_X - \mu_Y$$ and $$Var(\bar{X} - \bar{Y}) = Var(\bar{X}) + (-1)^2Var(\bar{Y}) = \frac{\sigma^2_X}{n} + \frac{\sigma^2_Y}{m}$$ This gives us the interval estimator $$(\bar{X} - \bar{Y}) \pm z_{\alpha/2}\sqrt{\frac{\sigma^2_X}{n} + \frac{\sigma^2_Y}{m}}$$ If the population variances are unknown then we can use the sample variances as estimators instead: $$(\bar{X} - \bar{Y}) \pm z_{\alpha/2}\sqrt{\frac{S^2_X}{n} + \frac{S^2_Y}{m}}$$
+
+In the homework exercises you will construct and use confidence interval estimators assuming that the two populations are normally distributed. See the notes on normal sampling distributions ($t$, chi square, $F$)
+
+

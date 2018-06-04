@@ -1,0 +1,30 @@
+---
+title: "Exam 1 Solutions"
+author: "Ben White"
+date: "2/9/2018"
+output: pdf_document
+---
+
+1. (1 point) A-3, B-2, C-4, D-1.
+
+
+1. (1 point) $A$ and $B$ are mutually exclusive, so $P(A \cap B) = 0$. For the two to be independent we need $P(A \cap B) = P(A)P(B)$, however $P(A)>0$ and $P(B)>0$. Since $P(A \cap B) \neq P(A)P(B)$, the two cannot be independent.
+
+1. (1 point) There are two ways to approach this, both resulting in the same answer: The student has about a 10.4% chance to pass the quiz with their guessing strategy.
+
+    - First way: Express this as a counting problem. There are $4^5 = 1024$ total possible sequences of answers the student can turn in, all equally likely, with one correct answer for each problem and three incorrect answers for each problem. Since there is only one fully correct sequence out of all the possibilities, $$P(\text{all five correct}) = \frac{1}{1024}.$$ To get 4 correct there needs to be single wrong answer. There are 5 possible questions to answer incorrectly, each with 3 incorrect choices. So $$P(\text{four out of five correct}) = \frac{(5)(3)}{1024} = \frac{15}{1024}.$$ To get 3 correct there need to be 2 wrong answers. There are ${5\choose 2} = (5!)/(2!3!) = 10$ possible ways to get two out of five questions wrong, and for each of those pairs of questions there are $3\times3 = 9$ pairs of wrong answer choices. So $$P(\text{three out of five correct}) = \frac{(10)(9)}{1024} = \frac{90}{1024}$$. Adding them all together: $$P(\text{three or more correct}) = \frac{1 + 15 + 90}{1024} = \frac{106}{1024} = 0.1035156.$$
+    
+    - Second way: Express this as a sequence of independent Bernoulli trials, where a "success" is getting the right answer for a given problem, and a "failure" is getting the wrong answer. Probability of success $p = 1/4 = 0.25$. Next let $X$ be a random variable representing the total number of successes out of the 5 trials. Then $X$ has the binomial distribution derived in HW3, with $n = 5$ and $p = 0.25$: $$P(X = x) = \frac{5!}{x!(5-x)!}(1/4)^x(3/4)^{5-x}.$$ Explanation of pmf: For $X$ be equal to a given number $x$, we needed to observe exactly $x$ correct answers and exactly $5-x$ wrong answers. Since each question is independent we can multiply the probabilities together to find the full probability of a given sequence ($1/4$ for correct answers, $3/4$ for wrong answers), and there are ${5 \choose x} = \frac{5!}{x!(5-x)!}$ different combinations of answer success/failure sequences that match that criteria. Plugging 3, 4, and 5 into the pmf we get $P(X = 3) = \frac{45}{512} = 0.08789063$, $P(X = 4) =\frac{15}{1024}=0.01464844$, and $P(X = 5) =\frac{1}{1024}=0.0009765625$, so $$P(X \geq 3) = P(X = 3) + P(X = 4) + P(X = 5) = \frac{106}{1024}=0.1035156.$$
+    
+  
+
+
+1. (2 points) Let $D_i$ represent the event in which we draw $i$ balls. Since each of these events is equally likely, we have $$P(D_1) = P(D_2) = P(D_3) = P(D_4) = \frac{1}{4}.$$ Let $B$ represent the event in which we draw at least one black ball. When we draw one ball the probability of it being black is $2/5$, since two out of the five balls are black. $$P(B|D_1) = \frac{2}{5}.$$ When we draw two balls the probability of getting at least one black ball is one minus the probability that both balls are white (complementary events). The probability of drawing two white balls is $3/5 \times 2/4 = 3/10$ (first draw is white, then second draw is white conditioned on first draw, multiplication rule). $$P(B | D_2) = 1 - \frac{3}{5}\times\frac{2}{4} = \frac{7}{10}$$ When we draw three balls we can use similar logic to the previous case (complementary events with multiplication rule, computing probability of drawing all white): $$P(B|D_3) = 1 - \frac{3}{5}\times\frac{2}{4}\times\frac{1}{3} = \frac{9}{10}$$ With four balls we are guaranteed to get at least one black ball: $$P(B|D_4) = 1$$ So the total probability of drawing at least one black ball is $$P(B) = \sum_{i=1}^4 P(B|D_i)P(D_i) = \frac{1}{4}(\frac{2}{5} + \frac{7}{10} + \frac{9}{10} + 1) = \frac{3}{4}$$ We can see that drawing 4 balls is most likely given the observation, with probability (by Bayes' Rule)$$P(D_4|B) = \frac{P(B|D_4)P(D_4)}{P(B)} = \frac{1(1/4)}{3/4} = \frac{1}{3}$$ 
+
+1. (1 point) For $g(x)$ to be a valid probability density function it must have the properties that $g(x) \geq 0$ for all $x$ and that $\int_{-\infty}^\infty g(x)dx = 1$. Since both the numerator and denominator in $g(x)$ are greater than or equal to zero, the first condition is satisfied (-0.2 points if this condition isn't checked) Second property: $$\int_{-\infty}^\infty g(x)dx = \int_a^{\infty}\frac{f_X(x)}{1 - F_X(a)}dx$$ $$=\frac{1}{1 - F_X(a)}\int_a^\infty f_X(x) dx$$ $$= \frac{P(X > a)}{1 - F_X(a)}$$ $$= \frac{P(X > a)}{1 - P(X \leq a)}$$ $$= \frac{P(X > a)}{P(X > a)}$$ $$=1$$ So $g(x)$ is a valid pdf.
+
+1. $$1 = \int_{-\infty}^\infty f_X(x) dx = \int_0^1 kx^2 dx = k(1^2/3 - 0^2/3) = k/3$$ So $k=3$. $$E[X] = \int_{-\infty}^{\infty} xf_X(x) dx = \int_0^1 (x)(3x^2) dx = 3(\frac{1^4}{4} - \frac{0^4}{4}) = \frac{3}{4} = 0.75$$ To get the variance we can use the identity $\text{Var}(X) = E[X^2] - (E[X])^2$.
+$$E[X^2] = \int_{-\infty}^\infty x^2 f_X(x) dx = \int_0^1 (x^2)(3x^2) = 3(\frac{1^5}{5} - \frac{0^5}{5}) = \frac{3}{5}$$
+$$\text{Var}(X) = E[X^2] - (E[X])^2 = \frac{3}{5} - \frac{9}{16} = \frac{3}{80} = 0.0375$$
+
+1. (2 points, 1 point without mgf) $$M_X(t) = E[e^{tX}] = e^{-t}(1-p) + e^{t}p$$ $$= e^{-t} - e^{-t}p + e^{t}p$$ $$\frac{d}{dt} M_X(t) = -e^{-t}(1-p) + e^{t}p$$ $$\frac{d^2}{dt^2} M_X(t) = e^{-t}(1-p) + e^{t}p$$ Expectation: $$E[X] = -e^{0}(1-p) + e^0 p = 2p - 1$$ Second moment: $$E[X^2] = e^{0}(1-p) + e^0p = 1$$ Variance: $$Var(X) = E[X^2] - (E[X])^2 = 1 - (2p-1)^2 = 1 - (4p^2 - 4p +1)$$ $$= 4p(1-p)$$

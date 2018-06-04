@@ -1,0 +1,47 @@
+---
+title: "Homework 9"
+author: "Due April 10"
+date: "4/3/2018"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by April 3 in class. This assignment covers material from chapter 4 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. (1 point) Let $W$ be a point estimator of some unknown but fixed parameter $\theta$, and let $MSE = E[(W - \theta)^2]$ denote the mean squared error of $W$. Show that $MSE(W) = \text{Var}(W) + \text{Bias}(W)^2$.
+
+1. (2 point) Let $X_1, ...,X_n$ be an iid random sample from a uniform$(0,\theta)$ distribution, where $\theta$ is an unknown parameter ($\theta > 0$). Population pdf: 
+$$
+f(x) = \begin{cases}
+\frac{1}{\theta} &\mbox{ if } 0 \leq x \leq \theta \\
+0 &\mbox{ otherwise }.
+\end{cases}
+$$
+We wish to compare the performance of two point estimators of $\theta$: $$\hat{\theta}_1 = 2\bar{X} = \frac{2}{n}\sum_{i=1}^n X_i \quad (\text{moment estimator})$$ and $$\hat{\theta}_2 = \max(X_1,...,X_n) \quad (\text{maximum likelihood estimator}).$$
+Find the relative efficiency of $\hat{\theta}_1$ and $\hat{\theta}_2$ and provide a brief interpretation. Are $\hat{\theta}_1$ and $\hat{\theta}_2$ consistent and/or unbiased estimators of $\theta$? Prove your assertions. *Tip: To find the expectation and variance of $\hat{\theta}_2$ you will need to derive its sampling distribution (see the example in the lecture notes on statistics and sampling distributions).*
+
+1. Let $X_1,...,X_n$ be an iid random sample from a $N(\mu_X, \sigma^2)$ population and let $Y_1,...,Y_m$ be an iid random sample from a $N(\mu_Y, \sigma^2)$ population, independent from the previous sample. Here we will derive the necessary results to construct a confidence interval for $\mu_X - \mu_Y$. *Tip: reviewing the notes on normal sampling distributions will be helpful for this problem.*
+
+    a. (1/2 point) Let $$S^2_p = \frac{\sum_{i=1}^n(X_i - \bar{X})^2 + \sum_{i=1}^m(Y_i - \bar{Y})^2}{n + m - 2}.$$ This is sometimes called the "pooled" sample variance. Show that $S^2_p$ is an unbiased estimator of $\sigma^2$. *Tip: try to express $S^2_p$ in terms of the sample variances $S_X^2$ and $S_Y^2$.*
+    
+    b. (1/2 point) Show that $$\frac{(n + m - 2)S^2_p}{\sigma^2} \sim \chi^2_{n+m-2}.$$ *Tip: recall some of the results concerning sums of independent $\chi^2$ random variables*.
+    
+    b. (1/2 point) Let $$T = \frac{(\bar{X} - \bar{Y}) - (\mu_X - \mu_Y)}{S_p\sqrt{\frac{1}{n} + \frac{1}{m}}}$$ Show that $T \sim t_{n+m-2}$. You may assume without proof that $S_p$ is independent from both $\bar{X}$ and $\bar{Y}$.
+    
+
+1. (1 point) In a certain part of a city the average price of homes in the year 2000 was \$148,822 with a standard deviation in sale price of \$21,000, and in 2001 the average price was \$155,908 with a standard deviation of \$23,000. These are based on a random sample of 100 homes in the year 2000 and a random sample of 150 homes in the year 2001. Find a 98\% confidence interval for the difference in the two population means.
+
+1. For this problem you will use **tooth_growth.csv** (Files/Data on Canvas). The column "len" is the length of odontoblasts (cells responsible for tooth growth) in 20 guinea pigs. Each animal received a treatment of 1 mg/day by one of two delivery methods in the "supp" column, orange juice (coded as "OJ") or ascorbic acid (a form of vitamin C and coded as "VC"). 
+
+    a. (1 point) Assume that the length measurements for the 10 guinea pigs treated with orange juice are observations of a random sample from a normal population with mean $\mu_{OJ}$ and variance $\sigma_{OJ}^2$, both unknown. Construct 90% confidence intervals for both $\mu_{OJ}$ and variance $\sigma_{OJ}^2$.
+    
+    b. (1 point) Assume that the length measurements for the 10 guinea pigs treated with ascorbic acid (vitamin C) are observations of a random sample from a normal population with mean $\mu_{VC}$ and variance $\sigma_{VC}^2$, both unknown. Construct 90% confidence intervals for both $\mu_{VC}$ and variance $\sigma_{VC}^2$. Briefly describe how the interval estimates for this group compare with the interval estimates for the "OJ" group.
+    
+    c. (1/2 point) Construct 99% confidence intervals for $\mu_{OJ}$ and $\mu_{VC}$. Briefly describe how these interval estimates compare to each other and the 90% confidence intervals constructed earlier.
+    
+    d. (1 point) Construct a 90% confidence interval for $\mu_{OJ} - \mu_{VC}$ assuming that $\sigma^2_{OJ} = \sigma^2_{VC}$, and briefly intepret your result. *Tip: use the result from problem 3 part c.*
+    
+    e. (1 point) Using the previous assumptions, and assuming that the two samples are independent from each other, construct a 90% confidence interval for $\sigma^2_{OJ}/\sigma^2_{VC}$ and briefly interpret your results.

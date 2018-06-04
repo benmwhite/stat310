@@ -1,0 +1,106 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "2/20/18"
+output: pdf_document
+---
+
+## Multivariate Probability Functions
+
+So far we've covered distributions that involve a single random variable (*univariate*). We will now discuss discuss distributions that involve multiple random variables and their relationships to each other (*multivariate*). These are important for models that apply to studies in which more than one measurement is taken. Ex: heights plus weights.
+
+Def: A *random vector* is a function from a sample space $S$ to $n$-dimensional real Euclidean space $\mathcal{R}^n$.
+
+$n$-dimensional random vectors are often written as $(X_1,...,X_n)$. For now we will focus on *bivariate* random vectors, or ordered pairs of random variables $(X,Y)$. 
+
+#### Joint probabiity functions
+
+Def: Let $X$ and $Y$ be discrete random variables. The *joint probability mass function* of $X$ and $Y$ is $$f(x, y) = P(X = x, Y = y).$$ 
+
+Def: Let $X$ and $Y$ be continuous random variables. The function $f(x, y)$ is the *joint probabiity density function* of $X$ and $Y$ if and only if $$P(a \leq x \leq b, c \leq y \leq d) = \int_a^b \int_c^d f(x,y) dy dx.$$
+
+Note that these function take two inputs ($x$ and $y$) and map them to a single real-valued output. Sometimes the joint probability function of two random variables will include them in the subscript for clarity (e.g. $f_{XY}(x, y)$). 
+
+*Quick note on multivariate integration.* For students unfamiliar with multivariate calculus, multivariate integration is performed sequentially: $$\int_a^b \int_c^d f(x,y) dy dx = \int_a^b ( \int_c^d f(x,y) dy) dx.$$ Perform the first integral on the inside (with respect to $y$), then perform the second integral (with respect to $x$) on the outside. The order of integration won't matter for the final result (there's a calculus theorem that shows this), but sometimes the calculation may be easier going one way than going the other.
+
+Properties (note that these are similar to the properties of univariate distribution functions):
+
+1. $f(x,y) \geq 0$ for all $x$ and $y$.
+
+2. If $X$ and $Y$ are discrete then $\sum_x \sum_y f(x,y) = 1.$
+
+3. If $X$ and $Y$ are continuous then $\int_{-\infty}^\infty \int_{-\infty}^\infty f(x,y) dy dx = 1$.
+
+#### Marginal distribution functions
+
+Often we may wish to find the univariate distribution function of one of the component random variables in a random vector. These are known as "marginal" distribution functions, and can be found in the following manner:
+
+Def: Let $X$ and $Y$ have the joint distribution function $f(x,y)$. If $X$ and $Y$ are discrete, then the marginal pmfs of $X$ and $Y$ are $$f_X(x) = \sum_y f(x,y)$$ and $$f_Y(y) = \sum_x f(x,y),$$ respectively. If $X$ and $Y$ are continuous, then the marginal pdfs of $X$ and $Y$ are $$f_X(x) = \int_{-\infty}^\infty f(x,y) dy$$ and $$f_Y(y) = \int_{-\infty}^\infty f(x,y) dx,$$ respectively.
+
+Note that to find the distribution of one of the rvs in our bivariate random vector $(X,Y)$ we need to sum/integrate over all the possible values of the other. 
+
+## Conditional distribution functions
+
+Similar to how we defined conditional probabilities of events in a sample space, we can define conditional distributions of rvs. If the random variable $Y$ is observed and recorded as a specific value $y$, we may be interested in how that affects what we may know about the distribution of the random variable $X$.
+
+Def: Suppose $X$ and $Y$ have the joint distribution function $f(x,y)$. The *conditional probability distribution* of the random variable $X$ given $Y$ is $$f(x|y) = f(x|Y = y) = \frac{f(x,y)}{f_Y(y)},$$ assuming $f_Y(y) > 0$ (i.e. the specific value of $y$ is a possible observed value of $Y$). In the discrete case this is known as a *conditional pmf* and in the continuous case this is known as a *conditional pdf*.
+
+This gives us a valid pmf in the discrete case or a valid pdf in the continuous case. We now get to the formal definition of independence of random variables:
+
+Def: Suppose $X$ and $Y$ have the joint distribution function $f(x,y)$. $X$ and $Y$ are *independent* if and only if $$f(x,y) = f_X(x)f_Y(y).$$ If $X$ and $Y$ are not independent then they are said to be *dependent* random variables.
+
+*Note:* Sometimes we will find conditional distributions given specific observed values (i.e. $y$ is set to a known value), but sometimes we will keep them expressed in terms of an unknown value: $f(x|y)$. In these cases it is important to remember that we are still conditioning on observing $Y$, so if this expression involves $y$ we must treat it as some unknown but fixed parameter. On the other hand, $x$ still represents possible values of an unobserved random variable. This is very important to keep in mind once we get to the topic of conditional expectation.
+
+## Examples
+
+ Ex: In the discrete case for small finite sample spaces we can represent joint/marginal/conditional distributions more easily via a table of probabilities. 
+ 
+ Suppose the joint pmf $f_{XY}(x,y)$ of $X$ and $Y$ is given in the following table:
+
+| \(x,y\) | -2 | 0 | 1 | 4 | Sum |
+|--------------|-----|-----|-----|-----|-----|
+| -1 | 0.2 | 0.1 | 0 | 0.2 | 0.5 |
+| 3 | 0.1 | 0.2 | 0.1 | 0 | 0.4 |
+| 5 | 0.1 | 0 | 0 | 0 | 0.1 |
+| Sum | 0.4 | 0.3 | 0.1 | 0.2 | 1 |
+
+By definition we have $f_X(x) = \sum_y f(x,y)$ and $f_Y(y) = \sum_x f(x,y)$, so the marginal pmf of $X$ is found by looking at the sum of each row, and the marginal pmf of $Y$ is found by looking at the sum of each column. 
+
+For $X$:
+
+| \[x\] | -1 | 3 | 5 | else |
+|--------|-----|-----|-----|------|
+| \[f_X(x)\] | 0.5 | 0.4 | 0.1 | 0 |
+
+for $Y$:
+
+| \[y\] | -2 | 0 | 1 | 4 | else |
+|------------|-----|-----|-----|-----|------|
+| \[f_Y(y)\] | 0.4 | 0.3 | 0.1 | 0.2 | 0 |
+
+Suppose we observe $Y = 0$. What is the conditional distribution of $X$ given this observed value of $Y$? By definition, $f(x|Y=0) = f(x,0)/f_Y(0)$. So for $x=-1$, $f(x|Y=0) = 0.1/0.3 = 1/3$ and for $x = 3$, $f(x|Y=0) = 0.2/0.3 =2/3$. Since $X$ cannot be equal to 5 if $Y=0$ (see the joint distribution), the conditional pmf here is 0. We can express this conditional distribution as follows:
+
+| \[x\] | -1 | 3 | else |
+|--------------|---------------|-------------|---------|
+| \[f(x \vert Y=0)\] | \[\frac{1}{3}\] | \[\frac{2}{3}\] | 0 |
+
+This also tells us that $X$ and $Y$ are dependent, not independent. To show dependence all we need to do is find some values for $x$ and $y$ such that the product of the marginals is not equal to the joint. Here we can use $x = 5$ and $y=0$: $$f_{XY}(5,0) = 0 \neq f_X(5)f_Y(0) = (0.1)(0.3) = 0.03.$$
+
+Ex: Let $X$ and $Y$ have the joint pdf $f_{XY}(x,y) = 3x$ if $0 \leq y \leq x \leq 1$ with $f_{XY}(x,y) = 0$ otherwise. We can show that this is a valid pdf as follows: $$\int_{-\infty}^\infty \int_{-\infty}^\infty f_{XY}(x,y) dy dx = \int_0^1\int_0^x 3x dy dx$$ $$= \int_0^1 x (\int_0^x 3 dy) dx$$ $$= \int_0^1 3x^2 dx = 1.$$
+
+To find probabilities involving both $X$ and $Y$ we can use double integration with the joint pdf. Suppose we want to find $P(X \leq 1/2, 1/4 < Y < 3/4)$. First we need to identify the relevant limits of integration. $Y$ is bounded from below by $1/4$, and bounded from above by the observed value of $X$ (since $Y \leq X \leq 1/2$). $X$ is bounced from above by $1/2$, and bounded from below by $1/4$ (since $1/4 < Y \leq X$). So $$P(X \leq \frac{1}{2}, \frac{1}{4} < Y < \frac{3}{4}) = \int_{1/4}^{1/2} (\int_{1/4}^x 3x dy) dx$$ $$= \int_{1/4}^{1/2} 3x(x - \frac{1}{4}) dx$$ $$=(\frac{3[1/2]^3}{3} - \frac{3[1/2]^2}{8}) - (\frac{3[1/4]^3}{3} - \frac{3[1/4]^2}{8})$$ $$=\frac{5}{128}$$
+
+Next let's find the marginal and conditional pdfs. $$f_X(x) = \int_{-\infty}^\infty f_{XY}(x,y) dy =\int_0^{x} 3x dy =3x^2, \quad 0 < x < 1.$$ 
+
+$$f_Y(y) = \int_{-\infty}^\infty f_{XY}(x,y) dx =\int_y^1 3x dx = \frac{3(1)^2}{2} - \frac{3(y)^2}{2} = \frac{3}{2}(1 - y^2), \quad 0<y<1.$$ 
+
+$$f_{X|Y}(x|y) = \frac{f_{XY}(x,y)}{f_Y(y)} = \frac{3x}{\frac{3}{2}(1 - y^2)} = \frac{2x}{1-y^2}, \quad 0 \leq y \leq x \leq 1$$
+$$f_{Y|X}(y|x) = \frac{f_{XY}(x,y)}{f_X(x)} = \frac{3x}{3x^2} = x^{-1}, \quad 0 \leq y \leq x \leq 1$$
+To get the conditional distributions for specific values of $x$ or $y$ we can just plug the values into the expressions we've derived. Note that the distribution of $Y$ conditioned on $X = x$ is the continuous uniform distribution from $0$ to $x$.
+
+Because we have the restriction $Y \leq X$ we can already guess that these rvs are dependent and not independent, but we can show this by finding values of $x$ and $y$ such that $f_{XY}(x,y) \neq f_X(x)f_Y(y)$, for instance $x = 1$ and $y = 1/2$.
+
+
+
+
+

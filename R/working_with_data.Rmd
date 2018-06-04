@@ -1,0 +1,97 @@
+---
+title: "Working with data in R"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+#### Working directories
+
+Your "working directory" a directory on your computer which R will use as a default when importing/exporting data sets or exporting plots. To see your current working directory use getwd().
+
+```{R, result = FALSE}
+getwd()
+```
+
+Generally you want to set your working directory to be the same one that contains the data files you wish to work with. You can change your working directory with the setwd() function, or under the "Files/More" drop down menu in the lower right panel of RStudio.
+
+```{R, warning = FALSE}
+setwd("/Users/benjaminwhite/")
+getwd()
+```
+```{R}
+setwd("/Users/benjaminwhite/Dropbox/School/S18")
+getwd()
+```
+
+Note that the directory format will use backslashes on Windows machines, and forward slashes on Linux/MacOS machines.
+
+#### Data
+
+We will be using the iris data set for these examples. You should set your working directory to the folder containing "iris.csv" before running the following code. Importing the data set and looking at the first ten rows:
+
+```{R}
+iris <- read.csv("iris.csv")
+head(iris, n = 10)
+```
+
+
+When our data contains categorical varaibles we often want to look at category separately. We can use the subset() function for this purpose. First, look at the following output:
+
+```{r}
+iris$Species == "setosa" 
+```
+
+Vectors that involve TRUE/FALSE values are known as "logical" vectors. Another example:
+
+```{R}
+iris$Sepal.Length < 5
+```
+
+The subset() function takes two main input arguments: a data frame and a logical vector indicating which rows to "keep". You can use the column names alone without the data frame name, since the data frame is given in the first argument.
+
+```{R}
+subset(iris, Sepal.Length < 4.7)
+```
+
+We can save these subsets using "<-" to assign the output to its own named object in our global environment (upper right panel in RStudio).
+
+```{R}
+virginica <- subset(iris, Species == "virginica")
+virginica
+```
+
+Suppose we wish to save this new data frame as a plain text file in our working directory. To do this use write.table() or write.csv().
+
+```{R}
+write.csv(virginica, "virginica.csv", row.names = FALSE)
+```
+
+
+#### dplyr (optional)
+There is also a useful package for working with data frames called "dplyr". I've posted another html file with an introduction to this package if people wish to learn how to use it. You will need to download it using install.packages() and load it using library:
+
+```{R}
+#install.packages("dplyr")
+library(dplyr)
+```
+You only need to use install.packages() once to download it to your computer. Remove the "#" symbol at the beginning of that line Use library() to load the package(s) you want to use whenever you start a new R session. There is more information on this package in the other html file, but just a quick example using some dplyr functions. The package is built to use a "piping" syntax, which you can read more on in the other html file.
+
+Finding the average petal length and average petal width, but for each species separately:
+```{R}
+iris_summary <- iris %>%
+  group_by(Species) %>%
+  summarize(AvgPetalLength = mean(Petal.Length), AvgPetalWidth = mean(Petal.Width))
+iris_summary
+```
+
+Subsetting the data set to look at only versicolor flowers with sepal length greater than 6.5, then we will create a new column "Petal.Area" which multiplies petal length by petal width for each flower. 
+
+```{R}
+versi_area <- iris %>%
+  filter(Species == "versicolor", Sepal.Length > 6.5) %>%
+  mutate(Petal.Area = Petal.Length * Petal.Width)
+versi_area
+```
+
+You can see more examples and functions, along with an explanation of the "piping" syntax for combining multiple operations in the dplyr introduction html file.

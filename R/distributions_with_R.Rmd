@@ -1,0 +1,101 @@
+---
+title: "R Functions for Working with Distributions"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+R comes with many built in functions for working with commonly used distributions which can simulate observations, find quantiles/probabilities, or evaluating pdf or pmf values at specific points. For all of the following you can use the help() function (putting the function name as an input) to read the manual pages. The examples will be given using the normal distribution functions, with several other families of functions listed at the end.
+
+Simulating observations:
+```{r, echo = TRUE}
+x <- rnorm(50, mean = 4, sd = 2)
+hist(x)
+```
+Finding tail probabilities:
+
+```{r}
+pnorm(3, mean = 0, sd = 1) #area under curve left of input, default setting
+```
+Note that the previous input just gives us the value of the cdf of a standard normal at 3. 
+
+```{r}
+pnorm(3, mean = 0, sd = 1, lower.tail = FALSE) #area under curve to the right
+```
+
+Finding quantiles:
+
+```{r}
+qnorm(0.95, mean = 0, sd = 1) 
+```
+The output here is the value such that the area under the curve to the left of the output value is equal to your input probability value.
+
+The last function in this family evaluates the pdf at the chosen input:
+
+```{r}
+dnorm(1.1, mean = 0, sd = 1)
+```
+
+There are functions for other distributions as well:
+
+```{r}
+dbinom(13, size = 20, p = 0.5) #value of binom pmf at 13 (n=20, p=0.5)
+```
+
+```{r, echo = TRUE}
+#simulating 100 standard uniform observations
+y <- runif(100, min = 0, max = 1) 
+hist(y)
+```
+
+```{r, echo = TRUE}
+#simulating 100 poisson observations with parameter lambda=4
+z <- rpois(100, lambda = 4)
+hist(z)
+```
+
+#### Comparing standard normal to Student's t distribution
+
+For this last example we will compare the standard normal and t distributions using simulated observations. Recall that the t distribution is centered at zero and has a symmetric bell-curve shape, but with higher variance than the standard normal distribution. We will compare three sets of samples: one from the standard normal, one from a t distribution with 5 degrees of freedom, and the last from a t distribution with 20 degrees of freedom. We will simulate 500 observations from each distribution.
+
+```{r, echo = TRUE}
+norm_samples <- rnorm(500, mean = 0, sd = 1)
+t5_samples <- rt(500, df = 5)
+t20_samples <- rt(500, df = 20)
+```
+
+Comparing the sample variances of each group of observations
+```{r}
+var(norm_samples)
+var(t5_samples)
+var(t20_samples)
+```
+
+Next we will plot histograms of each 
+
+```{r}
+hist(norm_samples, xlim = c(-5, 5))
+```
+```{r}
+hist(t5_samples, xlim = c(-5, 5))
+```
+
+```{r}
+hist(t20_samples, xlim = c(-5, 5))
+```
+
+What can you conclude from these results?
+
+There are similar functions for other distributions as well. What distributions do the following functions use?
+
+```{r}
+help(rchisq)
+```
+
+```{r}
+help(qf)
+```
+
+
+

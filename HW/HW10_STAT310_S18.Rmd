@@ -1,0 +1,50 @@
+---
+title: "Homework 10"
+author: "Due April 17"
+date: "4/10/18"
+output: pdf_document
+---
+
+#### Instructions
+
+You may work together and discuss the problems in this assignment with your fellow students, but the work you submit must be your own. **Show your work.** Please turn in a hard copy of your submission by April 17 in class. This assignment covers material from chapters 5 and 6 of *Mathematical Statistics with Applications in R* by Ramachandran and Tsokos. This assignment is worth 10 points total.
+
+#### Problems
+
+1. Let $X$ be a single observation from an exponential$(\beta)$ population, with pdf $$f(x) = \frac{1}{\beta}e^{-x/\beta}, \quad x > 0, \quad \beta > 0.$$
+
+    a. (1 point) What is the distribution of the quantity $X/\beta$? Using this quantity as a pivot, construct an 80\% confidence interval for the parameter $\beta$. What is the interval estimate if we observe $X =4.2$?
+
+    a. (1 point) We wish to test the hypothesis $$H_0: \beta = 1$$ versus the alternative $$H_a: \beta > 1$$ at the level of significance $\alpha = 0.25$ using $X$ as our test statistic. What is the distribution of $X$ if $H_0$ is true? What should the rejection region be for this test given that $\alpha = 0.25$? Suppose we observe $X = 4.2$. State the conclusion of the test and report the p-value for that observed test statistic.
+    
+    b. (1 point) What is the probability of Type II error for this test if the true parameter value was $\beta = 3.5$?
+    
+
+1. Let $X_1,...,X_{n}$ be an iid random sample of size $n$ from a Poisson$(\lambda)$ population. We wish to test the null hypothesis $$H_0: \lambda = 2$$ versus the alternative hypothesis $$H_a: \lambda < 2$$ using the statistic $K = \sum_{i=1}^n X_i$.
+
+    a. (1/2 point) Show that $K \sim \text{Poisson}(n\lambda)$. *Tip: recall some of the results we covered concerning sums of independent random variables.*
+
+    a. (1/2 point) Suppose we have a sample of size $n=3$ and decide to reject the null hypothesis $H_0$ if we observe $K \leq 3$. What is the probability of Type I error?
+    
+    b. (1/2 point) Suppose the true parameter is $\lambda = 1$, and we are using the same sample size, statistic, and rejection region from part (b). What is the probability of Type II error?
+    
+    c. (1/2 point) Suppose we collect our data and observe $X_1 = 0$, $X_2 = 2$, and $X_3 = 2$. What is our observed test statistic and its p-value for our test?
+
+
+1. Suppose we have two random samples $X_1,...,X_n$ and $Y_1,...,Y_m$ from two independent normal populations with means $\mu_X$ and $\mu_Y$ and variances $\sigma^2_X$ and $\sigma^2_Y$, respectively. 
+
+    a. (1/2 point) Suppose we assume that $\sigma^2_X = \sigma^2_Y$, and wish to test the hypothesis $$H_0: \mu_X = \mu_Y$$ versus the alternative $$H_a: \mu_X \neq \mu_Y.$$ We will use $\bar{X}$ and $\bar{Y}$, the means from each each sample. If $H_0$ is true, what is the sampling distribution of the statistic $T = \frac{\bar{X} - \bar{Y}}{S_p\sqrt{1/n + 1/m}}$? Here $S_p = \sqrt{S^2_p}$, the "pooled" variance estimator.
+    
+    b. (1/2 point) Suppose we decide to test the two hypotheses at the level $\alpha = 0.01$, with sample sizes $n = 8$ and $m = 9$. What should the rejection region be for this test if we use $T$ as our test statistic?
+    
+    c. (1/2 point) We wish to test the hypothesis $$H_0: \sigma^2_X = \sigma^2_Y$$ versus the alternative $$H_a: \sigma^2_X < \sigma^2_Y.$$ We will use the statistics $S^2_X$ and $S^2_Y$, the sample variances from each sample.  If $H_0$ is true, what is the sampling distribution of the statistic $F = \frac{S_X^2}{S^2_Y}$?
+    
+    d. (1/2 point) Suppose we decide to test the two hypotheses at the level $\alpha = 0.05$, with sample sizes $n = 8$ and $m = 9$. What should the rejection region be for this test if we use $F$ as our test statistic?
+    
+1. For this problem you will use **tooth_growth.csv** (Files/Data on Canvas). The column "len" is the length of odontoblasts (cells responsible for tooth growth) in 20 guinea pigs. Each animal received a treatment of 1 mg/day by one of two delivery methods in the "supp" column, orange juice (coded as "OJ") or ascorbic acid (a form of vitamin C and coded as "VC"). Assume that the length measurements for the 10 guinea pigs treated with orange juice are observations of a random sample from a normal population with mean $\mu_{OJ}$ and variance $\sigma_{OJ}^2$, and that the length measurements for the 10 guinea pigs treated with ascorbic acid (vitamin C) are observations of a random sample from a normal population with mean $\mu_{VC}$ and variance $\sigma_{VC}^2$.
+
+    a. (1 point) Test the hypothesis $$H_0: \mu_{VC} = 20$$ versus the alternative $$H_a: \mu_{VC} \neq 20$$ at the level of significance $\alpha = 0.01$. State your test statistic, its observed value, the rejection region, and the p-value. Briefly interpret your results.
+
+    a. (1 point) Test the hypothesis $$H_0: \sigma^2_{OJ} = \sigma^2_{VC}$$ versus the alternative $$\sigma^2_{OJ} > \sigma^2_{VC}$$ at the level of significance $\alpha = 0.05$. State your test statistic, its observed value, the rejection region, and the p-value. Briefly interpret your results.
+
+    b. (1 point) Assuming that $\sigma^2_{VC} = \sigma^2_{OJ}$, test the hypothesis $$H_0: \mu_{OJ} = \mu_{VC}$$ versus the alternative $$H_a: \mu_{OJ} \neq \mu_{OJ}$$ at the level of significance $\alpha = 0.1$. State your test statistic, its observed value, the rejection region, and the p-value. Briefly interpret your results.

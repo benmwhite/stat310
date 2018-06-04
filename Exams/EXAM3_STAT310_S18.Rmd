@@ -1,0 +1,103 @@
+---
+title: "STAT 310 Exam 3"
+
+date: "4/19/2018"
+output: pdf_document
+---
+
+Name (netID):_______________________________________________________________
+
+
+#### Instructions
+
+- **This exam is graded on a 10 point scale.**
+
+- Please print your name and netID on the first line above.
+
+- You will have 75 minutes to complete this exam. You are only allowed to have your writing materials, your handwritten cheat sheet, your scrap paper, and a calculator.
+
+- Do not open the exam until the time begins.
+
+- Write down your answers using the space provided. If you need more space for your answers you may use extra scrap paper, as long as you clearly print the problem number and staple your sheet to the exam.
+
+- Show your work.
+
+#### Rice University Honor Code Pledge 
+
+Please sign the Honor Code pledge on the line below.
+**"On my honor, I have neither given nor received any unauthorized aid on this exam."**
+
+\ 
+
+\
+
+\
+
+\ 
+
+Signature:_______________________________________________________________
+
+\ 
+
+\ 
+
+
+
+
+
+\newpage
+
+\newpage
+
+
+#### Problem 1
+
+Let $X_1,...,X_n$ be an i.i.d. random sample from a population with probability mass function $$f(x) = P(X = x) =
+\begin{cases}
+p^x(1-p)^{1-x} &\mbox{ if } x = 0 \text{ or } x = 1\\
+0 &\mbox{ otherwise }
+\end{cases}.$$
+Here $p$ is a fixed but unknown constant between 0 and 1.
+
+a. (1 point) Use the method of moments to find an estimator of $p$. Show your work.
+
+b. (1 point) Find the maximum likelihood estimator of $p$. Show your work. Is this the same estimator from part (a)?
+
+c. (1 point) Find the mean square error (MSE) of the estimator you found in part (b). Is this an unbiased and/or consistent estimator of $p$? Why or why not?
+
+
+\newpage
+
+#### Problem 2
+
+Let $X_1, X_2, X_3$ be an i.i.d. random sample of size $n=3$ from a poulation with fixed but unknown mean $\mu$ and variance $\sigma^2 = 2$. We will compare two estimators of $\mu$: $$\hat{\mu}_1 = \frac{X_1 + X_2 + X_3}{3}$$ and $$\hat{\mu}_2 = \frac{2X_1 + X_2 + 5X_3}{8}$$
+
+a. (1/2 point) Find the mean square error (MSE) of $\hat{\mu}_1$. Is this an unbiased estimator of $\mu$?
+
+b. (1/2 point) Find the mean square error (MSE) of $\hat{\mu}_2$. Is this an unbiased estimator of $\mu$? Which of the two estimators is "better" in terms of MSE?
+
+\newpage
+
+#### Problem 3
+
+It is suspected that a coin is biased towards "tails". We can test the hypothesis $$H_0: p = 0.5$$ versus the alternative $$H_a: p < 0.5,$$ where $p$ represents the probability of one coin flip resulting in "heads". We will toss the coin $n$ times, letting the test statistic $Y$ represent the number of times "heads" is observed out of the $n$ flips. 
+
+a. (1 point) Suppose we decide to reject the null hypothesis $H_0$ and conclude that the coin is biased if we flip 3 coins (i.e. $n=3$) and all 3 flips are "tails". That is, we reject $H_0$ when $Y=0$. Find probability of type I error. 
+    
+b. (1 point) Assuming that the true probability of heads is $p=0.2$, find the probability of type II error.
+
+c. (1 point) Suppose we decide to test the same hypotheses by flipping 5 coins instead. What is the probability of type I error if we decide to reject the null hypothesis $H_0$ if we observe **at most** one "heads" (i.e. if $Y \leq 1$)?
+
+\newpage
+
+#### Problem 4
+
+We take a random sample of size $n= 18$ from a $N(\mu, \sigma^2)$ population with both $\mu$ and $\sigma^2$ unknown, and calculate an observed sample mean $\bar{x} = 2.27$ and an observed sample variance $s^2 = 1.02$. 
+
+a. (1/2 point) Construct a 95\% confidence interval for $\mu$. Is the following statement true or false: *The probability that the true mean is between the two exact observed values of our interval estimate is 0.95.*
+
+b. (1/2 point) Construct a 95\% confidence interval for $\sigma^2$.
+    
+c. (1 point) Using the level of significance $\alpha = 0.1$, test the hypothesis $$H_0: \mu = 3$$ versus the alternative $$H_a: \mu \neq 3.$$ Include your test statistic, rejection region, and conclusion. Is the p-value of the observed test statistic less than $\alpha$? Is the following statement true or false: *The p-value is the probability that the null hypothesis is true.*
+
+d. (1 point) Using the level of siginificance $\alpha = 0.1$, test the hypothesis $$H_0: \sigma^2 = 4$$ versus the alternative $$H_a: \sigma^2 < 4.$$ Include your test statistic, rejection region, and conclusion. Is the p-value of the observed test statistic less than $\alpha$?

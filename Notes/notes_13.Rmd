@@ -1,0 +1,85 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "3/8/18"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#### Sampling distributions for normal populations
+
+Recall that the "sampling distribution" of a statistic computed from a random sample (e.g. $\bar{X}$, $S^2$, $\max(X_1, ...,X_n)$) is the distribution of the statistic itself. We've seen some examples of sampling distributions previously; For $N(\mu, \sigma^2)$ populations we found that $\bar{X}\sim N(\mu, \sigma^2/n)$ (we showed this using mgfs). Since the normal distribution is the one most commonly used in statistical models, we will focus now on the sampling distribution of statistics computed from random samples from a $N(\mu,\sigma^2)$ population. In particular we will look at $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ and $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.$
+
+For all the following we will be assuming that our iid random sample $X_1, ...,X_n$ is from a population with the distribution $N(\mu,\sigma^2)$. 
+
+**Th**: $\bar{X}$ and $S^2$ are independent.
+
+This proof requires multivariate transformations, so it will be omitted for now. This result is important for some of the constructions that will be covered in this lecture.
+
+**Gamma distribution**: First let's define the so-called "gamma function": $\Gamma(a) = \int_0^\infty e^{-x}x^{a-1}dx$, where $a>0$. We can show using integration by parts that $\Gamma(a) = (a-1)\Gamma(a-1)$. This means that the gamma function is a continuous generalization of the factorial operator: if $n=1,2,...$, $\Gamma(n) = (n-1)!$.
+
+Now we will define the distribution itself. This is a very flexible distribution, used to model observations that take on positive continuous values. It uses two parameters: the "shape" parameter $\alpha > 0$ and the "scale" parameter $\beta > 0$. Notation: $X \sim \text{Gamma}(\alpha, \beta)$. pdf: $$f(x) = \frac{1}{\beta^\alpha\Gamma(\alpha)} x^{\alpha - 1}e^{-x/\beta}$$ for $x>0$ and 0 otherwise. 
+
+Quick overview of its general properties: $E[X] = \alpha\beta$, $\text{Var}(X) = \alpha\beta^2$, mgf: $M_X(t) = (1 - \beta t)^{-\alpha}$ for $t < 1/\beta$. The mgf isn't defined for values of $t$ greater than $1/\beta$, but it still exists in a neighborhood of 0. 
+
+Note that the exponential distribution is a special case of Gamma distribution where $\alpha = 1$ (leaving just $\beta$ as the primary parameter for the distribution). There is another important special case of the Gamma distribution which is useful for working with random samples from normal populations:
+
+**Chi Square distribution:** The chi square distribution is symbolized $\chi^2(\nu)$, with the Greek letter "nu". This is a Gamma distribution parameterized by $\nu = 1,2, ...$, with $\alpha = \nu/2$ and $\beta = 2$. $\nu$ is called the "degree of freedom" parameter and is also sometimes denoted using $n$ or $p$. pdf: $$f(x) = \frac{1}{\Gamma(\frac{\nu}{2})2^{\nu/2}}x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}, \quad x>0$$ and 0 elsewhere. $E[X] = \nu$, $\text{Var}(X) = 2\nu$, $M_X(t) = 1/((1-2t)^{\nu/2})$ for $t < 1/2$.
+
+
+Properties:
+
+1. If $Z \sim N(0,1)$ (standard normal), then $Z^2 \sim \chi^2(1)$. 
+
+2. If $X_1, ...,X_k$ are independent with $X_i \sim \chi^2_{n_i}$, then the random variable $X_1 + ...+ X_n$ has a chi square distribution with $n_1 + ...+n_k$ degrees of freedom.
+
+*Optional proofs*:
+
+(1): $$M_{Z^2}(t) = E[e^{Z^2t}]$$ $$=\int_{-\infty}^\infty e^{z^2t}\frac{1}{\sqrt{2\pi}}e^{-z^2/2}dz$$ $$= \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi}} e^{z^2(t - 1/2)} dz$$ $$= (1-2t)^{-1/2} \int_{-\infty}^\infty \frac{1}{\sqrt{2\pi(1 - 2t)^{-1}}}e^{-z^2(1-2t)/2}dz \quad \text{(setting up a normal pdf in the integral)} $$ $$= (1-2t)^{-1/2}.$$ This is the mgf of a chi square distribution with $n=1$ degree of freedom.
+
+(2): Recall the property of mgfs that if $X$ and $Y$ are independent then $M_{X+Y}(t) = M_X(t)M_Y(t)$. This means that $$M_{\sum X_i}(t) = \prod_{i=1}^n (1-2t)^{-n_i/2} = (1-2t)^{-(\sum_{i=1}^k n_i)/2},$$ the mgf of a chi square distribution with $\sum_{i=1}^k n_i$ degrees of freedom.
+
+**Th** $(n-1)S^2/\sigma^2$ has a chi-square distribution with $n-1$ degrees of freedom, assuming that our random sample $X_1,...,X_n$ is from a $N(\mu, \sigma^2)$ population.
+
+*Optional proof:*
+First, let $S^2_k = \frac{1}{k-1}\sum_{i=1}^k (X_i - \bar{X}_k)^2$ with $S^2_1 = 0$, and $\bar{X}_k = \frac{1}{k}\sum_{i=1}^k X_i.$ We can show the following identity regarding $S^2$: 
+$(n-1)S_n^2 = (n-2)S_{n-1}^2 +\frac{n-1}{n}(X_n - \bar{X}_{n-1})^2$. Next we can set up the induction steps. Let $n=2$. $$(n-1)S_n^2 = S^2 = (n-2)S_{n-1}^2 +\frac{n-1}{n}(X_n - \bar{X}_{n-1})^2$$ $$= \frac{1}{2}(X_2 - X_1)^2.$$ Now we can show that $(X_2 - X_1)/\sqrt{2\sigma^2} \sim N(0,1),$ which means that $[(X_2 - X_1)/\sqrt{2\sigma^2}]^2 = S_2^2/\sigma^2 \sim \chi^2_1$. Now assume that for $n=k$, $(k-1)S_{k}^2/\sigma^2 \sim \chi^2_{k-1}$. We now need to show that this implies $kS_{k+1}^2/\sigma^2 \sim \chi^2_{k}.$ We know from the identity above that $$kS_{k+1}^2 = (k-1)S_k^2 + \frac{k}{k+1}(X_{k+1} - \bar{X}_k)^2.$$ Remember we are assuming $(k-1)S_{k}^2/\sigma^2 \sim \chi^2_{k-1}$, so all we need to do is show that $\frac{k}{k+1}(X_{k+1} - \bar{X}_k)^2/\sigma^2 \sim \chi^2_1$, independent from $S^2_k$. Independence follows from some results that are derived when showing that $\bar{X}$ and $S^2$ are independent, so we will skip that step, next note that $X_{k+1} - \bar{X}_k$ will be a normal random variable with mean 0 and variance $\sigma^2 + (\sigma^2/k) = \sigma^2(k+1)/k$. So $$(k/k+1)(X_{k+1} - \bar{X}_k)^2/\sigma^2 \sim \chi^2_1.$$
+
+
+Suppose $X\sim N(\mu, \sigma^2)$, and let $Z = \frac{X - \mu}{\sigma}$. Using mgfs it is straightforward to show that $Z \sim N(0,1)$ (it is not enough to find the new expectation and variance only, we want the full distribution). In general, if you take a normal random variable, subtract its mean, and divide that by its standard deviation (square root of variance), then the resulting transformed random variable will be $N(0,1)$. This is known as a $Z$-transform and we usually use $Z$ to denote a $N(0,1)$ ("standard" normal) random variable.
+
+Since $\bar{X} \sim N(\mu, \sigma^2/n)$ when the random sample $X_1, ..., X_n$ is from a $N(\mu, \sigma^2)$ population, this means that $(\bar{X} - \mu)/(\sigma/\sqrt{n})$ has a standard normal distribution. When working with statistical tables you will often need to use the $Z$ transform to check quantiles/probabilities.
+
+However, $\sigma$ is often unknown and must be estimated using the observed sample standard deviation. Thus, we need to find the distribution of the quantity $\sqrt{n}(\bar{X} - \mu)/S$. Here we use Student's $t$ distribution, derived using the following construction:
+
+**Student's t distribution**: Let $Y$ and $Z$ be independent rvs with $Y \sim \chi^2(\nu)$ and $Z \sim N(0,1)$. The rv $$T = \frac{Z}{\sqrt{Y/\nu}}$$ is said to have a $t$ distribution with $\nu$ degrees of freedom. This is denoted $T \sim t_\nu$. You may see $n$ or $p$ used to represent the degrees of freedom parameter as well.
+
+The exact pdf of the $t_\nu$ distribution is $$f(t) = \frac{\Gamma(\frac{\nu+1}{2})}{\Gamma(\nu/2) \sqrt{\pi \nu}}(1+t^2/\nu)^{-\frac{\nu+1}{2}},$$ for all values of $t$ on the real number line.
+
+The pdf is derived using multivariate transformation techniques, so we will not cover it here.
+
+ Like the standard normal distribution, the Student's $t$ distribution is symmetric about 0, but with heavier tails than the standard normal distribution. As the degrees of freedom increase the distribution gets closer and closer to the standard normal distribution (i.e. the sequence $T_n \sim t_n$ converges to $N(0,1)$ in distribution) The expectation and variance of a $t_p$ random variable are $$E[T] = 0, \quad \text{ for } \nu>1$$ $$\text{Var}(T) = \frac{\nu}{\nu-2}, \text{ for } \quad \nu>2$$. There is no mgf, since the moments do not exist for all parameter values. Like the chi square pdf, the $t$ pdf is rarely used on its own since this distribution is mostly used for finding exact quantiles using tables or software.
+
+**Th:** Let $X_1,...,X_n$ be an iid random sample from a $N(\mu, \sigma^2)$ population, and let $$T = \frac{\bar{X} - \mu}{S/\sqrt{n}}.$$ $T$ has a $t$ distribution with $n-1$ degrees of freedom ($T \sim t_{n-1}$). 
+
+Proof: We can use the construction of Student's $t$ rvs to show this. Let $Z = \sqrt{n}(\bar{X} - \mu)/\sigma.$ We know this has a standard normal distribution, since it is a normal random variable subtracting its mean and dividing by its standard deviation. Next, let $Y = (n-1)S^2/\sigma^2$. We know this has a $\chi^2(n-1)$ distribution from earlier. By construction then, $$T = \frac{Z}{\sqrt{Y/(n-1)}}$$ $$=\frac{(\sqrt{n}(\bar{X} - \mu)/\sigma)}{(\sqrt{(n-1) S^2/\sigma^2(n-1)})}$$ $$= \frac{\bar{X} - \mu}{S/\sqrt{n}}$$ has a Student's $t$ distribution with $n-1$ degrees of freedom.
+
+This last distribution is useful for inference involving the comparison of the variances of two different normal populations. 
+
+**F distribution**: Let $U \sim \chi^2(p)$ and let $V \sim \chi^2(q)$, with $U$ and $V$ independent. Let $$F = \frac{U/p}{V/u}.$$ The distribution of $F$ is called (Snedecor's) $F$ distribution with $p$ and $q$ degrees of freedom, denoted $F(p,q)$.
+It should be clear that if a rv $X$ has the distribution $F(p,q)$, then $1/X \sim F(q,p)$. This representation is sometimes necessary when using tables to find quantiles. Sometimes instead of $p$ and $q$, $n_1$ and $n_2$ or $d_1$ and $d_2$ are used to represent the df parameters.
+
+To see how this distribution helps us compare population variances, we have the following theorem:
+
+Th: Let $X_1,...X_n$ be an iid random sample from a $N(\mu_X,\sigma_X^2)$ population. Let $Y_1,...,Y_m$ be an iid random sample from a $N(\mu_Y, \sigma^2_Y)$ population, independent of the previous population. Let $S^2_X$ and $S^2_Y$ denote the sample variances of $X_1,...,X_n$ and $Y_1,...,Y_m$ respectively. Then $$\frac{(S^2_X/\sigma^2_X)}{(S^2_Y/\sigma^2_Y)} \sim F(n-1, m-1).$$
+
+Proof: Like with the $t$ distribution, we can use the construction of $F$ random variables. $$U = \frac{(n-1)S^2_X}{\sigma^2_X} \sim \chi^2(n-1)$$ $$V = \frac{(m-1)S^2_Y}{\sigma^2_Y} \sim \chi^2(m-1).$$ $$F = \frac{U/(n-1)}{V/(m-1)}$$ $$=\frac{S_X^2/\sigma^2_X}{S^2_Y/\sigma^2_Y}.$$
+
+A corollary to this theorem is that if the population variances are assumed to be equal then $S^2_X/S^2_Y \sim F(n-1,m-1).$
+
+The pdf of an $F(p,q)$ distribution is $$f(x) = \frac{\Gamma((p+q)/2)}{\Gamma(p/2)\Gamma(q/2)} (p/q)^{p/2} x^{(p/2)-1}(1+px/q)^{-(p+q)/2}, \quad x>0,$$ and 0 elsewhere. If $X$ is an $F(p,q)$ random variable then $$E[X] = \frac{q}{q-2}, \quad \text{ for } q > 2$$ $$\text{Var}(X) = \frac{2q^2(p+q-2)}{p(q - 2)^2(q-4)}\quad \text{ for } q > 4 .$$ As with the $t$ distribution, the mgf does not exist since the moments do not exist for every possible parameter. 
+
+**Th:** Let $T$ be a Student $t$ random variable with $\nu$ degrees of freedom. Then $$T^2 \sim F(1, \nu).$$
+
+Proof: A $t$ random variable with $\nu$ degrees of freedom is constructed as $T = Z/(\sqrt{Y/\nu})$, where $Z \sim N(0, 1)$ and $Y \sim \chi^2(\nu)$. So $T^2 = \frac{Z^2}{(Y/\nu)}$. Since $Z^2 \sim \chi^2(1)$, the result follows from the construction of a $F(1, \nu)$ random variable as a ratio of chi square random variables divided by their degrees of freedom (1 and $\nu$ respectively).

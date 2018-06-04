@@ -1,0 +1,32 @@
+---
+title: "Solution 7"
+author: "Ben White"
+date: "3/17/2018"
+output: pdf_document
+---
+
+1. (1 point) Here we have $\mu = 100$ and $\sigma = 10$. We know by Chebyshev's inequality that $$P(\mu - K\sigma < X < \mu + K\sigma) \geq 1 - \frac{1}{K^2}$$ so set $$100 - 10K = 70$$ and $$100 + 10K = 130$$ giving us $K = 3$ and a lower bound of $1 - \frac{1}{3^2} = \frac{8}{9}$.
+
+1. (1 point) Since the population mean is $p$ and the population variance is $p(1-p)$, we get the Central Limit Theorem approximation: $$\frac{\bar{X} - p}{\sqrt{p(1-p)/n}} \sim N(0,1)$$ Letting $Z$ represent a standard normal random variable: $$0.95 = P(|\bar{X} - p| < 0.1)$$ $$= P(-0.1 < \bar{X} - p < 0.1)$$ $$= P(-0.1/\sqrt{p(1-p)/n} < \frac{\bar{X} - p}{\sqrt{p(1-p)/n}} < 0.1/\sqrt{p(1-p)/n})$$ $$P(-0.1/\sqrt{p(1-p)/n} < Z < 0.1/\sqrt{p(1-p)/n}),$$ Checking the normal table shows that we should have bounds $-0.1/\sqrt{p(1-p)/n} = -1.96$ and $0.1/\sqrt{p(1-p)/n} = 1.96$ giving us $$\sqrt{n} = \frac{(1.96)(\sqrt{p(1-p)})}{0.1}$$ The largest possible value for $p(1-p) = 1/4$ at $p=1/2$, so we have $$\sqrt{n} = \frac{(1.96)(\sqrt{1/4})}{0.1}$$ or $$n = 96.04$$ Since $n$ must be an integer $n=97$ is sufficient to satisfy the criteria (note to graders, rounding down to $n=96$ is also acceptable).
+
+1. (2 points) Finding the cdf of the statistic $X_{(n)}$: when $x < 0$ the cdf is zero, when $x > 1$ the cdf is 1. When $0 \leq x \leq 1$ the cdf of $X_{(n)}$ is $$P(X \leq x) = P(X_1 \leq x, ..., X_n \leq x) = P(X_1 \leq x)\times...\times P(X_n \leq x) = x^n.$$ due to the fact that the cdf of a standard uniform is $P(X \leq x) = x$ for $0 \leq x \leq 1$. Next: $$P(|X_{(n)} - 1|\geq\epsilon) = P(X_{(n)} \leq 1 - \epsilon) = (1 - \epsilon)^n$$ for $\epsilon \leq 1$, which goes to zero as $n$ increases. When $\epsilon > 1$ the probability is zero anyway. So the statistic converges to 1 in probability.
+
+1. 
+
+    a. (1 point) We know $E[S_n^2] = \sigma^2$, so $Var(S_n^2) = E[(S_n^2 - \sigma^2)^2]$. Let $\epsilon > 0$ be given. Using Chebyshev's inequality we know $$P(|S_n^2 - \sigma^2| \geq \epsilon) = P((S_n^2 - \sigma^2)^2 \geq \epsilon^2) \leq \frac{E[(S_n^2 - \sigma^2)^2]}{\epsilon^2} = \frac{Var(S_n^2)}{\epsilon^2}$$ If the variance is going to zero as $n$ increases then $\lim_{n\to\infty}\frac{Var(S_n^2)}{\epsilon^2} = 0$ since $\epsilon$ is a constant. This means that $P(|S_n^2 - \sigma^2| \geq \epsilon)$ is bounded from below by $0$ (since it's a probability) and from above by a quantity whose limit is $0$. Thus $\lim_{n \to \infty} P(|S_n^2 - \sigma^2| \geq \epsilon) = 0$, or $S_n^2$ converges to $\sigma^2$ in probability.
+    
+    b. (1 point) Here the quickest way to derive $\text{Var}(S^2)$ is to take advantage of the fact that $(n-1)S^2/\sigma^2 \sim \chi^2(n-1)$ (remember we are assuming that the population is normally distributed). Recall that the variance of a $\chi^2(\nu)$ rv is $2\nu$, so we have $$\text{Var}\left(\frac{(n-1)S^2}{\sigma^2}\right) = 2(n-1)$$. Using the properties of variance: $$\text{Var}(S^2) = \frac{\sigma^4}{(n-1)^2}\text{Var}\left(\frac{(n-1)S^2}{\sigma^2}\right) = \frac{\sigma^4 2(n-1)}{(n-1)^2} = \frac{2 \sigma^4}{n-1}.$$ Here we have $\lim_{n \to \infty} \text{Var}(S^2) = 0$, and thus $S^2 \overset{p}{\to} \sigma^2$ for samples from normally distributed populations based on the result from part (a).
+    
+1. (1 point) The sample sizes are large enough that we can use the Central Limit Theorem approximation: $$\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N(0,1)$$ or equivalently $$\bar{X} \sim N(\mu, \sigma^2/n).$$ Here $\mu = 98.6$ and $\sigma^2 = 0.95^2$. So we have $$P(\bar{X} > 99.1) = P\left(\frac{\bar{X} - 98.6}{0.95/\sqrt{n}}>\frac{99.1 - 98.6}{0.95/\sqrt{n}} \right) = P\left(Z >\frac{99.1 - 98.6}{0.95/\sqrt{n}} \right)$$ For $n=30$ we get $P(Z>2.88275)\approx0.002$, for $n=60$ we get $P(Z > 4.07682) \approx 0.000023$, and for $n=100$ we get $P(Z > 5.26316) \approx 0$. The probability that our sample mean exceeds 99.1 is already very small for $n=30$, and decreases as our sample size increases. Note that this demonstrates the Law of Large Numbers as well, since the sample mean must be converging to 98.6 in probability.
+
+1. (1 point) We know $\frac{(n-1)S^2}{\sigma^2} \sim \chi^2(14)$, since our sample size is 15. To get a probability equal to 0.95 we can pick out the 0.025 and .975 quantiles, giving us $$0.95 = P(5.62873 < \frac{(n-1)S^2}{\sigma^2} < 26.1189) $$ $$=P(5.62873\sigma^2/(n-1)) < S^2 < 26.1189\sigma^2/(n-1)) $$ $$=P(0.7993199 < S^2 < 3.70907). $$ So $a \approx 0.799$ and $b \approx 3.71$. Note that this interval gives us a range of "plausible" values for our observed $S^2$ if we assume that $\sigma^2 = 1.41^2 \approx 2$. If our observed $S^2$ falls outside of this range then that could be evidence that our assumption about $\sigma^2$ is incorrect. *Note to graders: picking $a=0$ and finding $b$ in terms of the 0.95 quantile is also acceptable.*
+
+1. (1 point) Since the population is assumed to be normally distributed we know that $\bar{X} \sim N(\mu, \sigma^2/n)$, so here our sample mean should have a $N(5, 4/15)$ distribution. To check via standard normal tables (with $Z \sim N(0,1)$): $$P(\bar{X} > 5.1) = P\left(\frac{(\bar{X} - 5)}{(2/\sqrt{15})} > \frac{(5.1 - 5)}{(2/\sqrt{15})}\right)$$ $$=P\left(Z >  \frac{(5.1 - 5)}{(2/\sqrt{15})}\right)$$ $$= P(Z > 0.1936492)$$ $$= 0.4232253.$$
+    
+
+
+1. Each of these uses the constructions of $t$, $\chi^2$, and $F$ distributions.
+    a. (1 point) A Chi square random variable with 3 degrees of freedom can be constructed by taking the sum of three independent squared standard normal rvs, so $$\sum_{i=1}^3 [(X_i - i)/i]^2 \sim \chi^2(3)$$
+    
+    b. (1 point) A $t$ random variable with 2 degrees of freedom can be constructed by taking a standard normal rv in the numerator and a chi square rv with 2 degrees of freedom in the denominator: $$\frac{(X_j - j)/j}{\sqrt{\frac{1}{2}\sum_{i\neq j}[(X_i - i)/i]^2}} \sim t_2$$ You can use any combination of two in the denominator as long as the third left-over one is used in the numerator (to guarantee that that numerator and denominator are independent).
+    c. (1 point) Square the answer from part $b$, using the result from the previous problem.

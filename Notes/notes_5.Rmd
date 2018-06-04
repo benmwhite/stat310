@@ -1,0 +1,82 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "1/30/2018"
+output: pdf_document
+---
+
+#### Expectation and Variance
+
+To recap:
+
+- **Random Variables**. Numerical summaries of probabilistic experiments. Defined simply as functions from a sample space to the real numbers.
+
+- **Distribution Functions**. Uniquely determine random variables. We have seen probability mass functions for discrete rvs ($f_X(x) = P(X = x)$), probability density functions for continuous rvs ($\int_a^b f_X(x) dx = P(a < X < b)$), and cumulative distribution functions for both continuous and discrete rvs ($F_X(x) = P(X \leq x)$).
+
+
+One important concept in probability is that of the "expected value" of a random variable or distribution, essentially a "balance point" or measure of the "center" of a distribution. Since random variables are all real-valued, how can we find
+
+**Def**: Let $X$ be a discrete random variable with pmf $f_X(x)$. The *expected value*, *mean*, or *expectation* of $X$, denoted $E[X]$, is defined by $$E[X] = \sum_x xf_X(x).$$
+
+**Def**: Let $X$ be a continuous random variable with pdf $f_X(x)$. The *expected value*, *mean*, or *expectation* of $X$ is $$E[X] = \int_{-\infty}^\infty xf_X(x) dx$$.
+
+If the sum or integral does not converge to a finite number, then the expectation does not exist for that particular distribution/random variable. In most cases the models we will be using will not rely on distributions whose expectations do not exist, but there are some exceptions. Note that these are constants, since they involve the direct calculation of specific integrals or sums.
+
+We often use $\mu$ as a shorthand for means or expected values.
+
+**Ex**: A *Bernoulli trial* is an experiment with exactly two possible outcomes (e.g. a single coin flip). For convenience we refer to one of the two outcomes as a "success" (e.g. heads) and the other as a "failure" (e.g. tails). Accordingly, we call the probability of the "success" outcome the success probability, denoted by $p$ (note that $0 \leq p \leq 1$). Let $X$ be a random variable taking value equal to 0 if the experiment is a "failure" and value equal to 1 if it is a "success". Notation: $X \sim \text{Bernoulli}(p)$. If $X$ is a Bernoulli random variable, what are its distribution functions? $P(X = 1) = p$ and $P(X = 0) = 1-p$, so we can represent the pmf compactly as $$f_X(x) = P(X = x) = p^x(1-p)^{1-x}$$ for $x=1$ or $x=0$ and zero otherwise. What is the cdf? $$F_X(x) = P(X \leq x) = 
+\begin{cases}
+0 &\mbox{ if } x < 0 \\
+1-p &\mbox{ if } 0 \leq x <1 \\
+1 &\mbox{ if } 1\leq x
+\end{cases}$$ The success probability $p$ is a real-valued parameter that uniquely determines the distribution/random variable.
+
+What is the expected value of a Bernoulli random variable? $$E[X] = \sum_x xf_X(x) = (0)(1-p) + (1)(p) = p.$$ An important remark: we can see that the expected value does not have to be equal to any of the possible values the random variable can take! For instance if we are using this distribution to model a fair coin flip letting 1 represent heads and 0 represent tails with $p = 0.5$, then the expected value of the random variable is 0.5, although the only allowed values for the random variable are 0 and 1.
+
+**Ex**: The continuous *uniform* distribution has the pdf $$f_X(x) = \frac{1}{b-a}, \quad a\leq x \leq b$$ and zero otherwise. Let $X \sim \text{Unif}(a,b)$. What is the cdf of $X$? $$F_X(x) = P(X \leq x) = \int_{-\infty}^x 1/(b-a) dt =
+\begin{cases}
+0 &\mbox{ if } x < a \\
+\int_a^x 1/(b-a) dt = (x-a)/(b-a) &\mbox{ if } a \leq x \leq b \\
+1 &\mbox{ if } b < x
+\end{cases}$$ What is $E[X]$?
+
+$$E[X] = \int_{-\infty}^\infty xf(x) dx = \int_a^b x/(b-a) dx = \frac{b^2}{2(b-a)} - \frac{a^2}{2(b-a)} = \frac{(b + a)(b-a)}{2(b-a)} = \frac{a+b}{2}$$ So the expected value of a uniform random variable is the midpoint of the interval on which it's defined.
+
+We can also find the expected value of functions of random variables.
+
+**Th**: Let $X$ be a random variable with pmf or pdf $f_X(x)$, and let $g(x)$ be a real-valued function of $x$. The expected value of $g(X)$ is 
+$$E[g(X)] = \begin{cases}
+\sum_x g(x) f_X(x) &\mbox{ if } X \text{ is discrete}\\
+\int_{-\infty}^\infty g(x)f_X(x)dx &\mbox{ if } X \text{ is continuous}
+\end{cases}
+$$ provided that these sums/integrals converge.
+
+Remark: when we write $g(X)$ note we're actually refering to a random variable (technically also a function from a sample space to the reals through $X$, then to a different mapping to the reals through $g$). We'll learn later how to find full distribution functions for transformations like this, but for finding expectations we can use the theorem above. 
+
+Similar to how the expected value can be thought of as a measure of the "center" or "location" of a distribution, we can define another type of expectation to be a measure of the "spread" or "variability" of a distribution. 
+
+**Def**: Let $X$ be a random variable with pmf/pdf $f_X(x)$, $E[X] = \mu$. The *variance* of a rv $X$ is defined as $$Var(X) = E[(X - \mu)^2] = \begin{cases}
+\sum_x (x - \mu)^2 f_X(x) &\mbox{ if } X \text{ is discrete}\\
+\int_{-\infty}^\infty (x - \mu)^2f_X(x)dx &\mbox{ if } X \text{ is continuous}
+\end{cases}
+$$
+If the distribution of $X$ is very spread out around its mean compared to another rv $Y$ with the same mean, then we will find that $X$ has a larger variance than $Y$.
+
+Before we go into some examples, here are some important properties of expectation and variance that often make calculations simpler:
+
+**Th**: Let $a$, $b$, and $c$ be constants and let $g(X)$, $g_1(X), ...,g_n(X)$ be real valued functions of a random variable $X$ such that $E[g(X)]$ and $E[g_i(X)]$ for $i=1,...,n$ exist. Then the following hold:
+
+a. $E[c] = c$
+
+b. $E[cg(X)] = cE[g(X)]$
+
+c. $E[\sum_{i=1}^n g_i(X)] = \sum_{i=1}^nE[g_i(X)]$
+
+d. $Var(aX + b) = a^2Var(X)$. In particular, $Var(aX) = a^2Var(X)$.
+
+e. $Var(X) = E[X^2] - (E[X])^2$
+
+**Ex:** Let $X \sim \text{Bernoulli}(p)$. What is $Var(X)$? Part (e) of the previous theorem makes it much easier to calculate variances if we already have the expectations. We know that $E[X] = p$, so now we just need $E[X^2]$: $$E[X^2] = (0^2)(1-p) + (1^2(p)) = p$$ Using the theorem: $$Var(X) = E[X^2] - (E[X])^2 = p - p^2 = p(1-p)$$ You can check that using the original expression for variance will result in the same answer. Exercise: what value of $p$ results in the Bernoulli random variable with the largest variance?
+
+**Ex**: Let $X \sim \text{Unif}(0,1)$. What is $Var(X)$? We can use the same theorem as before, also using the fact that we've already gotten $E[X] = (a+b)/2 = 1/2$. First we find $E[X^2]$: $$E[X^2] = \int_{-\infty}^\infty x^2 f(x) dx = \int_0^1 x^2 dx = \frac{(1^3) - 0^3}{3} = \frac{1}{3}$$ And apply the theorem: $$Var(X) = E[X^2] - (E[X])^2 = (1/3) - (1/2)^2 = 1/12$$ It is straightforward to show that for general Unif$(a,b)$ random variables that the variance will be $(b-a)^2/12$. Suppose we have two uniform random variables: $X \sim \text{Unif}(0, 4)$ and $Y \sim \text{Unif}(1,3)$. These have the same mean/expected value: $$E[X] = (0+4)/2 = 2, \quad E[Y] = (1+3)/2 = 2.$$ However, $X$ has a larger variance: $$\text{Var}(X) = (4-0)^2/12 = 4/3, \quad \text{Var}(Y) = (3-1)^2/12 = 1/3.$$ $X$ is more "spread out" than $Y$ since we've defined it over a wider set of possible values, and that shows in the variance calculations.
+

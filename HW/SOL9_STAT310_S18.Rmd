@@ -1,0 +1,101 @@
+---
+title: "Solution 9"
+output: pdf_document
+---
+
+1. (1 point) $$MSE(W) = E[(W - \theta)^2] = E[W^2 - 2W\theta + \theta^2]$$ $$= E[W^2] - 2\theta E[W] + \theta^2$$ $$=E[W^2] - \theta(2E[W] -\theta)$$ $$=E[W^2] - \theta(E[W] + E[W - \theta])$$ $$=E[W^2] - (E[W] - E[W - \theta])(E[W] + E[W - \theta]) \quad (\theta \text{ is equal to the expectation minus the bias})$$ $$= E[W^2] - (E[W]^2 + E[W - \theta]^2)$$ $$= (E[W^2] - E[W]^2) + E[W - \theta]^2$$ $$= \text{Var}(W) + \text{Bias}(W)^2$$
+
+1. (2 points) $E[\hat{\theta}_1] = 2E[\bar{X}] = 2(\theta/2) = \theta$, so the moment estimator is unbiased. Then $$MSE(\hat{\theta_1}) = \text{Var}(2\bar{X}) = 2^2\text{Var}(\bar{X}) = 4\left(\frac{\theta^2}{12n}\right) = \frac{\theta^2}{3n}.$$ To find the MSE of the MLE we need to derive the sampling distribution first. The cdf of $\hat{\theta}_2$ is $$P(\hat{\theta}_1 \leq x) = P(\max(X_1,...,X_n) \leq x) = P(X_1 \leq x)\times...\times P(X_n \leq x) = (x/\theta)^n,$$ so the pdf is $$f(x) = \frac{d}{dx}(x/\theta)^n = \frac{n}{\theta^n}x^{n-1}$$ for $0 \leq x \leq \theta$ and zero otherwise. This means that $$MSE(\hat{\theta}_2) = E[(\hat{\theta}_2 - \theta)^2] = \int_{-\infty}^{\infty} (x - \theta)^2f(x) dx = \int_0^\theta (x - \theta)^2 \frac{n}{\theta^n}x^{n-1} dx = \frac{2 \theta^2}{2 + 3 n + n^2}.$$ Relative efficiency: $$e(\hat{\theta}_1, \hat{\theta}_2) = \frac{MSE(\hat{\theta}_2)}{MSE(\hat{\theta}_1)} = \frac{\frac{2 \theta^2}{2 + 3 n + n^2}}{\frac{\theta^2}{3n}} = \frac{6n}{2+3n +n^2}.$$ This is less than 1 when $n>1$, so $\hat{\theta}_2$ is relatively more efficient than $\hat{\theta}_1$. Both estimators are consistent, since the MSEs both go to zero as $n$ increases. We have previously shown in that $\hat{\theta}_1$ is also unbiased. $E[\hat{\theta}_2] = \int_{-\infty}^{\infty} xf(x) dx = \int_0^\theta x \frac{n}{\theta^n}x^{n-1} dx = (\frac{n}{n+1})\theta$, so the MLE is a biased estimator (it will tend to underestimate the true parameter).
+    
+
+1.  a. (1/2 point) $$S_p^2 = \frac{\sum_{i=1}^n (X_i - \bar{X})^2 + \sum_{i=1}^m (Y_i - \bar{Y})^2}{n+m-2}$$ $$= \frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}$$ So $$E[S_p^2] = E\left[\frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}\right] = \frac{n-1}{n + m -2}E[S_X^2] + \frac{m-1}{n+m-2}E[S_Y^2]$$ $$=\frac{(n-1) + (m-1)}{n+m-2}\sigma^2$$ $$= \sigma^2$$
+
+    b. (1/2 point) $$\frac{(n+m-2)S^2_p}{\sigma^2} = \frac{n+m-2}{\sigma^2}\left(\frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}\right)$$   $$=\frac{(n-1)S_X^2}{\sigma^2} + \frac{(m-1)S_Y^2}{\sigma^2}$$ We know that $\frac{(n-1)S_X^2}{\sigma^2} \sim \chi^2_{n-1}$ and $\frac{(m-1)S_Y^2}{\sigma^2} \sim \chi^2_{m-1}$. Since the two samples are independent from each other, the sum of these two quantities has a $\chi^2$ distribution with $(n-1) + (m-1) = n + m - 2$ degrees of freedom
+    
+    c. (1/2 point) Note that $(\bar{X} - \bar{Y})$ is normally distributed with mean $m_X - \mu_Y$ and variance $\sigma^2/n + \sigma^2/m = \sigma^2(1/n + 1/m)$. This means that the quantity $$\frac{(\bar{X} - \bar{Y}) - (\mu_X - \mu_Y)}{\sigma \sqrt{1/n+1/m}}$$ must have a standard normal distribution. We also know that $\frac{(n+m-2)S^2_p}{\sigma^2} \sim \chi^2_{n+m-2}$. This means that  $$\frac{\left(\frac{(\bar{X} - \bar{Y}) - (\mu_X - \mu_Y)}{\sigma \sqrt{1/n+1/m}}\right)}{\sqrt{\frac{(n+m-2)S^2_p}{\sigma^2(n+m-2)}}}= \frac{(\bar{X} - \bar{Y}) - (\mu_X - \mu_Y)}{S_p \sqrt{1/n+1/m}}$$ $$= T \sim t_{n+m-2}$$ using the construction of $t$ random variables using standard normal and chi square random variables.
+    
+1. (1 point) The sample sizes are large enough to use the normal approximation based on the CLT, and to use the sample variances to approximate the true population variances. This means that the appropriate CI should be: $$(\bar{X} - \bar{Y}) \pm z_{\alpha/2}\sqrt{\frac{S^2_X}{n} + \frac{S^2_Y}{m}}$$ The relevant quantile from the standard normal distribution is $z_{0.01} = 2.326348$. Plugging in our values: $$(155908 -148822) \pm 2.326348\sqrt{23000^2/150 + 21000^2/100} = (532.1914, 13639.81).$$
+
+
+1. Importing data (assuming that the csv file is saved to your current working directory):
+
+```{r}
+tg <- read.csv("tooth_growth.csv")
+oj <- tg$len[11:20]
+vc <- tg$len[1:10]
+```
+
+Saving the important statistics:
+
+```{r}
+xbar_oj <- mean(oj)
+xbar_vc <- mean(vc)
+s_oj <- sd(oj)
+s_vc <- sd(vc)
+
+#viewing all four
+print(c(xbar_oj, xbar_vc, s_oj, s_vc))
+```
+
+Since we have small sample sizes (10 for each population) and are assuming that the underlying populations are normally distributed, we can use the Student $t$ distrubtion for our pivot for the population mean CIs and the chi square distribution for our pivot for the population variance CIs. $(1-\alpha)100$\% CI for the population mean $mu$: $$(L, U) = \left(\bar{X} - t_{\alpha/2, n-1}(S/\sqrt{n}), \bar{X} + t_{\alpha/2, n-1}(S/\sqrt{n})\right)$$ $(1-\alpha)100$\% CI for the population variance $\sigma^2$: $$(L, U) = \left(\frac{(n-1)S^2}{\chi^2_{1-\alpha/2,n-1}}, \frac{(n-1)S^2}{\chi^2_{\alpha/2,n-1}}  \right)$$ These will be used in parts (a) through (c).
+
+
+a. (1/2 point) *OJ group.* Plugging in the appropriate values into our expression for the CI we get the following interval estimate for the population mean $\mu_{OJ}$
+
+```{r}
+c(xbar_oj - qt(0.95, df = 9) * (s_oj / sqrt(10)), xbar_oj + qt(0.95, df = 9) * (s_oj / sqrt(10)))
+```
+and the following interval estimate for the population variance $\sigma^2_{OJ}$
+
+```{r}
+c((9 * s_oj^2) / qchisq(0.95, df = 9), (9 * s_oj^2) / qchisq(0.05, df = 9))
+```
+
+b. (1/2 point) *VC group.* Using the same constructions as above but plugging in our values from the VC group we get the following interval estimate for the population mean $\mu_{VC}$:
+
+```{r}
+c(xbar_vc - qt(0.95, df = 9) * (s_vc / sqrt(10)), xbar_vc + qt(0.95, df = 9) * (s_vc / sqrt(10)))
+```
+and the following interval estimate for the population variance $\sigma^2_{OJ}$
+
+```{r}
+c((9 * s_vc^2) / qchisq(0.95, df = 9), (9 * s_vc ^2) / qchisq(0.05, df = 9))
+```
+It appears that the mean odontoblast length in the VC group is smaller, but with lower variance than in the OJ group.
+
+c. (1/2 point) Here we can use the same process as before but using different quantiles from the $t$ distribution. $99$\% CI for $\mu_{OJ}$: 
+
+```{r}
+c(xbar_oj - qt(0.995, df = 9) * (s_oj / sqrt(10)), xbar_oj + qt(0.995, df = 9) * (s_oj / sqrt(10)))
+```
+
+$99$\% CI for $\mu_{VC}$:
+
+```{r}
+c(xbar_vc - qt(0.995, df = 9) * (s_vc / sqrt(10)), xbar_vc + qt(0.995, df = 9) * (s_vc / sqrt(10)))
+```
+
+These new interval estimates are wider than the previous ones, illustrating the trade-off between confidence level and interval length. 
+
+d. (1/2 point) Here we can use the expression from problem 3 as our pivot, giving us the following $(1 - \alpha)100$\% CI for $\mu_X - \mu_Y$ $$(L,U) = \left((\bar{X} - \bar{Y}) - t_{\alpha/2, n+m-2} S_p \sqrt{\frac{1}{n} + \frac{1}{m}}, (\bar{X} - \bar{Y}) + t_{\alpha/2, n+m-2} S_p \sqrt{\frac{1}{n} + \frac{1}{m}} \right)$$
+
+Computing the "pooled" standard deviation estimator:
+
+```{r}
+s_p <- sqrt((9 * (s_oj^2) + 9 * (s_vc^2)) / 18)
+s_p
+```
+    
+Plugging in our values and getting the $90$\% CI:
+
+```{r}
+c((xbar_oj - xbar_vc) - qt(0.95, df = 18) * s_p * sqrt(0.1 + 0.1), (xbar_oj - xbar_vc) + qt(0.95, df = 18) * s_p * sqrt(0.1 + 0.1))
+```
+The confidence interval for the difference in means is positive and does not contain zero, indicating that the population mean from the OJ group is indeed larger than the population mean from the VC group.
+
+e. To compare variances we can use an $F$ pivot, giving us the following $(1-\alpha)100$\% CI: $$(L,U) = \left(\frac{S^2_X/S^2_Y}{F_{1-\alpha/2, n-1, m-1}}, \frac{S^2_X/S^2_Y}{F_{\alpha/2, n-1, m-1}}\right).$$ Plugging in the appropriate values from our collected data we get the following $90$\% confidence interval:
+
+```{r}
+c(s_oj^2 / s_vc^2 / qf(0.95, df1 = 9, df2 = 9), s_oj^2 / s_vc^2 / qf(0.05, df1 = 9, df2 = 9))
+```
+The estimated ratio is greater than 1, but the confidence interval contains 1. This means that we cannot really say for certain whether the true variance of the OJ group is larger than the true variance of the VC group.

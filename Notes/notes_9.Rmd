@@ -1,0 +1,77 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "2/22/18"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+    
+#### Multivariate expectation
+
+We now extend the idea of mathematical expectation to multivariate cases.
+
+Def: Let $X$ and $Y$ have joint distribution function $f(x,y)$, and let $g(x,y)$ be some real-valued function of $x$ and $y$. If $X$ and $Y$ are discrete, the expected value of $g(X,Y)$ is $$E[g(X,Y)] = \sum_x \sum_y g(x,y)f(x,y),$$ and if they are continuous $$E[g(X,Y)] = \int_{-\infty}^\infty \int_{-\infty}^\infty g(x,y)f(x,y) dy dx.$$
+
+Note that if $g(x)$ is a function of $x$ only (not $y$), then using the joint distribution to get $E[g(X)]$ will be the same as using the marginal distribution of $X$. We will show this for the continuous case, but the steps are similar for the discrete case: $$E[g(X)] = \int_{-\infty}^{\infty} \int_{-\infty}^\infty g(x) f(x,y) dy dx$$ $$=\int_{-\infty}^\infty g(x) (\int_{-\infty}^\infty f(x,y) dy) dx$$ $$= \int_{-\infty}^\infty g(x)f_X(x)dx.$$
+
+Properties:
+
+1. If $a$ and $b$ are real-valued constants, $E[aX + bY] = aE[X] + bE[Y].$
+
+2. If $X$ and $Y$ are independent, then $E[g(X)h(Y)] = E[g(X)]E[h(Y)]$. The converse is not necessarily true. 
+
+In both cases above, the expectations in the right side of the equation are taken using the marginal distributions of $X$ and $Y$.
+
+Proofs for continuous cases (discrete is similar): 
+
+1. $$E[aX + bY] = \int_{-\infty}^\infty \int_{-\infty}^\infty (ax + by)f(x,y)dydx$$ $$= a\int_{-\infty}^\infty \int_{-\infty}^\infty xf(x,y)dydx  + b\int_{-\infty}^\infty \int_{-\infty}^\infty yf(x,y)dydx$$ $$= a \int_{-\infty}^\infty xf_X(x)dx + b \int_{-\infty}^\infty y f_Y(y) dy$$ $$=aE[X] + bE[Y].$$
+
+2. $$E[g(X)h(Y)] = \int_{-\infty}^\infty \int_{-\infty}^\infty g(x)h(y)f(x,y) dy dx$$ $$= \int_{-\infty}^\infty g(x)h(y)f_X(x)f_Y(y) dy dx$$ $$=\int_{-\infty}^\infty g(x)f_X(x) dx \int_{-\infty}^\infty h(y)f_Y(y)dy$$ $$=E[g(X)]E[h(Y)]$$
+
+Ex: $f(x,y) = 3x$, $0 \leq y \leq x \leq 1$ 
+
+1. What is $E[4X - 3Y]$? By the previous theorem, this will be equal to $4E[X] - 3E[Y]$. We can use the marginal distributions for this rather than the joint distribution. Recall that $f_X(x) = 3x^2$, $0 \leq x \leq 1$ and $f_Y(y) = \frac{3}{2}(1 - y^2)$, $0 \leq y \leq 1$. 
+ $$E[X] = \int_0^1 3x^2 dx = \frac{3}{4}$$ $$E[Y] = \int_0^1 \frac{3}{2}(1 - y^2) dy = \frac{3}{8}.$$ So $E[4X - 3Y] = 4E[X] - 3E[Y] = 3 - \frac{9}{8} = \frac{15}{8}.$
+ 
+2. What is $E[XY]$? Here we have to use the joint distribution. $$\int_0^1 \int_0^x xy (3x) dy dx = \frac{3}{10}.$$
+
+Note that the fact that $E[g(X)h(Y)] = E[g(X)]E[h(Y)]$ if $X$ and $Y$ are independent implies the theorem we discussed earlier regarding mgfs and sums of independent random variables.
+
+Th: Let $X$ and $Y$ be indpendent, with mgfs $M_X(t)$ and $M_Y(t)$ existing. If we let $Z = X+Y$, then the mgf of $Z$ is $M_Z(t) = M_X(t)M_Y(t).$
+
+Straightforward proof using properties of expectation.
+
+Optional exercise: Let $X \sim N(\mu_X, \sigma_X^2)$ and let $Y \sim N(\mu_Y, \sigma^2_Y)$, independent. Show that if $Z = X+Y$ then $Z \sim N(\mu_X + \mu_Y, \sigma^2_X + \sigma^2_Y)$ Tip: recall that the mgf of a $N(\mu, \sigma^2)$ random variable is $M_X(t) = \exp(\mu t + \sigma^2 t^2/2)$.
+
+#### Conditional expectation
+
+We can use conditional distributions to find expectations as well. 
+
+Def: Let $X$ and $Y$ have joint distribution $f_{XY}(x,y)$, with the conditional distribution of $X$ given $Y = y$ $f(x|y)$. The expected value of $g(X)$ given $Y = y$ is $$E[g(X)|Y = y] =  \sum_x g(x) f(x|y)$$ if discrete and $$E[g(X)|Y = y] =  \int_{-\infty}^\infty g(x) f(x|y) dx$$.
+
+Note that conditional expectation of $X$ is not a constant like $E[X]$ but rather a function of $y$. If we allow $Y$ to vary over all its possible values, then we can consider the conditional expectation to actually be a function of the random variable $Y$. We often use the notation $E[g(X)|Y]$ in this case, and since $E[g(X)|Y]$ is a function of a random variable, it is also a random variable itself. 
+
+Def: The conditional variance of $X$ given $Y$ is $\text{Var}(X|Y) = E[(X-E[X|Y])^2|Y]$
+
+Th: 
+1. $E[X] = E[E[X|Y]]$ Here the expected value of $E[X|Y]$ is taken using the marginal distribution of $Y$.
+
+2. $\text{Var}(X) = E[\text{Var}(X|Y)] + \text{Var}(E[X|Y])$.
+
+Proof: 
+These will be presented in the continuous case, but the discrete case uses summation instead of integration.
+1. $$E[E[X|Y]] = \int_{-\infty}^\infty E[X|Y] f_Y(y) dy$$ $$\int_{-\infty}^\infty (\int_{-\infty}^\infty x f(x|y) dx) f_Y(y) dy$$ $$\int_{-\infty}^\infty (\int_{-\infty}^\infty x f_Y(y)f(x|y) dx) dy$$ $$\int_{-\infty}^\infty \int_{-\infty}^\infty x f_{XY}(x,y) dx dy$$ $$= $$  $$= E[X]$$
+
+2. Exercise in homework.
+
+Ex: The theorems above are useful for *hierarchical* models, in which parameters of distributions are modeled as random variables with their own distributions. Suppose we wish to model the number of surviving offspring of an egg-laying insect. We can start by modeling the total number of eggs laid as a Poisson rv with some parameter $\lambda$. If we assume that a proportion of the eggs survive and each egg's survival is independent of each other, we can model the number of survivors using a binomial distribution (Where each "trial" is an egg surviving or not and $p$ is the survival probability). Full model specification: 
+
+$X$ is the total number of survivors, $Y$ is the total number of eggs laid. 
+
+$$X|Y=y \sim \text{binom}(y,p)$$
+$$Y \sim \text{Poisson}(\lambda)$$
+We can use the theorem above to get the expected number of survivors, and the variance of the number of survivors. We know that $E[X|Y] = pY$, since the expected value of a binomial rv with parameters $n$ and $p$ is $np$. So $$E[X] = E[E[X|Y]] = pE[Y] = \lambda p$$
+
+We can use the other identity to get the variance of $X$ as well. First, recall that the variance of a Poisson($\lambda$) random variable is $\lambda$, and the variance of a binomial$(n,p)$ random variable is $np(1-p)$. $$Var(X) = E[Var(X|Y)] + Var(E[X|Y)$$ $$= E[Yp(1-p)] + Var(pY)$$ $$= p(1-p)\lambda + p^2\lambda$$ $$=\lambda p$$ To find the actual marginal distribution of $X$, we can derive the joint distribution as $f(x,y) = f_{X|Y}(x)f_Y(y)$, then sum over all the possible values of $Y$ to get the marginal distribution. Optional exercise: show that $X \sim \text{Poisson}(\lambda p)$.

@@ -1,0 +1,81 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "2/26/2018"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Covariance and Correlation
+
+We've discussed independence and dependence of rvs previously. But rvs can have strong or weak relationships. Covariance is a measure of the strength of the relationship between two rvs. To simplify some expressions we'll be using the convention of denoting $E[X]$ as $\mu_X$ and $\text{Var}(X)$ as $\sigma^2_X$ (subscript denoting the rv). The standard deviation of $X$ $(\sqrt{\text{Var}(X)})$ will be denoted $\sigma_X$.
+
+Def: The *covariance* of $X$ and $Y$ is $$\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]$$ $$= 
+\begin{cases}
+\sum_x \sum_y (x - \mu_x)(y-\mu_Y)f_{XY}(x,y) &\mbox{ if discrete} \\
+\int_{-\infty}^\infty \int_{-\infty}^\infty (x - \mu_x)(y-\mu_Y)f_{XY}(x,y) dy dx &\mbox{ if continuous}
+\end{cases}$$ Note that this expectation uses $f_{XY}(x,y)$, the joint pdf or joint pmf of $X$ and $Y$.
+
+Def: the *correlation* (or *correlation coefficient*) of $X$ and $Y$ is $$\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}$$
+
+If large observations of $X$ (greater than the mean) tend to be observed with large observations of $Y$ and small observations of $X$ with small observations of $Y$, then the covariance and correlation will be positive since $(X-\mu_X)(Y-\mu_Y)$ will most likely be positive. If small observations of $X$ (less than the mean) tend to be observed with large observations of $Y$ and large observations of $X$ with small observations of $Y$, then the covariance and correlation will be negative since $(X-\mu_X)(Y-\mu_Y)$ will most likely be negative. Covariance and correlation will always share the same sign.
+
+The following theorem will help with calculating covariance and correlation.
+
+Th: $\text{Cov}(X,Y) = E[XY] - \mu_X\mu_Y$.
+
+Proof left as exercise.
+
+We will go through two examples (discrete and continuous) before listing additional properties of covariance and correlation.
+
+**Ex:** Suppose we have two coins in a box. We know that one coin is fair, but the other is biased and lands on "heads" 70\% of the time when it is flipped. We will pick one coin randomly and flip it once. We can use the following hierarchical model for the outcome of the flip: 
+
+Let $Y$ be a random variable representing the "heads" probability of the coin we pick from the box. $Y$ has the probability mass function 
+$$
+f_Y(y) = P(Y = y) =  \begin{cases}
+\frac{1}{2} &\mbox{ if } y = 0.5 \text{ or }0.7 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+
+Let $X$ be a random variable representing the outcome of the flip (0 for "tails", 1 for "heads"), a single Bernoulli trial with success probability $Y$. That is, conditioned on observing $Y = y$, we have 
+$$f(x|y) = P(X = x|Y = y) = \begin{cases}
+y^x(1-y)^{1-x} &\mbox{ if } x = 0 \text{ or }1 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+What are the covariance and correlation between $X$ and $Y$ in this model? Do we expect these to be positive or negative? To find the covariance and correlation first we need the univariate expectations and variances. The expected value of a Bernoulli$(p)$ rv is $p$, so $$E[X] = E[E[X|Y]] = E[Y] = \frac{1}{2}0.5 + \frac{1}{2}0.7 = \frac{3}{5}$$ So $\mu_X = \mu_Y = 3/5$. Next we need $E[XY]$, but for that we must derive the joint distribution of $X$ and $Y$. By definition the conditional probability mass function of $X$ given $Y$ is $$f(x|y) = \frac{f_{XY}(x,y)}{f_Y(y)},$$ so the joint probability mass function is $$f_{XY}(x,y) = f(x|y)f_Y(y)$$ $$= \frac{1}{2}y^x(1-y)^{1-x}$$ for $x = 0 \text{ or }1$, $y = 0.5 \text{ or }0.7$, and 0 otherwise. So $$E[XY] = \sum_x \sum_y xyf_{XY}(x,y)$$ $$= \sum_{x = 0,1} \sum_{y=0.5,0.7} xy\frac{1}{2}y^x(1-y)^{1-x}$$ $$= \frac{1}{2}[(0)(0.5)0.5^0(0.5^1) + (0)(0.7)(0.7)^0(0.3)^1 + 1(0.5)(0.5)^1(0.5^0) + (1)(0.7)0.7^1(0.3^0)]$$ $$= \frac{1}{2}0.5^2 + \frac{1}{2}0.7^2$$ $$=\frac{1}{8} + \frac{49}{200}$$ $$=\frac{37}{100}.$$ So using the theorem above $$Cov(X,Y) = E[XY] - E[X]E[Y] = \frac{37}{100} - \frac{3}{5}\times\frac{3}{5} = \frac{1}{100}.$$ Since our covariance is greater than 0, this means that the two random random variables have a positive relationship ("large" values of $Y$ tend to occur with "large" values of $X$). Optional exercise: find the correlation between $X$ and $Y$.
+
+
+**Ex:** Let $X$ and $Y$ be two random variables with joint pdf $f(x,y) = 1$ for $0 <x <1$ and $x < y < x+1$ and zero otherwise. What are $\text{Cov}(X,Y)$ and $\rho_{XY}$? Based off the plot of the support and knowing that the joint pdf is constant, should we expect these to be positive or negative? 
+
+We want to use the previous theorem to calculate our covariance, so we need $E[X]$ and $E[Y]$. For the correlation we need $\text{Var}(X)$ and $\text{Var}(Y)$. Those require finding the marginal distributions of $X$ and $Y$: $$f_X(x) = \int_{-\infty}^\infty f(x,y) dy =  \int_x^{x+1} 1 dy = (x+1) - x = 1$$ Since $0 < X < 1$ this means that $X \sim \text{unif}(0,1)$. Using our knowledge of the standard uniform distribution: $$E[X] = \mu_X = \frac{1}{2}, \quad \text{Var}(X) = \sigma^2_X = \frac{1}{12}.$$ To get the marginal of $Y$ we need to be more careful and methodical. Taking $\int_0^1 1 dx$ will give us the wrong answer, since the true pdf is zero for $x$ and $y$ that do not satisfy $x < y < x+1$. We can find the proper integration bounds for $x$ by rewriting $x < y < x+1$ as $y-1 < x < y$. If $0 < y < 1$ then the bounds on $x$ are $0 < x < y$ and if $1 \leq y < 2$ then then the bounds on $x$ as $y-1 < x < 1$. So $$f_Y(y) = \int_{-\infty}^\infty f(x,y) dx =
+\begin{cases}
+\int_0^y 1 dx = y &\mbox{ if } 0 < y < 1 \\
+\int_{y-1}^1 = 2-y &\mbox{ if } 1 \leq y < 2 \\
+0 &\mbox{ otherwise }
+\end{cases}$$
+
+Finding the expectation and variance of $Y$: $$E[Y] = \mu_Y = \int_{-\infty}^\infty yf_Y(y) dy = \int_0^1 y(y) dy + \int_1^2 y(2-y) dy = 1$$ $$\text{Var}(Y) = \int_{-\infty}^\infty (y - \mu_Y)^2 f_Y(y) dy = \int_0^1 (y - 1)^2(y) dy + \int_1^2 (y-1)^2(2-y) dy = \frac{1}{6}$$
+
+Remember that we plan to use the indentity $\text{Cov}(X,Y) = E[XY] - \mu_X\mu_Y$, so now we need $E[XY]$: $$E[XY] = \int_{-\infty}^\infty\int_{-\infty}^\infty xyf(x,y)dydx$$ $$= \int_0^1\int_x^{x+1}xy(1)dydx$$ $$= \int_0^1 \left[\frac{1}{2}x(x+1)^2 - \frac{1}{2}x(x)^2\right] dx$$ $$= \int_0^1 \left(x^2 + \frac{1}{2}x\right)dx$$ $$= \frac{7}{12}.$$
+
+Putting all the results together: $$\text{Cov}(X,Y) = E[XY] - \mu_X \mu_Y = \frac{7}{12} - \left(\frac{1}{2}\right)\left(1\right) = \frac{1}{12}$$ $$\rho_{XY} = \frac{\text{Cov(X,Y)}}{\sigma_X \sigma_Y} = \frac{1/12}{\sqrt{1/12}\sqrt{1/6}} = \frac{1}{\sqrt{2}}$$ So $X$ and $Y$ have positive covariance and correlation, as we would have expected from inspecting the plot.
+
+Th: If $X$ and $Y$ are independent then $\text{Cov}(X, Y) = \rho_{XY} = 0$. *Note: this isn't necessarily true the other way around.*
+
+Proof left as exercise.
+
+Additional properties of covariance and correlation:
+
+1. $-1 \leq \rho_{XY} \leq 1$
+
+2. Let $Y = aX + b$ with $a \neq 0$. Then $\rho_{XY} = 1$ if $a > 0$ and $\rho_{XY} = -1$ if $a < 0$. In general the closer the correlation coefficient is to -1 or 1 the stronger the linear relationship between $X$ and $Y$. *note: typo in ed 1 of textbook page 149, should be correlation not covariance in property (c).*
+
+3. Let $U = aX + c$, $V = bY + d$. Then $\text{Cov}(U,V) = ab\text{Cov}(X,Y).$ and $\rho_{UV} = \rho_{XY}$ if $ab>0$ and $-\rho_{XY}$ if $ab<0$.
+
+4. $\text{Var}(aX + bY) = a^2\text{Var}(X) + b^2\text{Var}(Y) + 2ab\text{Cov}(X,Y).$
+
+(1) can be proven using an algebraic argument (which you can find online). Proofs of 2, 3 and 4 left as exercise.

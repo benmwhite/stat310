@@ -1,0 +1,43 @@
+---
+title: "Solution 8"
+author: "Ben White"
+date: "4/3/2018"
+output: pdf_document
+---
+
+1. 
+    a. (1 point) Note that the distribution is that of a location-shifted exponential$(1)$ random variable, starting at $\theta$ instead of 0. This means that the expectation of this distribution is $\theta+1$ (since an exponential($1$) random variable has expectation of 1), so the moment estimator of $\theta$ is $\bar{X} - 1$. To get the expectation, solve the integral $\int_\theta^\infty xe^{-(x - \theta)} dx$ using IBP with $u = x$ and $dv = e^{-(x-\theta)}$. Substituting $y = x - \theta$, $dx = dy$ makes this simpler. You may also solve the integral using software such as Wolfram Alpha or graphic calculator functions. It is both unbiased and consistent, which can be shown using properties of $\bar{X}$ itself, combined with the fact that the population mean is $\theta +1$: $$E[\bar{X} - 1] = E[\bar{X}] - 1 = (\theta+1) - 1 = \theta$$
+    $$\bar{X} \to \theta + 1 \quad \text{(Law of Large Numbers)}$$ $$\Rightarrow \bar{X} -1 \to \theta$$ Note to graders, these justifications do not need to be formal proofs as long as the student makes it clear that they are using properties of $\bar{X}$.
+    
+
+1. a. (1 point) Finding the moment estimators of $k$ and $p$. Setting the moments equal and substituting $\hat{k}$ and $\hat{p}$ for $k$ and $p$: $$\bar{X} = \hat{k}\hat{p}$$ $$\frac{1}{n}\sum X_i^2 = \hat{k}\hat{p}(1-\hat{p}) + \hat{k}^2\hat{p}^2.$$ We get $\hat{p} = \bar{X}/\hat{k}$ immediately from the first equation. Now we need to find an expression for $\hat{k}$ by plugging this into the second equation: $$\frac{1}{n}\sum X_i^2 = \bar{X}(1 - \bar{X}/\hat{k}) + \bar{X}^2$$ $$[\frac{1}{n}\sum X_i^2 - \bar{X}^2]/\bar{X} = 1 - \bar{X}/\hat{k}$$ $$1/\hat{k} = 1/\bar{X} - [\frac{1}{n}\sum X_i^2 - \bar{X}^2]/\bar{X}^2$$ $$\hat{k} = \frac{1}{1/\bar{X} - [\frac{1}{n}\sum X_i^2 - \bar{X}^2]/\bar{X}^2}$$ $$= \frac{\bar{X}^2}{\bar{X} -[\frac{1}{n}\sum X_i^2 - \bar{X}^2]}.$$ We can also substitute the identity $\frac{1}{n}\sum X_i^2 - \bar{X}^2 = \frac{1}{n}\sum(X_i - \bar{X})^2$ 
+
+    
+    b. (1 point) $\bar{x} = 25$ and $(1/n)\sum (x_i - 25)^2 = 13.2$, so plugging these values in to the estimators above gives us $\hat{k} = 52.9661$ and $\hat{p} = 0.472$. So we estimate the total number of crimes per month at about 53, with probability $1 - 0.472 = 0.528$ that a given crime will be unreported. This means that we estimate about 28 unreported crimes per month.
+    
+    
+3. a. (1 point) Since the first moment (expected value) of the distribution is $\theta$ itself, the method of moments estimator of $\theta$ is $\hat{\theta}_1 = \bar{X}.$
+    
+    b. (1 point) Log likelihood: $$\log L(\theta|x_1, ..., x_n)  = \log \prod_{i=1}^n \theta^{x_i}(1 - \theta)^{1-x_i} = \log \theta \sum_{i = 1}^n x_i + (n - \sum_{i=1}^n x_i)\log(1 - \theta) $$ $$\frac{d}{d\theta} \log L(\theta|x_1, ..., x_n)  = \frac{1}{\theta}\sum_{i=1}^n x_i - \frac{1}{1 - \theta}(n - \sum_{i=1}^n x_i) = n(\frac{\bar{x}}{\theta} - \frac{1 - \bar{x}}{1 - \theta}).$$ Setting this equal to 0, we get candidate MLE $\hat{\theta} = \bar{X}$. To verify that this is a maximum it is sufficient to note that the derivative is positive for $\theta < \bar{x}$ and negative for $\theta > \bar{x}.$ However, this is only valid for $\hat{\theta} = \bar{x}  \leq 1/2$ since we have the restriction $0 \leq \theta \leq 1/2.$ If the observed sample mean $\bar{x}$ is greater than 1/2, then we know $\theta < \bar{x}$ and thus the likelihood is a increasing function of $\theta$ (since we already found that the derivative of the log-likelihood is positive in this case). Thus, the maximum is attained at the largest possible value of $\theta$: 1/2. To express the result more concisely for all cases, the MLE of $\theta$ is $$\hat{\theta} = \min(\bar{X}, 1/2).$$
+    
+4.  a. (1 point) First we need the pdf: $$f(x) = \frac{d}{dx}F(x) = \frac{\alpha}{\beta^\alpha}x^{\alpha - 1}$$ if $0 \leq x \leq \beta$ and 0 otherwise. likelihood function: 
+    $$L(\alpha, \beta|x_1,...,x_n) = \begin{cases} 
+    \prod_{i=1}^n \frac{\alpha}{\beta^\alpha}x_i^{\alpha - 1} &\mbox{ if } 0 \leq x_1,...,x_n\leq \beta \\
+    0 &\mbox{ otherwise }
+    \end{cases}$$
+   The likelihood function is a strictly decreasing function of $\beta$ for $\beta \geq \max(x_1,...,x_n)$, and is zero otherwise. Thus $$\hat{\beta} = \max(X_1,...,X_n).$$ Finding $\hat{\alpha}$: $$\frac{\partial}{\partial \alpha} \log L(\alpha, \beta) = \frac{\partial}{\partial \alpha}\left[ n \log \alpha - n \log \beta + (\alpha - 1)\sum_{i=1}^n \log x_i \right]= \frac{n}{\alpha} -n\log \beta + \sum_{i=1}^n \log x_i.$$ Setting this equal to zero and plugging in $\hat{\beta}$ we get the candidate MLE $$\hat{\alpha} = \frac{n}{n\log\hat{\beta} - \sum_{i=1}^n \log X_i}.$$ The second derivative is $$\frac{\partial^2}{\partial \alpha^2} \log L(\alpha,\beta)  = -n\alpha^{-2} < 0,$$ so this is the maximum.
+    
+    b. (1 point) Our estimate of $\beta$ is 25 and our estimate of $\alpha$ is about 12.56.
+    
+5.  a. (1 point) $$L(\theta|x_1,...,x_n) = 
+\begin{cases}
+1 &\mbox{ if } \theta = 1 \\
+\prod_{i=1}^n(1/2\sqrt{x_i}) &\mbox{ if } \theta = 0
+\end{cases}$$ In both cases we have the restriction that $0 < x_i < 1$ for all $i$.
+
+    b. (1 point) The MLE is $0$ when the likelihood for our sample is greater for $\theta =0$, and $1$ when the likelihood for our sample is greater for $\theta =1$. So the MLE is $\hat{\theta} = 0$ if $\prod_{i=1}^n(1/2\sqrt{x_i}) \geq 1$ and $\hat{\theta}=1$ if $\prod_{i=1}^n(1/2\sqrt{x_i}) \leq 1$. They are both MLEs if the two likelihoods happen to be equivalent. Note to graders, you do not have to be strict on the greater than or equal statements as long as the inequality relationships are correct.
+    
+
+    
+    
+    

@@ -1,0 +1,83 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "3/1/18"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#### Random Samples
+
+Note on textbook sections. This material is in chapter 4, we will come back to limit theorems (end of chapter 3) after introducing more context for random samples and statistics.
+
+Recall in the first lecture the idea of "populations" (the theoretical set of all specific measurements of interest) and "samples" (the finite subset of actual measurements). We wish to make inference about the population through the sample. We can use the framework of random variables and distributions.
+
+Def: A *random sample* of size $n$ from a population is a set of $n$ independent and identically distributed (abreviated "i.i.d.") random variables $X_1, X_2,... X_n$. 
+
+The main assumption here is that the population is represented by some single distribution, and each observation in our sample follows this distribution and is independent from the other observations.
+
+Note that due to the i.i.d. assumption, if the individual observations have the pdf or pmf $f_X(x)$, then the joint distribution of the entire sample is $$f(x_1,...,x_n) = f_X(x_1)f_X(x_2)...f_X(x_n) = \prod_{i=1}^n f_X(x_i).$$
+
+Ex: A factory produces lightbulbs. Suppose we wish to model the lifetimes of lightbulbs produced here, and can take a sample of size $n$. Let us assume that the lifetime of the lightbulbs has an Exponential($\beta$) distribution. So in this case, the population is the set of lifetimes of every possible lightbulb that this factory can produce, with our sample consisting of the $n$ measured lifetimes of our randomly selected subset of lightbulbs. Each individual measurement in the sample has the pdf $$f_{X_i}(x_i) = \frac{1}{\beta}e^{-x_i/\beta},$$ so the joint distribution of the entire sample is $$f(x_1,...,x_n) = \prod_{i=1}^n \frac{1}{\beta}e^{-x_i/\beta} = \beta^{-n}\exp(-\frac{\sum_{i=1}^n x_i}{\beta}).$$ We can use this joint pdf to answer probability questions about the sample. For instance, what is the probability that every lightbulb lasts longer than 2 years? $$P(X_1>2, ..., X_n>2) = \int_2^\infty...\int_2^\infty \prod_{i=1}^n \frac{1}{\beta}e^{-x_i/\beta} dx_1... dx_n$$ $$=e^{-2/\beta} \int_2^\infty...\int_2^\infty \prod_{i=2}^n \frac{1}{\beta}e^{-x_i/\beta} dx_2... dx_n \quad (\text{ Integrating over } x_1 \text{ first})$$ $$= (e^{-2/\beta})^n \quad (\text{Integrating over } x_2,...,x_n \text{ successively})$$ $$=e^{-2n/\beta}.$$ We can see that the probability depends on both the underlying population distribution and the size of our sample.
+
+#### Statistics
+
+We often compute summaries based on the measurements we collected (averages, median, max, min, etc.). When we model oour observations as random variables, these summaries can be thought of as functions or transformations of $X_1, ...,X_n$. 
+
+Def: Let $X_1, ...,X_n$ be an i.i.d. random sample from a population, and let $T(X_1,...,X_n)$ be function (real valued or vector-valued) of the random sample only (not a function of any other population parameters). $T(X_1,...,X_n)$ is called a *statistic*, and the probability distribution of $T(X_1,...,X_n)$ is called its *sampling distribution.*
+
+Some commonly used statistics:
+
+Def: The *sample mean* of $X_1,...,X_n$ is $$\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.$$ When the sample is considered to be observed already ($X_1 = x_1, X_2, = x_2$, etc.) this is often denoted using the lowercase: $\bar{x}$.
+
+The sample mean is similar to the population mean (expected value) in that it is a measure of the "center" of a distribution, but this time it is computed empirically from a set $n$ observations rather than through the assumed population distribution.
+
+Def: The *sample variance* of $X_1,...,X_n$ is $$S^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i- \bar{X})^2.$$ If the sample is already observed this is often denoted as $s^2$. The *sample standard deviation* is $\sqrt{S^2}$.
+
+The sample variance is a measure of the "spread" of a distribution, but like the sample mean it is computed empirically from our random sample rather than through mathematical expectation. 
+
+It can be shown that $(n-1)S^2 = (\sum_{i=1}^n X_i^2) - n\bar{X}^2$. This form sometimes allows for easier computation.
+
+We will investigate the use these statistics to approximate unknown population means and variances once we begin to cover point estimation techniques, a form of statistical inference.
+
+Properties: Let $X_1,...,X_n$ be an i.i.d. random sample from a population with mean $\mu$ and variance $\sigma^2$. 
+
+1. $E[\bar{X}] = \mu$.
+
+2. $\text{Var}(\bar{X}) = \sigma^2/n$.
+
+3. $E[S^2] = \sigma^2$. (note: this is one of the main reasons we use $n-1$ and not $n$ in the denominator of $S^2$)
+
+Proof:
+
+1. $$E[\bar{X}] = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}\sum_{i=1}^n E[X_i] = \frac{n\mu}{n} = \mu.$$ 
+
+2. For any two independent rvs $X_1$ and $X_2$ with means $\mu_1$ and $\mu_2$ and variances $\sigma^2_1$ and $\sigma^2_2$, $$\text{Var}(X_1+X_2)= E[(X_1+X_2)^2] - (E[X_1 + X_2])^2$$ $$=E[X_1^2 + 2X_1X_2 + X_2^2] - (\mu_1^2+2\mu_1\mu_2+\mu_2^2)$$ $$=E[X_1^2] + 2E[X_1X_2] + E[X_2^2] - (\mu_1^2+2\mu_1\mu_2+\mu_2^2)$$ $$=(E[X_1^2] - \mu_1^2) + (E[X_2^2] - \mu_2^2) \quad (\text{ Because of independence, } E[X_1X_2] = \mu_1\mu_2)$$ $$=\sigma^2_1 + \sigma^2_2.$$ In the case of a random sample with independence and indentical distributions, this means that $\text{Var}(\sum_{i=1}^n X_i)= \sum_{i=1}^n \text{Var}(X_i) = n\sigma^2$ if the underlying population has variance $\sigma^2$. So $$\text{Var}(\bar{X}) = \text{Var}(\frac{1}{n}\sum_{i=1}^n X_i) = \frac{1}{n^2}\text{Var}(\sum_{i=1}^nX_i) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}.$$ Note that the variance of this statistic gets smaller and smaller as the sample size $n$ increases. This will be explored further when we study limit theorems.
+
+3. This proof is easier using the alternate expression for sample variance: $$E[S^2] = E\left[\frac{1}{n-1}\left((\sum_{i=1}^n X_i^2) - n\bar{X}^2\right)\right]$$ $$= \frac{1}{n-1}(nE[X_1^2] - nE[\bar{X}^2])$$ $$= \frac{n}{n-1}((\sigma^2 + \mu^2) - (\sigma^2/n + \mu^2))$$ $$=\frac{n}{n-1}\frac{\sigma^2(n-1)}{n}$$ $$=\sigma^2$$ Note that we used the fact that $\text{Var}(\bar{X}) = \sigma^2/n = E[\bar{X}^2] - (E[\bar{X}])^2 = E[\bar{X}^2] - \mu^2$ to derive the result $E[\bar{X}^2] = \sigma^2/n + \mu^2$.
+
+#### Sampling distributions
+
+Next are some examples of sampling distribution derivations. Later we will talk about the Central Limit Theorem, which allows us to approximate the sampling distribution of $\bar{X}$ regardless of the underlying population distribution. 
+
+Since $\bar{X}$ is one of the most commonly used statistics, we will show some examples deriving its sampling distribution. 
+
+For instance, what is the sampling distribution of $\bar{X}$ when the random sample is from a population with a $N(\mu, \sigma^2)$ distribution?
+
+For some distributions deriving this is easier using mgfs (since mgfs uniquely characterize a distribution similar to how pdfs/pmfs/cdfs do). Recall the following properties of mgfs: 
+
+1. If $X$ has mgf $M_X(t)$, then $aX$ has mgf $M_X(at)$.
+
+2. If $X$ and $Y$ are independent, then their sum $X+Y$ has mgf $M_{X+Y}(t) = M_X(t)M_Y(t)$
+
+Both properties are straighforward to prove using properties of expectation. Putting them both together to find the mgf of $\bar{X}$ in terms of the original underlying distribution's mgf:
+
+Th: If $X_1,...X_n$ is a random sample from a population with mgf $M_X(t)$, then the mgf of $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ is $$M_{\bar{X}}(t) = (M_X(t/n))^n.$$
+
+Ex: Let $X_1,...X_n$ be a random sample from a $N(\mu,\sigma^2)$ population. What is the distribution of $\bar{X}$? Recall that the mgf of a $N(\mu,\sigma^2)$ rv is $$M(t) = \exp{(\mu t + \frac{\sigma^2 t^2}{2}})$$ So the mgf of $\bar{X}$ is $$M_{\bar{X}}(t) = \left[\exp(\frac{\mu t}{n} + \frac{\sigma^2 t^2}{2n^2}) \right]^n$$ $$= \exp\left(n(\frac{\mu t}{n} + \frac{\sigma^2 t^2}{2n^2})\right)$$ $$=\exp(\mu t + \frac{(\sigma^2/n)t^2}{2}).$$ This is the mgf of a $N(\mu, \sigma^2/n)$ rv, so this means that $\bar{X} \sim N(\mu, \sigma^2/n)$ The mean of a normal random sample is also normally distributed itself, with the same mean but variance $\sigma^2/n$. 
+
+
+Ex: Let $X_1, ..., X_n$ be a random sample from an Exponential$(\beta)$ distribution, with cdf $F_X(x) = (1 - e^{-x/\beta})$. What is the distribution of $\max(X_1,...,X_n)$? In this case it is easiest to find the cdf of the maximum. $$F(x) = P(\max(X_1,...,X_n) \leq x)$$ $$= P(X_1 \leq x,...,X_n \leq x)$$ $$= P(X_1 \leq x)\times...\times P(X_n \leq x) \quad (\text{ due to independence})$$ $$= F_{X_1}(x) \times ... \times F_{X_n}(x)$$ $$= [(1 - e^{-x/\beta})]^n.$$ We can now use this cdf to find the pdf of the statistic, expected values and variances, etc. Note that this method works for finding the distribution of the maximum sample value in general, not just for exponential samples. We can use a similar method to find the distribution of minimum sample as well (exercise in HW6).
+
+

@@ -1,0 +1,45 @@
+---
+title: "Solution 2"
+author: "Ben White"
+date: "1/29/2018"
+output: pdf_document
+---
+
+1. (1 point) We want to show that $$P(\cap_{i=1}^{n} A_i) = P(A_1)P(A_2|A_1)P(A_3|A_1 \cap A_2) \times ... \times P(A_n|\cap_{i=1}^{n-1}A_i).$$ Using the definition of conditional probability, the product on the right hand side is equal to $$P(A_1)\frac{P(A_2 \cap A_1)}{P(A_1)}\frac{P(A_3 \cap A_2 \cap A_1)}{P(A_1\cap A_2)} \times ... \times \frac{P(\cap_{i=1}^{n}A_i)}{P(\cap_{i=1}^{n-1})A_i}.$$ Since $P(\cap_{i=1}^{n-1}A_i) > 0$, each of the denominators is positive. All of the terms in the product cancel out except for the final numerator which is the left hand side of the theorem's statement.
+
+1. (1 point) $\cup_{i=1}^n (A_i \cap B) = B \cap (\cup_{i=1}^n A_i) = B \cap S = B$, and the sets $A_i \cap B$ are all pointwise mutually exclusives since $A_1,...,A_n$ are all pointwise mutually exclusive. Thus, $P(B) = P(\cup_{i=1}^n (A_i \cap B)) = \sum_{i=1}^{n} P(A_i \cap B)$. Since $P(A_i \cap B) = P(B|A_i)P(A_i)$, the proof is complete.
+
+1. (1 point) By the definition of conditional probability we have that for all $i$: $$P(A_i|B) = \frac{P(A_i \cap B)}{P(B)}.$$ However we also know that $P(B|A_i) = \frac{P(A_i \cap B)}{P(A_i).}$ Rearranging these terms gives us $P(A_i \cap B) = P(B|A_i)P(A_i)$. By the Law of Total Probability, the denominator $P(B) = \sum P(A_j)P(B|A_j)$, and the result follows.
+
+1. (1 point) We want to calculate $P(\text{dot sent}|\text{dot received})$, which we can do using Bayes' Rule: $$P(\text{dot sent}|\text{dot received}) = P(\text{dot received}|\text{dot sent}) \frac{P(\text{dot sent})}{P(\text{dot received})}.$$ From the given information we know that $P(\text{dot sent}) = \frac{3}{7}$ and $P(\text{dot received}|\text{dot sent}) = \frac{7}{8}.$ Furthermore, we know by the Law of Total Probability that $$P(\text{dot received}) = P(\text{dot received}|\text{dot sent})P(\text{dot sent}) + P(\text{dot received}|\text{dash sent})P(\text{dash sent})$$ $$= (\frac{7}{8})(\frac{3}{7}) + (\frac{1}{8})(\frac{4}{7})$$ $$=\frac{25}{56}.$$ Combining these results: $$P(\text{dot sent}|\text{dot received}) = \frac{(7/8)(3/7)}{(25/56)} = \frac{21}{25}.$$
+
+1. (1 point) Let $L_1$ and $L_2$ denote the events in which we select litter one and litter two respectively, with $G$ denoting the event in which we select a grey haired rodent and $B$ denoting the event in which we select a brown haired rodent. From the information we have in the problem: $$P(L_1) = P(L_2) = 1/2$$ $$P(G|L_1) = 1/3$$ $$P(B|L_1) = 2/3$$ $$P(G|L_2) = 2/5$$ $$P(B|L_2) = 3/5$$ By Bayes' Rule: $$P(L_2|B) = \frac{P(B|L_2)P(L_2)}{P(B|L_2)P(L_2) + P(B|L_1)P(L_1)} = \frac{(3/5)(1/2)}{(3/5)(1/2) + (2/3)(1/2)} = \frac{9}{19}.$$
+
+1. Let $A$ and $B$ represent the events in which we draw from box $A$ and box $B$ respectively, and let $G$ denote the event in which we draw at least one green ball. We are given $P(A) = P(B) = 1/2$. The complement of $G$ is the event in which all three balls drawn are red, so combining with the multiplication rule we get $$P(G|A) = 1 - (3/10)(2/9)(1/8) = 119/120$$ $$P(G|B) = 1 - (8/10)(7/9)(6/8) = 8/15.$$ Total probability: $$P(G) = P(G|A)P(A) + P(G|B)P(B) = (119/120)(1/2) + (8/15)(1/2) = 61/80.$$
+
+    a. (1 point) $$P(A|G) = \frac{P(G|A)P(A)}{P(G|A)P(A) + P(G|B)P(B)} = \frac{(119/120)(1/2)}{61/80} = \frac{119}{183} \approx 0.65$$
+    
+    b. (1 point) This is the complement of the event in part (a) conditioned on $G$, so $$P(B|G) = 1 - P(A|G) = \frac{64}{183} \approx 0.35$$
+    
+1. 
+
+    a. (1/2 point) $\int_0^{\pi/2} \sin x dx = 1$. So $c = 1$.
+    
+    b. (1/2 point) $\int_{-\infty}^\infty e^{-|x|} dx = \int_{-\infty}^0 e^{x} dx + \int_0^\infty e^{-x} dx = 1 + 1 = 2.$ So $c = 1/2$.
+
+1. (1 point) The sample space of this experiment is the set of all possible groups of size 4 that we can create from the 30 microwaves, which is $30 \choose 4 = 27405$. This means that each unique group of size 4 has probability $1/27405$ of being selected. For each possible value of $X$ we need to count the number of groupings that result in that many defective microwaves being chosen, then divide that number by $27405$ to find the probability. For each $x$, the total number of ways we can get a sample with $x$ defective microwaves is to find number of ways we can select $x$ defective microwaves out of the 5 defectives and multiply that by the number of ways we can select $4-x$ non-defectives out of the original 25. Let $f_X(x)$ denote the pmf of $X$. $$f_X(x) = P(X = x) = \frac{{25 \choose 4-x}{5 \choose x}}{27405}$$ Getting the individual probabilities for each of $x = 0,1,...,4$: $$f_X(0) = P(X = 0) = 2530/5481 \approx 0.462$$ $$f_X(1) = P(X = 1) = 2300/5481 \approx 0.42$$ $$f_X(2) = P(X = 2) = 200/1827 \approx 0.109$$ $$f_X(3) = P(X = 3) = 50/5481 \approx 0.009$$ $$f_X(4) = P(X = 4) = 1/5481 \approx 0.0002$$ To get the cdf $F_X(x) = P(X \leq x)$ we need to take all the possible values that $X$ can take which are at or below the input real number $x$ and add up their individual probabilities (remember that cdfs are defined for all real numbers, not just the possible values the random variable can take): $$F_X(x) = P(X \leq x) = 
+\begin{cases}
+0 &\mbox{ if } x < 0 \\
+P(X = 0) = 2530/5481 \approx 0.462 &\mbox{ if } 0 \leq x < 1 \\
+P(X = 0) + P(X = 1) = 230/261 \approx 0.881 &\mbox{ if } 1 \leq x < 2 \\
+P(X = 0) + P(X = 1) + P(X = 2) = 1810/1827 \approx 0.99 &\mbox{ if } 2 \leq x < 3 \\
+\sum_{i=0}^3 P(X = i) = 5480/5481 \approx 0.9998 &\mbox{ if } 3 \leq x < 4 \\
+1 &\mbox{ if } 4 \leq x
+\end{cases}$$ 
+
+1. (1 point) There are three intervals over which we need to define the cdf of $V$: real numbers less than 5, the closed interval between 5 and 6, and real numbers greater than 6. Let $F_V(v)$ denote the cdf of $V$. For $v < 5$, $$F_V(v) = P(V \leq v) = 0$$ since the lowest possible value $V$ can take is 5. For $5 \leq v \leq 6$: $$F_V(v) = P(V \leq v) = P(V = 5) = P(T \leq 3)$$ since the events where $V = 5$ and $T \leq 3$ are equivalent. For $6 < v$: $$F_V(v) = P(V \leq v) = P(2T \leq v) = P(T \leq v/2)$$ since for the value $V$ to be less than some $v > 6$ the time at which the device failed needs to be less than $v/2$. So all we need to do is find the cdf of $T$ to get closed form expressions for those probabilities. $$F_T(t) = P(T \leq t) = \int_{-\infty}^t f_T(x) dx$$ $$= \int_0^t \frac{1}{1.5}e^{-x/1.5} dx$$ $$= 1 - e^{-t/1.5}$$ So we get $$F_V(v) = P(V \leq v) = 
+\begin{cases}
+0 &\mbox{ if } v < 5 \\
+P(V = 5) = P(T \leq 3) = F_T(3) = 1 - e^{-2} \approx 0.865 &\mbox{ if } 5 \leq v \leq 6 \\
+P(T \leq v/2) = F_T(v/2) = 1 - e^{-v/3} &\mbox{ if } 6 < v
+\end{cases}$$ We can see that this function is right-continous everywhere and that $\lim_{v \to \infty} F_V(v) = 1 - \lim_{v \to \infty}e^{-v/3} = 1-0 = 1$.

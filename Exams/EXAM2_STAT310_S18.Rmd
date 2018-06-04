@@ -1,0 +1,111 @@
+---
+title: "STAT 310 Exam 2"
+date: "3/22/2018"
+output: pdf_document
+---
+
+Name (netID):_______________________________________________________________
+
+
+#### Instructions
+
+- **This exam is graded on a 10 point scale.**
+
+- Please print your name and netID on the first line above.
+
+- You will have 75 minutes to complete this exam. You are only allowed to have your writing materials, your handwritten cheat sheet, your scrap paper, and a calculator.
+
+- Do not open the exam until the time begins.
+
+- Write down your answers using the space provided. If you need more space for your answers you may use extra scrap paper, as long as you clearly print the problem number and staple your sheet to the exam.
+
+- Show your work.
+
+#### Rice University Honor Code Pledge 
+
+Please sign the Honor Code pledge on the line below.
+**"On my honor, I have neither given nor received any unauthorized aid on this exam."**
+
+\ 
+
+\
+
+\
+
+\ 
+
+Signature:_______________________________________________________________
+
+\ 
+
+\ 
+
+
+
+
+
+\newpage
+
+#### Problem 1
+
+Let $X \sim N(0, 1)$, with probability density function $$f(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}, \quad -\infty < x < \infty.$$ For each of the following, find $f_Y(y)$, the probability density function of $Y$, and state the support of $Y$ (i.e. for what values of $y$ is $f_Y(y)$ strictly greater than zero)?
+
+a. (1/2 point) $Y = e^X$
+
+b. (1/2 point) $Y = 3X+2$
+
+\newpage
+
+
+#### Problem 2
+
+Let $X$ and $Y$ be random variables with joint probability density function $$f_{XY}(x,y) = 
+\begin{cases}
+\frac{x^3y^3}{16} &\mbox{ if } 0 \leq x \leq 2 \text{ and } 0 \leq y \leq 2 \\
+0 &\mbox{ otherwise}
+\end{cases}$$
+
+a. (1 point) Find $P(X <1, Y > 1)$.
+
+b. (1 point) Are $X$ and $Y$ independent? Justify your assertion.
+
+c. (1 point) Find $E[Y|X]$.
+
+
+
+\newpage
+
+#### Problem 3
+
+(2 points) Let $X$ be a discrete random variable with the probability mass function $$f_X(x) = P(X = x) = \begin{cases}
+\frac{1}{3} &\mbox{ if } x = -1,0, \text{ or }1 \\
+0 &\mbox{ otherwise }
+\end{cases}
+$$
+That is, $X$ can have an observed value of -1, 0, or 1 with equal probability for each outcome. Let $Y = X^2$. Find $\text{Cov}(X,Y)$. Are $X$ and $Y$ independent? Briefly explain your reasoning in 1-2 sentences (a formal proof is not necessary).
+
+\newpage
+
+#### Problem 4
+
+Let $X_1,...,X_{n}$ be an independent and identically distributed random sample of expression levels of a gene in a certain type of tumor taken from $n$ different individuals, with mean expression level $\mu$ and standard deviation $\sigma$ (note that $\mu$ and $\sigma$ are *population* parameters and are assumed to be fixed constants, not based on the random sample). Let $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$.
+
+a. (1 point) Suppose the true population mean and standard deviation are $\mu = 2.5$ and $\sigma = 0.25$. Use Chebyshev's inequality to find a lower bound on the probability that a single given individual in the random sample has a gene expression level between 2 and 3. 
+    
+b. (1 point) Suppose we know that that $\sigma = 0.25$, but we do not know the true mean expression level $\mu$. We wish to have a sample size just large enough to satisfy the requirement that $$P(|\bar{X} - \mu| < 0.06) = 0.95.$$ Use the Central Limit Theorem to find a sample size $n$ that (approximately) meets our requirement.
+
+
+\newpage
+
+#### Problem 5
+
+Let $X_1,...,X_{8}$ be an independent and identically distributed random sample of size 8 from a normally distributed population with mean $\mu_X = 5$ and variance $\sigma^2_X = 4$. Let $Y_1,...Y_{10}$ be an independent and identically distributed random sample of size 10 from a normally distributed population with mean $\mu_Y = 3$ and variance $\sigma^2_Y = 4$. $N(\mu, \sigma^2)$ probability density function: $$f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{(x - \mu)^2}{2\sigma^2}}, \quad -\infty < x < \infty, \quad -\infty < \mu < \infty, \quad \sigma^2 > 0$$ Let $\bar{X}$ and $\bar{Y}$ denote the sample means of the respective random samples, and let $S^2_X$ and $S^2_Y$ denote the sample variances. In other words: $\bar{X} = \frac{1}{8}\sum_{i=1}^8 X_i$, $\bar{Y} = \frac{1}{10}\sum_{i=1}^{10} Y_i$, $S^2_X = \frac{1}{7}\sum_{i=1}^8 (X_i - \bar{X})^2$, and $S^2_Y = \frac{1}{9}\sum_{i=1}^{10} (Y_i - \bar{Y})^2$. For each of the following, find constants $a$ and $b$ that satisfy the given condition:
+
+a. (1/2 point) $P(a \leq \bar{Y} \leq b) = 0.95$
+
+b. (1/2 point) $P\left(\frac{\sqrt{8}(\bar{X} - 5)}{S_X} \geq a\right) = 0.9$
+
+c. (1/2 point) $P(a \leq S^2_X \leq b) = 0.99$
+
+d. (1/2 point) $P\left(\frac{S^2_X}{S^2_Y} \leq b\right) = 0.9$
+

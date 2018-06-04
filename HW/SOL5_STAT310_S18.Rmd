@@ -1,0 +1,39 @@
+---
+title: "Solution 5"
+author: "Ben White"
+date: "2/27/2018"
+output: pdf_document
+---
+
+1. (1 point, 1/2 per part)
+
+    a. To find the limits of integration we can let $X$ vary between all its possible values then find the bounds on $Y$ in terms of $X$:  $$P(X^2 \leq Y \leq X)= P(0 < X < 1, X^2 \leq Y \leq X)$$ $$=\int_0^1 \int_{x^2}^{x} 2xdxdy$$ $$= 2\int_0^1x(\int_{x^2}^x 1 dy)dx$$ $$= 2\int_0^1 (x^2 - x^3) dx$$ $$= 1/6.$$ Note that $x^2$ is on the lower bound of integration and $x$ is on the upper bound of integration since the rv $X$ can only take values between 0 and 1. You can also get the same answer by integrating over $x$ between $y$ and $\sqrt{y}$ first, then integrating over $y$ from 0 to 1. 
+    
+    b. We want the probability that $Y>1$, but we also have $Y > X > 1.5$ in the event of interest. So the lower bound for integrating over $y$ should be $x$:  $$P(1.5<X<1.75, Y > 1) = \int_{1.5}^{1.75}\int_x^2 \frac{8}{9}xy dy dx$$ $$=\frac{8}{9}\int_{1.5}^{1.75} x (\int_x^2 y dy) dx$$ $$= \frac{8}{9}\int_{1.5}^{1.75} x(\frac{4}{2} - \frac{x^2}{2}) dx$$ $$=0.242622$$
+    
+
+1. (1 point) For $y > 0$: $$F_Y(y) = P(Y \leq y) = P(\max(X_1, X_2) \leq y) = P(X_1 \leq y \text{ and } X_2 \leq y)$$ $$ = P(X_1 \leq y)P(X_2 \leq y) = (\int_0^y \frac{1}{\beta}e^{-x/\beta} dx)^2 = (1 - e^{-y/\beta})^2.$$ For $y \leq 0$ the cdf is 0. To get the pdf we take the derivative of the cdf $F_Y(y) = (1 - e^{-y/\beta})^2)$. For $y > 0$: $$f_Y(y) = \frac{d}{dy}(1 - e^{-y/\beta})^2 = \frac{2}{\beta}(1 - e^{-y/\beta})e^{-y/\beta},$$ with $f_Y(y) = 0$ otherwise. 
+
+1. Let $A$ and $B$ represent the arrival times, with $T$ the waiting time ($\max(0,B-A)$). 
+    a. (1 point) Since $A$ and $B$ are independent unif(1,2) rvs, their joint distribution is $$f(a,b) = f_A(a)f_B(b) = (1)(1) = 1$$ for $1<a<2$ and $1<b<2$. $$P(A < B) = P(1< A < 2, A < B < 2)$$ $$= \int_1^2\int_a^2 1 db da$$ $$= \int_1^2 [2 - a] da$$ $$= \int_1^2 2da - \int_1^2 ada$$ $$= 2(2-1) - \frac{2^2-1^2}{2}$$ $$=1 - \frac{3}{2}$$ $$=1/2$$ 
+   
+    b. (1 point) **SEE FIGURE 1.** To get the cdf of $T$ ($F(t) = P(T \leq t)$) we can define it across the real numbers as follows. First, for $t < 0$ we know it will be zero, and for $t > 1$ $F(t) = 1$. For $0\leq t \leq 1$: $$F(t) = P(T \leq t) = 1 - P(T > t) =  1 - P(B-A>t) = 1 - P(B > A+t)$$ $$= 1 - P(A < 2-t, A + t < B < 2)$$ $$= 1 - \int_1^{2-t}\int_{a+t}^2 1 db da$$ $$= \frac{1}{2} + t - \frac{t^2}{2}$$ Alternatively for $0 \leq t \leq 1$ we can get the same answer by setting up $$F(t) = P(T \leq t) = P(B - A \leq t)= P(B \leq A + t)$$ $$= P(A \leq 2-t, B \leq A + t) + P(A > 2-t)$$ $$= \int_1^{2-t}\int_1^{a+t}dbda + \int_{2-t}^2da$$ $$= \frac{1}{2} + t - \frac{t^2}{2}$$ This problem can also be solved geometrically. Remember that similiarly to how areas under the pdf curve represent probabilities for single random variables, volumes under the two-dimensional joint pdf represent probabilities for two-dimensional random vectors. We know that the entire volume over the support under $f(a,b)$ must be 1, and since $f(a,b)=1$ any probability calculation over some set of values of $A$ and $B$ will just be equal to the area of that set. This means that for $0\leq t\leq 1$, $F_T(t) = P(B-A \leq t)$ will be equal to the area of the shaded section in Figure 1. Since the entire area of the support is 1, it's easier to find the area of the upper un-shaded triangle and subtract that from 1. It's a right triangle with base $1-t$ and height $1-t$, so $$F_T(t) = P(B-A \leq t) = 1 - \frac{1}{2}(1 - t)^2$$ $$= \frac{1}{2} + t - \frac{t^2}{2}$$ for $0\leq t\leq 1$.
+
+1. (1 point per part)
+    a. Expanding the term inside the expectation: $$\text{Var}(X|Y) = E[(X  - E[X|Y])^2|Y]$$ $$= E[X^2 - 2XE[X|Y] + (E[X|Y])^2|Y]$$ $$= E[X^2|Y] -2E[XE[X|Y]|Y] + E[(E[X|Y])^2|Y].$$ Since $E[X|Y]$ is a function of $Y$, This means that $E[XE[X|Y]|Y] = E[X|Y]E[X|Y] = (E[X|Y])^2$ and $E[(E[X|Y])^2|Y] = (E[X|Y])^2.$ So $$\text{Var}(X|Y) = E[X^2|Y] -2E[XE[X|Y]|Y] + E[(E[X|Y])^2|Y]$$ $$= E[X^2|Y] -2 (E[X|Y])^2 + (E[X|Y])^2$$ $$= E[X^2|Y] - (E[X|Y])^2.$$
+    
+    b. Take each part separately: $$\text{Var}(E[X|Y]) = E[(E[X|Y])^2] - (E[E[X|Y]])^2$$ $$= E[(E[X|Y])^2] - (E[X])^2$$
+$$E[\text{Var}(X|Y)] = E[(E[X^2|Y] - (E[X|Y])^2)]$$ $$= E[(E[X^2|Y]] - E[(E[X|Y])^2)]$$ $$= E[X^2] - E[(E[X|Y])^2)]$$ Adding these terms together: $$E[\text{Var}(X|Y)] + \text{Var}(E[X|Y]) = E[X^2] - E[(E[X|Y])^2)] + E[(E[X|Y])^2] - (E[X])^2$$ $$= E[X^2] - (E[X])^2$$ $$=\text{Var}(X).$$
+
+1. (1 point per part) We can use the identities involving conditional expectation and variance for these along with known expressions for the expectation and variance of binomial and uniform random variables. The expected value of a binom$(n,p)$ rv is $np$, and the expected value of a unif$(0,1)$ rv is $1/2$. The variances are $np(1-p)$ and $1/12$, respectively.
+
+    a. $E[Y] = E[E[Y|W]] = E[nW] = n/2$
+    
+    b. $\text{Var}(Y) = \text{Var(E[Y|W])} + E[\text{Var}(Y|W)] = \text{Var}(nW) + E[nW(1-W)] = n^2/12 + n/6$
+    
+    Comment: note that the expected number of heads is the same as if we had just flipped a fair coin in the first place. However, the variance term is larger for $n>1$ (it would be $np(1-p)) = n/4$ if we were just flipping a fair coin $n$ times).
+    
+1. (2 points) $$E[Y] = E[E[Y|X]] = E[X] = 1/2$$ $$Var(Y) = Var(E[Y|X]) + E[Var(Y|X)] = Var(X) + E[X^2] = 1/12 + 1/3 = 5/12$$
+    
+    
+![Problem 3b](hw5p3b.png)

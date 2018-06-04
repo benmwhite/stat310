@@ -1,0 +1,74 @@
+---
+title: "Lecture Notes"
+author: "Ben White"
+date: "4/3/2018"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#### Evaluating point estimators
+
+We have defined unbiasedness and consistency previously but will be discussing those concepts in more detail here.
+
+Def: Suppose we have a random sample and some statistic $W$ that we are using to estimate an unknown population parameter $\theta$. The *mean squared error* (MSE) of $W$ is defined as $$MSE(W) = E[(W - \theta)^2].$$
+
+Note that this is a measure of the "average" squared distance between the estimator and the parameter, a reasonable quantity to use to measure the performance of a point estimator. In general we are looking for estimators with low MSE.
+
+Def: The *bias* of $W$ is the difference between the expected value of $W$ and $\theta$: $$\text{Bias}(W) = E[W] - \theta.$$ The point estimator is said to be *unbiased* if its bias is 0, that is, $$E[W] = \theta$$.
+
+For normal populations, we know that the $\bar{X}$ is an unbiased estimator of $\mu$, since $E[\bar{X}] = \mu$. However, the MLE of $\sigma^2$ ($\hat{\sigma^2} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2)$) has a slight bias: $$E[\hat{\sigma^2}] = E[\frac{n-1}{n}S^2] = \frac{n-1}{n}E[S^2] = \frac{n-1}{n}\sigma^2.$$
+
+Th: $MSE(W) = \text{Var}(W) + \text{Bias}(W)^2$.
+
+Proof left as exercise.
+
+Note that this theorem tells us that the MSE of an estimator can be decomposed into two parts, the variance of the estimator itself and the squared bias of the estimator. This shows that this performance metric fits with what we are looking for in a point estimator: a statistic with low variance and an expected value close to the true value of the unknown parameter.
+
+What are the MSEs of the maximum likelihood estimators we derived for $\mu$ and $\sigma^2$ for random samples from a normal population?
+
+1. $$MSE(\bar{X}) = \text{Var}(\bar{X}) + \text{Bias}(\bar{X})^2 = \sigma^2/n + 0 = \sigma^2/n$$
+
+2. $$MSE(\hat{\sigma^2}) = MSE(\frac{n-1}{n}S^2)$$ $$=\text{Var}(\frac{n-1}{n}S^2) + \text{Bias}(\frac{n-1}{n}S^2)$$ $$= \frac{(n-1)^2}{n^2}\frac{2\sigma^4}{n-1} + (\frac{n-1}{n}\sigma^2 - \sigma^2)^2$$ $$=\frac{2(n-1)\sigma^4}{n^2} + \frac{(n-1-n)^2\sigma^4}{n^2}$$ $$=\frac{(2n-1)\sigma^4}{n^2}$$.
+
+Note that since $S^2$ is an unbiased estimator of $\sigma^2$, its MSE is equal to its variance: $$MSE(S^2) = \frac{2\sigma^4}{n-1}.$$ We can see that the MSE of $\hat{\sigma^2}$ is actually lower than that of $S^2$, illustrating the tradeoff between bias and variance when we evaluate estimators based on MSE. However, $S^2$ is still commonly used to estimate $\sigma^2$ despite its higher MSE due to its unbiasedness ($\hat{\sigma^2}$ will tend to underestimate the true population variance).
+
+#### Consistency
+
+Def: Suppose we have a random sample and some statistic $W$ that we are using to estimate an unknown population parameter $\theta$. $W$ is a *consistent* estimator of $\theta$ if $W$ converges to $\theta$ in probability, that is, if for any constant $\epsilon>0$ $$\lim_{n\to \infty}P(|W - \theta|\geq \epsilon) = 0$$.
+
+The intepretation here is that the estimator will be taking on values closer and closer to the true parameter the larger our sample size is.
+
+Ex: By the Law of Large Numbers, we know that $\bar{X}$ is a consistent estimator of the population mean $\mu$ regardless of the distribution of the population. We've also seen that for normally distributed populations that $S^2 = \frac{1}{n-1}\sum (X_i - \bar{X})^2$ is a consistent estimator of the population variance $\sigma^2$.
+
+It turns out that there's an easy way to check if an estimator is consistent, using the MSE. 
+
+Th: Let $X_1,..,X_n$ be an iid random sample from a population with an unknown distribuion parameter $\theta$. Suppose that we are using the statistic $W$ to estimate $\theta$. If $$\lim_{n \to \infty} MSE(W) = 0,$$ then $W$ is a consistent estimator of $\theta$. 
+
+Proof: This is an application of Chebyshev's inequality similar to the Law of Large Numbers. Let $\epsilon>0$ be given. $$P(|W - \theta| \geq \epsilon) = P((W - \theta)^2 \geq \epsilon^2) \leq \frac{E[(W - \theta)^2]}{\epsilon^2} = \frac{MSE(W)}{\epsilon^2}.$$ So if $\lim_{n\to\infty} MSE(W) = 0$, then $\lim_{n\to\infty} P(|W - \theta| \geq \epsilon) = 0$. 
+
+Corrolary: If $W$ is an unbiased estimator of $\theta$, then if $\lim_{n\to\infty}\text{Var}(W) = 0$ it is also a consistent estimator of $\theta$.
+
+This theorem gives us an easier way to check for consistency, especially for unbiased estimators. We don't need to use real-analysis type proofs or inspect the probabilities if we already have expressions for the MSE and/or variance of the estimator in question.
+
+Ex: Let $X_1,...,X_n$ be an iid random sample from a $N(\mu,\sigma^2)$ population. We found the maximum likelihood estimators of $\mu$ and $\sigma^2$: $$\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$$ and $$\hat{\sigma^2} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.$$ We can also compare $\hat{\sigma^2}$ to the sample variance $$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.$$ Recall that we found $$MSE(\bar{X}) = \sigma^2/n$$ $$MSE(\hat{\sigma^2}) = \frac{(2n-1)\sigma^4}{n^2}$$ and $$MSE(S^2) = \frac{2\sigma^4}{n-1}.$$ All three of these cases the MSEs go to zero as $n$ goes to infinity, so all three of these are consistent estimators ($\bar{X}$ of $\mu$, $\hat{\sigma^2}$ and $S^2$ of $\sigma^2$). We also found that $\bar{X}$ and $S^2$ are unbiased estimators, since $E[\bar{X}] = \mu$ and $E[S^2] = \sigma^2$. However, $E[\hat{\sigma^2}] = \frac{n-1}{n}\sigma^2$ so that is a biased estimator of $\sigma^2$.
+For example of a non-consistent estimator suppose we just use the first sample $X_1$ to estimate $\mu$. We know that it will be unbiased, since $E[X_1] = \mu$. However, $MSE(X_1) = \text{Var}(X_1) = \sigma^2$, which is just a constant and does not go to zero as the sample size increases. 
+
+#### (Relative) Efficiency
+
+Def: Suppose $\hat{\theta}_1$ and $\hat{\theta}_2$ are both point estimators of some unknown parameter $\theta$. The *relative efficiency* of $\hat{\theta}_1$ with respect to $\hat{\theta}_2$ is $$e(\hat{\theta}_1, \hat{\theta}_2) = \frac{E[(\hat{\theta}_2 - \theta)^2]}{E[(\hat{\theta}_1 - \theta)^2]} = \frac{MSE(\hat{\theta}_2)}{MSE(\hat{\theta}_1)}.$$ If this ratio is less than 1 ($MSE(\hat{\theta}_2)<MSE(\hat{\theta}_1)$) then we say that the second estimator is more *efficient* than the first. If it is greater than 1 than we say that the first estimator is more efficient. If both estimators are unbiased then this is just a ratio of their variances.
+
+Def: The *asymptotic relative efficiency* of $\hat{\theta}_1$ with respect to $\hat{\theta}_2$ is the limit of the relative efficiency between the two as the sample size $n$ increases to infinity: $$\lim_{n\to\infty}e(\hat{\theta}_1, \hat{\theta}_2) = \lim_{n\to\infty}\frac{MSE(\hat{\theta}_2)}{MSE(\hat{\theta}_1)}.$$ If this limit is 1, then the two estimators can be considered to have roughly an equivalent efficiency for large sample sizes.
+
+Ex: Let us compare $S^2$ and $\hat{\sigma^2}$ for random samples from normal populations. Relative efficiency: $$\frac{MSE(S^2)}{MSE(\hat{\sigma^2})} = \frac{\frac{2\sigma^4}{n-1}}{\frac{(2n-1)\sigma^4}{n^2}} = \frac{2n^2}{2n^2 - 3n + 1}$$ Under normal circumstances, the numerator will be larger than the denominator, so the MLE is more efficient than $S^2$. However, let's check the asymptotic relative efficiency: $$\lim_{n\to \infty} e(S^2, \hat{\sigma^2}) = \lim_{n\to\infty}\frac{2n^2}{2n^2 - 3n + 1} = \lim_{n\to\infty} \frac{2}{2 - (3/n) + (1/n^2)} = 1.$$ Since the asymptotic relative efficiency is 1, these can be considered roughly equal performers for large sample sizes. However, since $S^2$ is unbiased this is why it tends to be used more often in practice.
+
+
+
+
+
+
+
+
+
+
+
